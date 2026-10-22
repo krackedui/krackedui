@@ -3,7 +3,7 @@
 //   <system>.krackedui.com/<template>/   → /<system>/<template>/index.html (static template build)
 // `<system>.localhost:3002` behaves the same locally. Plain localhost keeps /<system>/... paths.
 import { NextResponse, type NextRequest } from 'next/server';
-import { homeSlugs, rootDomain, systemTemplates } from './systems-meta';
+import { homeSlugs, rootDomain, subdomainRouting, systemTemplates } from './systems-meta';
 
 function systemFromHost(host: string): string | null {
   const name = host.split(':')[0].toLowerCase();
@@ -20,6 +20,14 @@ export function middleware(req: NextRequest) {
   const url = req.nextUrl.clone();
   const system = systemFromHost(req.headers.get('host') ?? '');
   let path = url.pathname;
+
+  // On the main domain (krackedui.com), system docs live on their own subdomain.
+  if (!system && subdomainRouting) {
+    const [, first, ...rest] = path.split('/');
+    if (first && first in homeSlugs) {
+      return NextResponse.redirect(new URL(`https://${first}.${rootDomain}/${rest.join('/')}${url.search}`), 308);
+    }
+  }
 
   if (system) {
     // Canonical URLs on a subdomain have no /<system> prefix.
@@ -51,5 +59,5 @@ export function middleware(req: NextRequest) {
 
 export const config = {
   // Skip Next internals and root-level static files; template assets live under /<system>/<template>/.
-  matcher: ['/((?!_next/|r/|icon.svg|favicon.ico|robots.txt).*)'],
+  matcher: ['/((?!_next/|r/|previews/|icon.svg|favicon.ico|robots.txt).*)'],
 };

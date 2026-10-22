@@ -14,7 +14,16 @@ const system = process.argv[2] ?? 'motion';
 const src = path.join(ROOT, 'systems', system, 'registry', 'src');
 const pkg = JSON.parse(await fs.readFile(path.join(ROOT, 'systems', system, 'registry', 'package.json'), 'utf8'));
 const out = path.join(ROOT, 'apps', 'docs', 'public', 'r', system);
-const baseUrl = process.env.REGISTRY_URL ?? `http://localhost:3002/r/${system}`;
+// Where the items are served, so dependency URLs resolve for whoever runs `shadcn add`:
+// REGISTRY_URL if set; on Vercel, the system's subdomain in production or the preview URL; else local dev.
+const rootDomain = process.env.NEXT_PUBLIC_DOCS_ROOT_DOMAIN ?? 'krackedui.com';
+const baseUrl =
+  process.env.REGISTRY_URL ??
+  (process.env.VERCEL_ENV === 'production'
+    ? `https://${system}.${rootDomain}/r/${system}`
+    : process.env.VERCEL_URL
+      ? `https://${process.env.VERCEL_URL}/r/${system}`
+      : `http://localhost:3002/r/${system}`);
 const target = `components/motion-${system}`;
 
 async function walk(dir) {

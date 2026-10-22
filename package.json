@@ -16,7 +16,8 @@
     "sweep:docs": "node standard/gate/checks/sweep-docs-pages.mjs motion",
     "gate": "node standard/gate/run.mjs",
     "gate:verify": "node standard/gate/verify.mjs",
-    "gate:update-baselines": "node standard/gate/run.mjs --only visual --update-baselines"
+    "gate:update-baselines": "node standard/gate/run.mjs --only visual --update-baselines",
+    "build:site": "npm run build:motion && npm run docs:assets && npm run build -w @krackedui/docs"
   },
   "devDependencies": {
     "@eslint/js": "9.29.0",
