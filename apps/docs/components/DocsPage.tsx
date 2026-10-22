@@ -30,12 +30,12 @@ const sectionsAt = (page: DocPage, at: 'start' | 'beforeApi' | 'end') => (page.s
 function standardInstall(page: DocPage, registry: DocsRegistry): InstallStep[] {
   const pkg = registry.packageName;
   const steps: InstallStep[] = [
-    { title: `Install the package (first time? see [Installation](/${registry.id}/installation) for registry access):`, packages: [pkg] },
+    { title: 'Install the package (React 19):', packages: [pkg] },
     { title: 'Import the styles once, in your app entry or root layout:', file: { filename: '/src/main.tsx', lang: 'tsx', code: `import '${pkg}/styles.css';` } },
   ];
   if (page.hero?.code && registry.exports) {
     const code = completeSnippet(page.hero.code, { packageName: pkg, exports: registry.exports, name: `${page.title} example` });
-    steps.push({ title: 'Use it inside a `.motion-root` element (add `dark` for the dark theme):', file: { filename: `/src/${page.title.replace(/\W+/g, '')}Example.tsx`, lang: 'tsx', code } });
+    steps.push({ title: `Use it anywhere inside your app's \`<Theme>\` (see [Installation](/${registry.id}/installation)):`, file: { filename: `/src/${page.title.replace(/\W+/g, '')}Example.tsx`, lang: 'tsx', code } });
   }
   return steps;
 }

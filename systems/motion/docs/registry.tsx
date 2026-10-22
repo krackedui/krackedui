@@ -32,7 +32,7 @@ const registry: DocsRegistry = {
   badge: 'v1.0',
   packageName: '@krackedui/motion',
   previewRootClassName: 'motion-root',
-  appUrl: 'http://localhost:3001',
+  appUrl: '/motion/fintech/',
   home: 'introduction',
   chrome: motionChrome,
   exports: packageExports,
