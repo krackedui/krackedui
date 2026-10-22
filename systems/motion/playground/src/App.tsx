@@ -1,3 +1,4 @@
+import { Theme } from '@krackedui/motion';
 import type { ComponentType } from 'react';
 import { Lab } from './lab/Lab';
 import { MotionApp } from './MotionApp';
@@ -12,7 +13,7 @@ export function App() {
   const Proto = proto && prototypes[`./prototypes/${proto}.tsx`]?.default;
   if (Proto) {
     document.documentElement.classList.toggle('dark', hash.includes('dark'));
-    return <div className="motion-root h-full overflow-auto"><Proto /></div>;
+    return <Theme appearance={hash.includes('dark') ? 'dark' : 'light'} className="h-full overflow-auto"><Proto /></Theme>;
   }
   return <MotionApp />;
 }

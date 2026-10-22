@@ -13,7 +13,8 @@ export interface TaskFilters {
   priority: string;
 }
 
-export const ANY = 'any';
+/** "No filter": Motion's Select accepts an empty-value option, so "Any …" is just ''. */
+export const ANY = '';
 export const emptyFilters: TaskFilters = { query: '', assigneeId: ANY, label: ANY, priority: ANY };
 
 export function isFiltered(f: TaskFilters): boolean {

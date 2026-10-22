@@ -4,6 +4,7 @@ import { cn } from '../lib/cn';
 import { Icon, type IconName } from '../icons/Icon';
 import { Badge } from '../atoms/Badge';
 import { useDialogReturnFocus } from './hooks';
+import { ThemePortal } from '../foundations/ThemePortal';
 
 /* -------------------------------------------------------------------------------------------------
  * "Settings & members" modal. Measured (capture/states/settings-modal, 1710x1037):
@@ -35,7 +36,7 @@ export function SettingsModal({ open, onOpenChange, nav, children, title = 'Sett
   const returnFocus = useDialogReturnFocus();
   return (
     <Dialog.Root open={open} onOpenChange={onOpenChange}>
-      <Dialog.Portal>
+      <ThemePortal primitive={Dialog.Portal}>
         <Dialog.Overlay className="motion-overlay fixed inset-0 z-[200] bg-n-overlay-smoke-a" />
         <Dialog.Content
           aria-describedby={undefined}
@@ -52,7 +53,7 @@ export function SettingsModal({ open, onOpenChange, nav, children, title = 'Sett
             <Icon name="xMarkSmall" size={16} />
           </Dialog.Close>
         </Dialog.Content>
-      </Dialog.Portal>
+      </ThemePortal>
     </Dialog.Root>
   );
 }

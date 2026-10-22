@@ -1,5 +1,5 @@
-import { useEffect, useRef, useState, type FormEvent } from 'react';
-import { Button, Field, NumberInput, Progress, useToast } from '@krackedui/motion';
+import { useState, type FormEvent } from 'react';
+import { Button, Field, NumberInput, Progress, toneText, useToast } from '@krackedui/motion';
 import type { Budget } from '../data/types';
 import { budgetTone } from '../data/budgets';
 import { formatMoney } from '../lib/format';
@@ -13,9 +13,6 @@ export function BudgetRow({ budget }: { budget: Budget }) {
   const [editing, setEditing] = useState(false);
   const [draft, setDraft] = useState<number | null>(budget.limit);
   const [error, setError] = useState<string>();
-  const input = useRef<HTMLInputElement>(null);
-  // Opening the editor moves focus into it (keyboard users land on the field).
-  useEffect(() => { if (editing) input.current?.focus(); }, [editing]);
   const tone = budgetTone(budget);
   const left = budget.limit - budget.spent;
 
@@ -45,7 +42,7 @@ export function BudgetRow({ budget }: { budget: Budget }) {
         tone={tone}
         valueText={`${formatMoney(budget.spent)} of ${formatMoney(budget.limit, { whole: true })}`}
         description={
-          <span className={left < 0 ? 'text-n-red-text-secondary' : undefined}>
+          <span className={left < 0 ? toneText.danger : undefined}>
             {left < 0 ? `${formatMoney(-left)} over budget` : `${formatMoney(left)} left · ${Math.round((budget.spent / budget.limit) * 100)}% used`}
           </span>
         }
@@ -54,7 +51,7 @@ export function BudgetRow({ budget }: { budget: Budget }) {
         <form onSubmit={save} noValidate className="flex flex-wrap items-end gap-2">
           <Field label={`${budget.category} monthly limit`} error={error} className="min-w-[180px] flex-1">
             <NumberInput
-              ref={input}
+              autoFocus
               value={draft}
               onValueChange={(v) => { setDraft(v); setError(undefined); }}
               min={0}

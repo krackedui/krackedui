@@ -11,7 +11,9 @@ templates found, and decisions taken. Gate results: `GATE.md` (written by `npm r
 - Release check: `npm run test:package` packs the tarball and builds fresh consumer apps (Vite without
   Tailwind, Next.js App Router server page, README example). Passing as of 2026-10-15.
 - Compatibility notes: compound parts have flat aliases (`MenuRoot`, `SidebarItem`…, 53 total) for React
-  Server Components; portaled layers (menus, popovers, dialogs, editor menus) follow a dark `.motion-root`.
+  Server Components; portaled layers (menus, popovers, dialogs, tooltips, selects, editor menus) render into
+  their nearest `<Theme>`'s portal container (`ThemePortal`), so each follows its own Theme; outside any
+  Theme they fall back to following a dark `.motion-root` on the page.
 - `private: true` in package.json until a private registry is chosen (prevents accidental public publish).
 
 ## Gaps found by templates
@@ -30,6 +32,7 @@ templates found, and decisions taken. Gate results: `GATE.md` (written by `npm r
 | Escape did not close a Sheet/Dialog while a toast was showing: Radix makes each toast a dismissable layer, the newest layer takes Escape, so Escape hid the toast instead (keyboard flow: change category → toast → Escape) | fintech / Transactions Sheet (flows 1 and 6) | `lib/escapeFallback.ts`: Sheet/Dialog content closes on an unhandled Escape bubbling from inside it (`components/Sheet.tsx`, `components/Dialog.tsx`); test in `FintechGaps.test.tsx`. **Fixed** | Every Radix-based system: add a contract test "Escape closes a dialog while a toast is visible" |
 | `NumberInput` appended to the old amount after Tab focus: focus swaps the formatted text for the edit text and the browser's select-all was lost | fintech / Payments amount, Budgets limit | Re-selects the edit text when the whole value was selected (`forms/NumberInput.tsx`); test in `FintechGaps.test.tsx`. **Fixed** | Add to the contract NumberInput test |
 | `Sidebar.Search`'s ⌘K chip failed contrast on the sidebar background (4.39:1) | fintech / every screen (axe) | Chip text uses `text-primary` there (`shell/Sidebar.tsx`). **Fixed** | Motion only (bug) |
+| Every portalled overlay (menus, popovers, selects, tooltips, dialogs, sheets, command palette, database/editor/shell layers) turned dark when any dark `<Theme>` was on the page (a global `body:has(.motion-root.dark)` rule), e.g. a light page's menus next to a dark sidebar island or a dark docs example | docs / any page with a dark example; templates' mixed islands | `Theme` creates a per-Theme portal container on `<body>` (appearance class, `color-scheme`, the Theme's custom properties; nested Themes stack after their parent) and every portal goes through `foundations/ThemePortal.tsx`; the global rule now applies only to portals outside any Theme (`tooling/tokens.mjs` → `styles/tokens.css`, `styles/standard.css`); docs previews render in a `<Theme>` (`docs/chrome.tsx` `PreviewRoot`). Tests `registry/test/ThemePortal.test.tsx` (incl. a source scan that fails on raw `createPortal`/`*.Portal`). **Fixed** | Motion only (bug); `ThemePortal` exported for custom floating UI |
 
 ## Usability issues
 

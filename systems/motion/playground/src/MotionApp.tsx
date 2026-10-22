@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState, type ReactNode } from 'react';
 import {
   AppFrame, Sidebar, Topbar, BreadcrumbTrail, PageLayout, PageCover, PageHeader, Icon,
-  CommandPaletteDialog, DatabaseView, type CommandGroup,
+  CommandPaletteDialog, DatabaseView, type CommandGroup, Theme,
 } from '@krackedui/motion';
 import { useWorkspace, findPage, pathTo } from './store';
 import type { PageNode } from './data/workspace';
@@ -98,7 +98,7 @@ export function MotionApp() {
 
   const isDb = page.kind === 'database';
   return (
-    <div className="motion-root h-full">
+    <Theme appearance={ws.theme === 'dark' ? 'dark' : 'light'} className="h-full">
       <AppFrame
         sidebar={sidebar}
         topbar={
@@ -135,7 +135,7 @@ export function MotionApp() {
         </PageLayout>
       </AppFrame>
       <CommandPaletteDialog open={searchOpen} onOpenChange={setSearchOpen} groups={searchGroups} placeholder="Search or ask a question in Design Team…" onSelect={(item) => { open(item.id); setSearchOpen(false); }} />
-    </div>
+    </Theme>
   );
 }
 

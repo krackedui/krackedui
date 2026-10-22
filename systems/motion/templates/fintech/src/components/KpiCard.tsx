@@ -13,13 +13,13 @@ interface KpiCardProps {
   historyLabel: string;
 }
 
-/** A KPI: Stat (value, delta vs last month) over a sparkline of its recent history. */
+/** A KPI card: Stat (value, delta vs last month) with a sparkline of its recent history in its chart slot. */
 export function KpiCard({ label, icon, value, previous, upIsGood = true, history, historyLabel }: KpiCardProps) {
   const trend = trendOf(value, previous);
   const good = trend === 'flat' ? undefined : (trend === 'up') === upIsGood;
   return (
     <Card.Root>
-      <Card.Content className="flex flex-col gap-3">
+      <Card.Content>
         <Stat
           label={label}
           icon={icon}
@@ -28,8 +28,8 @@ export function KpiCard({ label, icon, value, previous, upIsGood = true, history
           trend={trend}
           upIsGood={upIsGood}
           description="vs last month"
+          chart={<Sparkline data={history} height={32} tone={good === false ? 'danger' : good ? 'success' : 'neutral'} label={historyLabel} valueFormat={(v) => formatMoney(v, { whole: true })} />}
         />
-        <Sparkline data={history} height={32} tone={good === false ? 'danger' : good ? 'success' : 'neutral'} label={historyLabel} valueFormat={(v) => formatMoney(v, { whole: true })} />
       </Card.Content>
     </Card.Root>
   );

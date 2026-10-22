@@ -11,6 +11,7 @@ import { Separator, useChrome } from './chrome';
 import { useRegistry } from './registry-context';
 import { completeSnippet } from '@/lib/snippet';
 import { usePreviewRoot } from './preview-root';
+import { useTheme as useDocsTheme } from './theme';
 
 /* ---------------- text ---------------- */
 
@@ -123,7 +124,6 @@ const pmCmd = (pm: (typeof PMS)[number], pkgs: string[]) =>
 export function PackageTabs({ packages }: { packages: string[] }) {
   const [pm, setPm] = useState<(typeof PMS)[number]>('npm');
   const { done, copy } = useCopy();
-  const cmd = pmCmd(pm, packages);
   return (
     <Tabs.Root value={pm} onValueChange={(v) => setPm(v as typeof pm)} className="my-4 rounded-20 bg-ln-gray-25 md:mb-6">
       <Tabs.List className="group relative flex h-12 items-center gap-5 border-b border-ln-gray-100 px-5 md:h-[52px]">
@@ -143,12 +143,12 @@ export function PackageTabs({ packages }: { packages: string[] }) {
           <div className="flex flex-col gap-3 p-3">
             <div className="flex w-full items-center justify-between px-2 md:py-2">
               <span className="font-code text-ln-paragraph-xs font-normal tracking-normal text-ln-gray-500 md:text-ln-paragraph-sm md:tracking-normal">terminal</span>
-              <button type="button" className="cursor-pointer" aria-label="Copy command" onClick={() => copy(cmd)}>
+              <button type="button" className="cursor-pointer" aria-label="Copy command" onClick={() => copy(pmCmd(p, packages))}>
                 {done ? <CheckIcon className="size-6 text-ln-gray-500" /> : <CopyIcon className="size-6 text-ln-gray-500" />}
               </button>
             </div>
             <div className="docs-hide-scrollbar w-full overflow-auto rounded-docs-lg bg-ln-gray-0 p-4 font-code text-ln-paragraph-xs tracking-normal shadow-ln-xs md:text-ln-paragraph-sm md:tracking-normal">
-              <Highlighted code={cmd} lang="bash" />
+              <Highlighted code={pmCmd(p, packages)} lang="bash" />
             </div>
           </div>
         </Tabs.Content>
@@ -175,10 +175,18 @@ export function Steps({ steps }: { steps: InstallStep[] }) {
 
 /* ---------------- previews ---------------- */
 
+/** The system's preview root (its theme provider) when the chrome provides one, else the scoping class. */
+function PreviewRoot({ className, children }: { className?: string; children: ReactNode }) {
+  const root = usePreviewRoot();
+  const { theme } = useDocsTheme();
+  const Root = useChrome().PreviewRoot;
+  if (Root) return <Root appearance={theme} className={className}>{children}</Root>;
+  return <div className={cx(root, className)}>{children}</div>;
+}
+
 export function ExampleBlock({ example, className }: { example: Example; className?: string }) {
   const [tab, setTab] = useState('preview');
   const { done, copy } = useCopy();
-  const root = usePreviewRoot();
   const chrome = useChrome();
   const registry = useRegistry();
   const code = registry?.exports
@@ -207,7 +215,7 @@ export function ExampleBlock({ example, className }: { example: Example; classNa
           </button>
         </div>
         <Tabs.Content value="preview" className="relative overflow-x-auto overflow-y-hidden rounded-20 bg-ln-gray-0 ring-1 ring-ln-gray-100 outline-none">
-          <div className={cx(root, 'docs-preview w-full')}>
+          <PreviewRoot className="docs-preview w-full">
             {/* safe centering: small components center; wide fixed-size ones scroll sideways instead of being clipped */}
             <div
               className={cx(
@@ -218,7 +226,7 @@ export function ExampleBlock({ example, className }: { example: Example; classNa
             >
               {example.render()}
             </div>
-          </div>
+          </PreviewRoot>
         </Tabs.Content>
         <Tabs.Content value="code" className="outline-none">
           <div className="rounded-20 bg-ln-gray-25 p-3">

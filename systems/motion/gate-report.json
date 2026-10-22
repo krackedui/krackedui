@@ -2,10 +2,10 @@
  "system": "motion",
  "status": "incomplete",
  "partial": true,
- "timestamp": "2026-10-22T09:18:24.608Z",
- "durationSec": 98,
- "command": "npm run gate -- motion --only clean",
- "sourceHash": "3d33f5148f259727fbe4d1cda93c066b8de2a0722c30522c26746040121e41ac",
+ "timestamp": "2026-10-22T12:25:08.789Z",
+ "durationSec": 75,
+ "command": "npm run gate -- motion --only visual",
+ "sourceHash": "ad241e24680ed93a3c2386135a6298a2dc2ae44dcc49261e73ae2d681b234a47",
  "checks": [
   {
    "id": "typecheck",
@@ -87,8 +87,9 @@
   {
    "id": "visual",
    "title": "Visual",
-   "status": "skip",
-   "summary": "not selected (--only)",
+   "status": "pass",
+   "summary": "388/388 examples match their baseline (0 changed, 0 without baseline; threshold 0.5% pixels)",
+   "durationSec": 75,
    "details": []
   },
   {
@@ -101,9 +102,8 @@
   {
    "id": "clean",
    "title": "Clean",
-   "status": "pass",
-   "summary": "276 files scanned, 24 packed files: 0 problems",
-   "durationSec": 97,
+   "status": "skip",
+   "summary": "not selected (--only)",
    "details": []
   }
  ]

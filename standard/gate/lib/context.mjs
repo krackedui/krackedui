@@ -75,7 +75,8 @@ export async function createContext(system, flags = {}) {
     distDir: path.join(registryDir, 'dist'),
     docsDir: path.join(sysDir, 'docs'),
     templatesDir: path.join(sysDir, 'templates'),
-    baselinesDir: path.join(sysDir, 'gate', 'baselines'),
+    // Fonts render differently per OS, so each platform has its own approved screenshots.
+    baselinesDir: path.join(sysDir, 'gate', 'baselines', process.platform),
     log: (...a) => console.log('   ', ...a),
     onCleanup: (fn) => cleanups.push(fn),
     async cleanup() { for (const fn of cleanups.reverse()) { try { await fn(); } catch { /* best effort */ } } },

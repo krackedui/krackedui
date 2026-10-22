@@ -165,7 +165,7 @@ const registry: DocsRegistry = {
           title: 'Start from a template',
           blocks: [
             'Or start a whole app from one of Motion’s templates:',
-            { code: { filename: 'terminal', lang: 'bash', code: `npm create krackedui@latest my-app -- --system motion --template fintech` } },
+            { code: { filename: 'terminal', lang: 'bash', code: `npm create @krackedui my-app -- --system motion --template fintech` } },
           ],
         },
         {
@@ -231,7 +231,7 @@ const registry: DocsRegistry = {
         {
           title: 'Start from a template',
           blocks: [
-            { code: { filename: 'terminal', lang: 'bash', code: `npm create krackedui@latest my-app -- --system motion --template project-management\ncd my-app\nnpm install\nnpm run dev` } },
+            { code: { filename: 'terminal', lang: 'bash', code: `npm create @krackedui my-app -- --system motion --template project-management\ncd my-app\nnpm install\nnpm run dev` } },
             'Use `--template fintech` for the dashboard. The project is yours: a Vite + React + TypeScript app that depends on `@krackedui/motion` from npm.',
           ],
         },

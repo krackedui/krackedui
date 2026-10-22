@@ -177,7 +177,7 @@ await fs.writeFile(path.join(out, 'tokens', 'motion.tokens.json'), JSON.stringif
 await fs.writeFile(path.join(out, 'tokens', 'name-map.json'), JSON.stringify(nameMap, null, 1));
 await fs.writeFile(path.join(out, 'src', 'styles', 'tokens.css'),
   `/* Generated from the captured token stylesheet. Do not edit by hand. */\n` +
-  `:root, .light {\n${cssLight.join('\n')}\n${extra.join('\n')}\n}\n\n/* Dark: an ancestor .dark, or (for menus/popovers/dialogs portaled to <body>) any dark .motion-root on the page. */\n.dark,\nbody:has(.motion-root.dark) :is([data-radix-popper-content-wrapper], .motion-portal, .motion-overlay) {\n${cssDark.join('\n')}\n  color-scheme: dark;\n}\n`);
+  `:root, .light {\n${cssLight.join('\n')}\n${extra.join('\n')}\n}\n\n/* Dark: an ancestor .dark (a dark <Theme>, or the dark portal container a <Theme> creates for its menus,\n   popovers and dialogs). Fallback for layers portalled outside any Theme (no <Theme>, hand-written .motion-root):\n   they follow any dark .motion-root on the page. */\n.dark,\nbody:has(.motion-root.dark) :is([data-radix-popper-content-wrapper], .motion-portal, .motion-overlay):not(.motion-root *, .motion-portal-root *) {\n${cssDark.join('\n')}\n  color-scheme: dark;\n}\n`);
 // Tailwind v4 theme: every color token becomes a utility (bg-n-bg-primary, text-n-text-secondary, ...),
 // shadows become shadow-n-*, plus fonts, radii and type sizes.
 const colorVars = [], shadowVars = [];

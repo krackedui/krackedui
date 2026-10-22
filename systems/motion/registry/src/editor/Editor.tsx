@@ -2,7 +2,7 @@ import {
   useCallback, useEffect, useId, useLayoutEffect, useMemo, useRef, useState,
   type CSSProperties, type KeyboardEvent as ReactKeyboardEvent, type MouseEvent as ReactMouseEvent, type PointerEvent as ReactPointerEvent, type ReactElement,
 } from 'react';
-import { createPortal } from 'react-dom';
+import { ThemePortal } from '../foundations/ThemePortal';
 import { cn } from '../lib/cn';
 import { IconButton } from '../atoms/IconButton';
 import { DragHandle } from '../atoms/DragHandle';
@@ -842,37 +842,39 @@ export function Editor({
         />
       </div>
 
-      {slash && slashPos && createPortal(
-        <div className="motion-portal motion-floating fixed z-50 font-sans" data-state="open" data-side="bottom" style={slashPos}>
-          <SlashMenu
-            query={slash.query}
-            activeIndex={slash.index}
-            onActiveIndexChange={(i) => setSlash((s) => (s ? { ...s, index: i } : s))}
-            onSelect={runSlash}
-            onClose={() => setSlash(null)}
-          />
-        </div>,
-        document.body,
+      {slash && slashPos && (
+        <ThemePortal>
+          <div className="motion-portal motion-floating fixed z-50 font-sans" data-state="open" data-side="bottom" style={slashPos}>
+            <SlashMenu
+              query={slash.query}
+              activeIndex={slash.index}
+              onActiveIndexChange={(i) => setSlash((s) => (s ? { ...s, index: i } : s))}
+              onSelect={runSlash}
+              onClose={() => setSlash(null)}
+            />
+          </div>
+        </ThemePortal>
       )}
 
-      {tb && toolbarPos && toolbarBlock && createPortal(
-        <div className="motion-portal motion-floating fixed z-50 font-sans" data-state="open" data-side="top" style={toolbarPos}>
-          <TextToolbar
-            ref={toolbarRef}
-            block={toolbarBlock}
-            active={toolbarActive}
-            recentColors={recentColors}
-            onMark={(m: ToolbarMark) => applyMark(tb.id, tb.start, tb.end, {}, m)}
-            onClearFormat={() => applyMark(tb.id, tb.start, tb.end, 'clear')}
-            onLink={(url) => applyMark(tb.id, tb.start, tb.end, { link: url ?? undefined })}
-            onColor={(c) => {
-              applyMark(tb.id, tb.start, tb.end, { color: c === 'default' ? undefined : c });
-              if (c !== 'default') setRecentColors((r) => [c, ...r.filter((x) => x !== c)].slice(0, 5));
-            }}
-            onTurnInto={(k) => { setToolbar(null); convert(tb.id, k); }}
-          />
-        </div>,
-        document.body,
+      {tb && toolbarPos && toolbarBlock && (
+        <ThemePortal>
+          <div className="motion-portal motion-floating fixed z-50 font-sans" data-state="open" data-side="top" style={toolbarPos}>
+            <TextToolbar
+              ref={toolbarRef}
+              block={toolbarBlock}
+              active={toolbarActive}
+              recentColors={recentColors}
+              onMark={(m: ToolbarMark) => applyMark(tb.id, tb.start, tb.end, {}, m)}
+              onClearFormat={() => applyMark(tb.id, tb.start, tb.end, 'clear')}
+              onLink={(url) => applyMark(tb.id, tb.start, tb.end, { link: url ?? undefined })}
+              onColor={(c) => {
+                applyMark(tb.id, tb.start, tb.end, { color: c === 'default' ? undefined : c });
+                if (c !== 'default') setRecentColors((r) => [c, ...r.filter((x) => x !== c)].slice(0, 5));
+              }}
+              onTurnInto={(k) => { setToolbar(null); convert(tb.id, k); }}
+            />
+          </div>
+        </ThemePortal>
       )}
     </div>
   );

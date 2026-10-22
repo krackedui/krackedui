@@ -48,7 +48,11 @@ export function highlight(code: string, lang: string = 'tsx'): string {
   const key = lang + '\u0000' + code;
   const hit = cache.get(key);
   if (hit) return hit;
-  const html = get().codeToHtml(code.replace(/\n$/, ''), { lang, theme: 'docs' });
+  // tokenizeTimeLimit: 0 = no per-line time limit. With Shiki's default (500 ms) a line that takes too
+  // long is cut off and the rest emitted uncolored, so the output would depend on machine load (the first
+  // call compiles the grammar's regexes lazily); server and client could then disagree during hydration.
+  // Our snippets are short and trusted, so full tokenization is cheap and always deterministic.
+  const html = get().codeToHtml(code.replace(/\n$/, ''), { lang, theme: 'docs', tokenizeTimeLimit: 0 });
   cache.set(key, html);
   return html;
 }

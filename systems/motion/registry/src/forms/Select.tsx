@@ -4,6 +4,7 @@ import { tv } from '../lib/tv';
 import { Icon, type IconName } from '../icons/Icon';
 import { useFieldProps } from './Field';
 import { controlBox, controlDisabled, controlFocusVisible, controlInvalid, controlSizes } from './internal';
+import { ThemePortal } from '../foundations/ThemePortal';
 
 /** One choice in a Select, Combobox or SegmentedControl. */
 export interface ControlOption {
@@ -127,7 +128,7 @@ export const Select = forwardRef<HTMLButtonElement, SelectProps>(function Select
           <Icon name="arrowChevronSingleDownSmall" size={16} />
         </RSelect.Icon>
       </RSelect.Trigger>
-      <RSelect.Portal>
+      <ThemePortal primitive={RSelect.Portal}>
         <RSelect.Content position="popper" sideOffset={4} collisionPadding={8} className={s.content({ className: contentClassName })}>
           <RSelect.ScrollUpButton className={s.scroll()}><Icon name="arrowChevronSingleUp" size={16} /></RSelect.ScrollUpButton>
           <RSelect.Viewport className={s.viewport()}>
@@ -146,7 +147,7 @@ export const Select = forwardRef<HTMLButtonElement, SelectProps>(function Select
           </RSelect.Viewport>
           <RSelect.ScrollDownButton className={s.scroll()}><Icon name="arrowChevronSingleDown" size={16} /></RSelect.ScrollDownButton>
         </RSelect.Content>
-      </RSelect.Portal>
+      </ThemePortal>
     </RSelect.Root>
     {hasEmpty && name && <input type="hidden" name={name} value={current} />}
     </>

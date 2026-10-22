@@ -3,6 +3,14 @@ on:
   pull_request:
   push:
     branches: [main]
+  # Manual run. With "update_baselines", records this platform's (Linux) visual baselines and commits
+  # them to the branch it ran on. Re-run the pull request checks afterwards.
+  workflow_dispatch:
+    inputs:
+      update_baselines:
+        description: Record Linux visual baselines and commit them to this branch
+        type: boolean
+        default: false
 concurrency:
   group: gate-${{ github.ref }}
   cancel-in-progress: true
@@ -14,17 +22,44 @@ env:
 
 jobs:
   gate:
-    runs-on: ubuntu-latest
+    # Pinned: Playwright's browser dependencies are known for this image (ubuntu-latest moves without notice).
+    runs-on: ubuntu-24.04
     timeout-minutes: 60
+    permissions:
+      contents: write
     steps:
+      # Check out the branch itself (not the merge ref) so recorded baselines can be committed back to it.
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref || github.ref }}
       - uses: actions/setup-node@v4
         with:
           node-version: 22
           cache: npm
       - run: npm ci
       - run: npx playwright install --with-deps chromium
+
+      # Explicit update (manual run), or first-time bootstrap: a system with no Linux baselines at all gets
+      # them recorded once. After that, changed screenshots fail until someone runs the manual update.
+      - name: Record Linux visual baselines
+        if: (github.event_name == 'workflow_dispatch' && inputs.update_baselines) || github.event_name == 'pull_request'
+        run: |
+          for dir in systems/*/; do
+            name=$(basename "$dir")
+            [ -f "systems/$name/registry/package.json" ] || continue
+            if [ "${{ github.event_name }}" = "workflow_dispatch" ] || [ ! -d "systems/$name/gate/baselines/linux" ]; then
+              npm run gate -- "$name" --only visual --update-baselines
+            fi
+          done
+          [ -n "$(git status --porcelain systems/*/gate/baselines/linux)" ] || exit 0
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add systems/*/gate/baselines/linux
+          git diff --cached --quiet || git commit -m "Record Linux visual baselines (CI)"
+          git push origin "HEAD:${GITHUB_HEAD_REF:-$GITHUB_REF_NAME}"
+
       - name: Run the gate for every system
+        if: github.event_name != 'workflow_dispatch' || !inputs.update_baselines
         run: |
           status=0
           for dir in systems/*/; do
@@ -35,6 +70,7 @@ jobs:
             echo "::endgroup::"
           done
           exit $status
+
       - name: Upload gate reports
         if: always()
         uses: actions/upload-artifact@v4

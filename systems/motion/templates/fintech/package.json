@@ -4,13 +4,25 @@
   "private": false,
   "description": "Fintech dashboard template built with @krackedui/motion: balances, cash flow, transactions, cards, payments and budgets.",
   "type": "module",
-  "files": ["src", "public", "index.html", "vite.config.ts", "tsconfig.json", "routes.json", "README.md", "_gitignore"],
-  "publishConfig": { "access": "public" },
+  "files": [
+    "src",
+    "public",
+    "index.html",
+    "vite.config.ts",
+    "tsconfig.json",
+    "routes.json",
+    "README.md",
+    "_gitignore"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "dev": "vite",
     "build": "tsc --noEmit && vite build",
     "preview": "vite preview",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "prepublishOnly": "node ../../../../standard/gate/verify.mjs motion"
   },
   "dependencies": {
     "@krackedui/motion": "^1.0.0",

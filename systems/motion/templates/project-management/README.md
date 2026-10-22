@@ -9,7 +9,7 @@ Live: https://motion.krackedui.com/project-management
 ## Run it
 
 ```bash
-npm create krackedui@latest my-app -- --system motion --template project-management
+npm create @krackedui my-app -- --system motion --template project-management
 cd my-app
 npm install
 npm run dev        # http://localhost:5173

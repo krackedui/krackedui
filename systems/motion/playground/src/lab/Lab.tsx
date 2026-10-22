@@ -1,5 +1,5 @@
 import { useEffect, useState, type ComponentType } from 'react';
-import { Button } from '@krackedui/motion';
+import { Button, Theme } from '@krackedui/motion';
 
 // Each group owns one lab page: src/lab/pages/<group>.tsx (default export).
 const pages = import.meta.glob<{ default: ComponentType }>('./pages/*.tsx', { eager: true });
@@ -20,15 +20,16 @@ export function Lab() {
   }, []);
   useEffect(() => { document.documentElement.classList.toggle('dark', state.dark); }, [state.dark]);
   const Page = groups[state.group];
-  if (Page) return <div className="motion-root min-h-full"><Page /></div>;
+  const appearance = state.dark ? 'dark' : 'light';
+  if (Page) return <Theme appearance={appearance} className="min-h-full"><Page /></Theme>;
   return (
-    <div className="motion-root min-h-full p-8">
+    <Theme appearance={appearance} className="min-h-full p-8">
       <h1 className="mb-4 text-n-h2 font-semibold">Lab</h1>
       <div className="flex flex-col items-start gap-1">
         {Object.keys(groups).sort().map((g) => (
           <Button key={g} asChild><a href={`#/lab/${g}`}>{g}</a></Button>
         ))}
       </div>
-    </div>
+    </Theme>
   );
 }

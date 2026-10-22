@@ -4,13 +4,14 @@
  * written against --ds-* work here.
  *
  * Light/dark: custom properties that reference other properties resolve where they are declared, so the
- * mapping is re-declared on every element that switches theme: the root, any .light / .dark element and
- * overlays portalled to <body> while a dark Motion root is on the page (same selector as tokens.css).
+ * mapping is re-declared on every element that switches theme: the root, any .light / .dark element (a
+ * <Theme> and its portal container) and, outside any Theme, overlays portalled to <body> while a dark
+ * Motion root is on the page (same selectors as tokens.css).
  */
 :root,
 .light,
 .dark,
-body:has(.motion-root.dark) :is([data-radix-popper-content-wrapper], .motion-portal, .motion-overlay) {
+body:has(.motion-root.dark) :is([data-radix-popper-content-wrapper], .motion-portal, .motion-overlay):not(.motion-root *, .motion-portal-root *) {
   /* bg */
   --ds-bg-app: var(--n-bg-primary);
   --ds-bg-sidebar: var(--n-bg-secondary);

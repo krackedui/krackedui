@@ -16,7 +16,9 @@
   .motion-root ::selection {
     background: var(--n-blue-bg-tertiary-translucent-a);
   }
-  /* Overlays render in portals outside .motion-root (Radix): give them the same base type. */
+  /* Overlays render in portals outside .motion-root: a Theme's portal container (.motion-portal-root), or
+     <body> when there is no Theme (Radix popper wrappers, .motion-portal). Give them the same base type. */
+  .motion-portal-root,
   [data-radix-popper-content-wrapper]:has(> [class*='--n-']),
   [data-radix-popper-content-wrapper]:has(> [class*='bg-n-']),
   .motion-portal {
@@ -29,6 +31,7 @@
   /* Baseline focus ring for any focusable element (components also set it themselves, in the utilities layer). */
   .motion-root *:focus-visible,
   .motion-portal *:focus-visible,
+  .motion-portal-root *:focus-visible,
   [data-radix-popper-content-wrapper] *:focus-visible {
     outline: none;
     box-shadow: var(--n-focus-shadow);

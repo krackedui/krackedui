@@ -59,6 +59,12 @@ export interface DocsChrome {
   copyButtonClassName?: string;
   /** Icon renderer for chrome icons (system icon set). */
   Icon?: ComponentType<{ name: ChromeIcon; className?: string }>;
+  /**
+   * Root around each live example (e.g. the system's own theme provider), so examples behave as in an
+   * app: overlays opened from a preview follow that preview's appearance. Defaults to a `<div>` with
+   * `previewRootClassName` (+ `dark`).
+   */
+  PreviewRoot?: ComponentType<{ appearance: 'light' | 'dark'; className?: string; children: ReactNode }>;
 }
 
 export type NavIcon =

@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react';
 import {
-  Button, Combobox, DataTable, DateRangePicker, EmptyState, Field, Menu, NumberInput, Pagination, SearchInput,
+  Button, Combobox, DataTable, DateRangePicker, EmptyState, Field, Menu, NumberInput, SearchInput,
   Select, useToast, type DataTableColumn, type DataTableSort, type DateRange, type DateRangePreset,
 } from '@krackedui/motion';
 import { Page } from '../components/Page';
@@ -15,7 +15,7 @@ import { useStore } from '../state/store';
 import { periodRange, usePreferences } from '../state/preferences';
 import { addDays, startOfMonth } from '../lib/dates';
 import { formatShortDate } from '../lib/format';
-import { countActiveFilters, filterTransactions, sortTransactions, type TransactionFilters } from '../lib/transactionFilters';
+import { countActiveFilters, filterTransactions, type TransactionFilters } from '../lib/transactionFilters';
 import { downloadFile, transactionsToCsv } from '../lib/exportCsv';
 import { navigate } from '../lib/router';
 
@@ -28,8 +28,8 @@ const presets: DateRangePreset[] = [
   { label: 'This month', range: { from: startOfMonth(TODAY), to: TODAY } },
 ];
 
-const categoryOptions = [{ value: 'all', label: 'All categories' }, ...categories.map((c) => ({ value: c, label: c }))];
-const statusOptions = [{ value: 'all', label: 'All statuses' }, ...statuses.map((s) => ({ value: s, label: s }))];
+const categoryOptions = [{ value: '', label: 'All categories' }, ...categories.map((c) => ({ value: c, label: c }))];
+const statusOptions = [{ value: '', label: 'All statuses' }, ...statuses.map((s) => ({ value: s, label: s }))];
 
 const columns: DataTableColumn<Transaction>[] = [
   { key: 'date', header: 'Date', sortable: true, width: 96, hideBelow: 'sm', cell: (t) => <span className="whitespace-nowrap tabular-nums">{formatShortDate(t.date)}</span> },
@@ -40,13 +40,13 @@ const columns: DataTableColumn<Transaction>[] = [
     cell: (t) => (
       <span className="flex min-w-0 flex-col">
         <span>{t.merchant}</span>
-        {/* Phones hide the Date and Status columns: show them under the merchant instead. */}
-        <span className="text-n-ui-sm text-n-text-secondary sm:hidden">{formatShortDate(t.date)} · {t.status}</span>
+        {/* Narrow tables hide the Date and Status columns (container query): show them under the merchant instead. */}
+        <span className="text-n-ui-sm text-n-text-secondary @min-[640px]:hidden">{formatShortDate(t.date)} · {t.status}</span>
       </span>
     ),
   },
   { key: 'category', header: 'Category', sortable: true, hideBelow: 'md', cell: (t) => <CategoryTag category={t.category} /> },
-  { key: 'account', header: 'Account', sortable: true, hideBelow: 'lg', cell: (t) => accountById[t.account].name },
+  { key: 'account', header: 'Account', sortable: true, hideBelow: 'lg', sortValue: (t) => accountById[t.account].name, cell: (t) => accountById[t.account].name },
   { key: 'status', header: 'Status', sortable: true, hideBelow: 'sm', cell: (t) => <StatusBadge status={t.status} /> },
   { key: 'amount', header: 'Amount', sortable: true, align: 'end', cell: (t) => <Money amount={t.amount} signed /> },
 ];
@@ -62,9 +62,7 @@ export function TransactionsPage({ openId }: { openId?: string }) {
   const [selected, setSelected] = useState<string[]>([]);
 
   const update = (patch: Partial<TransactionFilters>) => { setFilters((f) => ({ ...f, ...patch })); setPage(1); };
-  const rows = useMemo(() => sortTransactions(filterTransactions(state.transactions, filters), sort), [state.transactions, filters, sort]);
-  const pageCount = Math.max(1, Math.ceil(rows.length / PAGE_SIZE));
-  const visible = rows.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
+  const rows = useMemo(() => filterTransactions(state.transactions, filters), [state.transactions, filters]);
   const open = state.transactions.find((t) => t.id === openId);
   const selectedRows = state.transactions.filter((t) => selected.includes(t.id));
   const active = countActiveFilters(filters);
@@ -104,14 +102,14 @@ export function TransactionsPage({ openId }: { openId?: string }) {
           <Field label="Category" hideLabel className="max-sm:col-span-2">
             <Combobox
               options={categoryOptions}
-              value={filters.category || 'all'}
-              onValueChange={(v) => update({ category: v === 'all' ? '' : (v as Category) })}
+              value={filters.category}
+              onValueChange={(v) => update({ category: v as Category | '' })}
               placeholder="All categories"
               searchPlaceholder="Find a category"
             />
           </Field>
           <Field label="Status" hideLabel className="max-sm:col-span-2">
-            <Select options={statusOptions} value={filters.status || 'all'} onValueChange={(v) => update({ status: v === 'all' ? '' : (v as TransactionStatus) })} placeholder="All statuses" />
+            <Select options={statusOptions} value={filters.status} onValueChange={(v) => update({ status: v as TransactionStatus | '' })} placeholder="All statuses" />
           </Field>
           <Field label="Minimum amount" hideLabel>
             <NumberInput value={filters.min} onValueChange={(min) => update({ min })} min={0} placeholder="Min $" format={{ style: 'currency', currency: 'USD' }} />
@@ -148,9 +146,12 @@ export function TransactionsPage({ openId }: { openId?: string }) {
         <DataTable
           label="Transactions"
           columns={columns}
-          rows={visible}
+          rows={rows}
           sort={sort}
-          onSortChange={(s) => { setSort(s); setPage(1); }}
+          onSortChange={setSort}
+          pageSize={PAGE_SIZE}
+          page={page}
+          onPageChange={setPage}
           selectedIds={selected}
           onSelectedIdsChange={setSelected}
           getRowLabel={(t) => `${t.merchant}, ${formatShortDate(t.date)}`}
@@ -165,14 +166,6 @@ export function TransactionsPage({ openId }: { openId?: string }) {
           }
         />
 
-        {pageCount > 1 && (
-          <div className="flex flex-wrap items-center justify-between gap-2">
-            <span className="text-n-ui-sm text-n-text-secondary tabular-nums">
-              {(page - 1) * PAGE_SIZE + 1}–{Math.min(page * PAGE_SIZE, rows.length)} of {rows.length}
-            </span>
-            <Pagination page={page} pageCount={pageCount} onPageChange={setPage} label="Transactions pages" />
-          </div>
-        )}
       </div>
 
       <TransactionSheet transaction={open} onClose={() => navigate({ page: 'transactions' })} />

@@ -5,6 +5,7 @@ import { useEscapeFallback } from '../lib/escapeFallback';
 import { tv, type VariantProps } from '../lib/tv';
 import { Button } from '../atoms/Button';
 import { Spinner } from '../atoms/Spinner';
+import { ThemePortal } from '../foundations/ThemePortal';
 
 /**
  * Modal dialog.
@@ -69,7 +70,7 @@ const Content = forwardRef<ElementRef<typeof D.Content>, DialogContentProps>(fun
 ) {
   const escape = useEscapeFallback(onEscapeKeyDown);
   return (
-    <D.Portal>
+    <ThemePortal primitive={D.Portal}>
       <D.Overlay className={cn('motion-overlay', s.overlay())} />
       <D.Content
         ref={ref}
@@ -90,9 +91,14 @@ const Content = forwardRef<ElementRef<typeof D.Content>, DialogContentProps>(fun
         <D.Close ref={escape.closeRef} hidden tabIndex={-1} aria-hidden />
         {children}
       </D.Content>
-    </D.Portal>
+    </ThemePortal>
   );
 });
+
+/** Radix `Dialog.Portal`, routed through the nearest Theme's portal layer (see `ThemePortal`). */
+function Portal(props: D.DialogPortalProps) {
+  return <ThemePortal primitive={D.Portal} {...props} />;
+}
 
 const Title = forwardRef<ElementRef<typeof D.Title>, ComponentPropsWithoutRef<typeof D.Title>>(function Title({ className, ...p }, ref) {
   return <D.Title ref={ref} className={cn(s.title(), className)} {...p} />;
@@ -115,7 +121,7 @@ const Footer = forwardRef<HTMLDivElement, HTMLAttributes<HTMLDivElement>>(functi
  *   <Dialog.Content size="sm"><Dialog.Title>…</Dialog.Title><Dialog.Description>…</Dialog.Description>
  *   <Dialog.Footer><Dialog.Close asChild><Button>Cancel</Button></Dialog.Close></Dialog.Footer></Dialog.Content></Dialog.Root>
  */
-export const Dialog = { Root: D.Root, Trigger: D.Trigger, Close: D.Close, Portal: D.Portal, Content, Title, Description, Footer };
+export const Dialog = { Root: D.Root, Trigger: D.Trigger, Close: D.Close, Portal, Content, Title, Description, Footer };
 
 /* ---------- confirm dialog ---------- */
 

@@ -825,9 +825,11 @@
   --n-motion-easing-out: cubic-bezier(0.2, 0, 0, 1);
 }
 
-/* Dark: an ancestor .dark, or (for menus/popovers/dialogs portaled to <body>) any dark .motion-root on the page. */
+/* Dark: an ancestor .dark (a dark <Theme>, or the dark portal container a <Theme> creates for its menus,
+   popovers and dialogs). Fallback for layers portalled outside any Theme (no <Theme>, hand-written .motion-root):
+   they follow any dark .motion-root on the page. */
 .dark,
-body:has(.motion-root.dark) :is([data-radix-popper-content-wrapper], .motion-portal, .motion-overlay) {
+body:has(.motion-root.dark) :is([data-radix-popper-content-wrapper], .motion-portal, .motion-overlay):not(.motion-root *, .motion-portal-root *) {
   --n-ui-use-ava-idl-outline: #555553;
   --n-assistant-corner-button-bg: #d3d3d3;
   --n-ava-box-shadow: 0 2px 4px rgba(15,15,15,.2);

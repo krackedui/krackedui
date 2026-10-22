@@ -16,7 +16,7 @@ import type { MotionColor } from '../atoms/Tag';
  */
 export const timelineVariants = tv({
   slots: {
-    root: 'overflow-x-auto rounded-n-lg border border-n-border-primary outline-none focus-visible:shadow-n-focus-shadow',
+    root: 'relative overflow-x-auto rounded-n-lg border border-n-border-primary outline-none focus-visible:shadow-n-focus-shadow',
     inner: 'relative w-max min-w-full',
     scale: 'flex border-b border-n-border-primary',
     labelCell: 'sticky left-0 z-[2] flex shrink-0 items-center gap-1.5 border-r border-n-border-primary px-3 text-n-ui',

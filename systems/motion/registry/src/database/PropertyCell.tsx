@@ -6,6 +6,7 @@ import { SelectPicker } from './SelectPicker';
 import { DateCellPicker } from './DateCellPicker';
 import { PropertyValueView } from './PropertyValue';
 import type { Property, PropertyValue, SelectOption } from './types';
+import { ThemePortal } from '../foundations/ThemePortal';
 
 export interface PropertyCellProps {
   property: Property;
@@ -92,7 +93,7 @@ export function PropertyCell({ property: p, value, onChange, onCreateOption, chi
             {display}
           </div>
         </Popover.Anchor>
-        <Popover.Portal>
+        <ThemePortal primitive={Popover.Portal}>
           <Popover.Content
             aria-label={p.name}
             side="bottom"
@@ -119,7 +120,7 @@ export function PropertyCell({ property: p, value, onChange, onCreateOption, chi
               />
             )}
           </Popover.Content>
-        </Popover.Portal>
+        </ThemePortal>
       </Popover.Root>
     );
   }

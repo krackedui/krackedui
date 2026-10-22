@@ -1,5 +1,5 @@
 // 12. Visual: a screenshot of every docs example (light, 1280 px, reduced motion) compared with the
-// approved baseline in systems/<name>/gate/baselines/<page>--<example>.png. More than 0.5% of pixels
+// approved baseline in systems/<name>/gate/baselines/<platform>/<page>--<example>.png (darwin, linux…). More than 0.5% of pixels
 // changed, a size change or a missing baseline fails. `--update-baselines` writes new baselines
 // (record why in REPORT.md).
 import fs from 'node:fs/promises';

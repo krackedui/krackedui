@@ -1,8 +1,8 @@
 # Gate: motion
 
-**INCOMPLETE** (partial run: not valid for publishing) · 2026-10-22T09:18:24.608Z · 98s · source `3d33f5148f25`
+**INCOMPLETE** (partial run: not valid for publishing) · 2026-10-22T12:25:08.789Z · 75s · source `ad241e24680e`
 
-Command: `npm run gate -- motion --only clean`
+Command: `npm run gate -- motion --only visual`
 
 | # | Check | Result | Summary |
 |---|---|---|---|
@@ -17,9 +17,9 @@ Command: `npm run gate -- motion --only clean`
 | 9 | Docs (`docs`) | skip | not selected (--only) |
 | 10 | Accessibility (`a11y`) | skip | not selected (--only) |
 | 11 | Responsive (`responsive`) | skip | not selected (--only) |
-| 12 | Visual (`visual`) | skip | not selected (--only) |
+| 12 | Visual (`visual`) | PASS | 388/388 examples match their baseline (0 changed, 0 without baseline; threshold 0.5% pixels) |
 | 13 | Templates (`templates`) | skip | not selected (--only) |
-| 14 | Clean (`clean`) | PASS | 276 files scanned, 24 packed files: 0 problems |
+| 14 | Clean (`clean`) | skip | not selected (--only) |
 
 ---
 Written by `npm run gate`. Thresholds are part of the standard (standard/SPEC.md §12); change them only through the SPEC process.

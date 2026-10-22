@@ -4,7 +4,7 @@ A marketplace of React design systems that all speak the same language. Every sy
 
 - an npm package, **`@krackedui/<name>`**, built to one shared component contract (same names, same props);
 - a docs site at **`<name>.krackedui.com`**;
-- two sector templates at **`<name>.krackedui.com/<sector>`**, pulled with `npm create krackedui`.
+- two sector templates at **`<name>.krackedui.com/<sector>`**, pulled with `npm create @krackedui`.
 
 Learn one system and you can use them all: switching systems is changing the import. Only the look differs.
 
@@ -46,7 +46,7 @@ export function App() {
 Or start from a template:
 
 ```bash
-npm create krackedui@latest my-app -- --system motion --template fintech
+npm create @krackedui my-app -- --system motion --template fintech
 ```
 
 ---
@@ -67,7 +67,7 @@ systems/<name>/     ONE DESIGN SYSTEM
   REPORT.md         gate results, gaps found by templates, usability issues
 apps/docs/          the docs site; serves <name>.krackedui.com and <name>.krackedui.com/<template>/
 packages/
-  create-krackedui/ `npm create krackedui` (pulls a template from npm)
+  create/           `npm create @krackedui` (pulls a template from npm)
 tooling/pipeline/   generators (export list, copy-paste registry, template builds)
 ```
 

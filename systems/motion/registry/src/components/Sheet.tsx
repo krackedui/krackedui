@@ -5,6 +5,7 @@ import { useEscapeFallback } from '../lib/escapeFallback';
 import { tv, type VariantProps } from '../lib/tv';
 import { Icon } from '../icons/Icon';
 import { dialogVariants } from './Dialog';
+import { ThemePortal } from '../foundations/ThemePortal';
 
 /**
  * Sheet: a modal panel that slides in from the left, right or bottom edge. Same surface as dialogs
@@ -65,7 +66,7 @@ const Content = forwardRef<ElementRef<typeof D.Content>, SheetContentProps>(func
   const s = sheetVariants({ side, size });
   const escape = useEscapeFallback(onEscapeKeyDown);
   return (
-    <D.Portal>
+    <ThemePortal primitive={D.Portal}>
       <D.Overlay className={cn('motion-overlay', dialogVariants().overlay())} />
       <D.Content
         ref={ref}
@@ -84,7 +85,7 @@ const Content = forwardRef<ElementRef<typeof D.Content>, SheetContentProps>(func
           </D.Close>
         )}
       </D.Content>
-    </D.Portal>
+    </ThemePortal>
   );
 });
 

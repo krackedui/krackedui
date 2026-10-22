@@ -1,6 +1,7 @@
 import { forwardRef, type ComponentPropsWithoutRef, type HTMLAttributes, type ReactNode } from 'react';
 import { Tooltip as RTooltip } from 'radix-ui';
 import { cn } from '../lib/cn';
+import { ThemePortal } from '../foundations/ThemePortal';
 
 /**
  * Tooltip bubble: 5px 8px padding, 6px radius, 12/16.8 text, dark in both themes (light: primary text
@@ -52,12 +53,12 @@ export function Tooltip({ content, shortcut, children, open, defaultOpen, onOpen
     <RTooltip.Provider delayDuration={delayDuration} skipDelayDuration={300}>
       <RTooltip.Root open={open} defaultOpen={defaultOpen} onOpenChange={onOpenChange}>
         <RTooltip.Trigger asChild>{children}</RTooltip.Trigger>
-        <RTooltip.Portal>
+        <ThemePortal primitive={RTooltip.Portal}>
           <RTooltip.Content side={side} sideOffset={sideOffset} collisionPadding={8} className={cn('motion-tooltip z-[1000] select-none', className)} {...props}>
             {/* Radix renders the accessible role="tooltip" copy itself; the visible bubble is presentational. */}
             <TooltipBubble role="none" shortcut={shortcut}>{content}</TooltipBubble>
           </RTooltip.Content>
-        </RTooltip.Portal>
+        </ThemePortal>
       </RTooltip.Root>
     </RTooltip.Provider>
   );

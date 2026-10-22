@@ -4,13 +4,25 @@
   "private": false,
   "description": "Project management starter built with @krackedui/motion: my work, projects, kanban board, task detail, timeline, team and settings.",
   "type": "module",
-  "files": ["src", "public", "index.html", "vite.config.ts", "tsconfig.json", "routes.json", "README.md", "_gitignore"],
-  "publishConfig": { "access": "public" },
+  "files": [
+    "src",
+    "public",
+    "index.html",
+    "vite.config.ts",
+    "tsconfig.json",
+    "routes.json",
+    "README.md",
+    "_gitignore"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "typecheck": "tsc -p tsconfig.json --noEmit"
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "prepublishOnly": "node ../../../../standard/gate/verify.mjs motion"
   },
   "dependencies": {
     "@krackedui/motion": "^1.0.0",

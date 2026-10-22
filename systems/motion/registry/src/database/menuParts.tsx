@@ -3,6 +3,7 @@ import { Popover } from 'radix-ui';
 import { cn } from '../lib/cn';
 import { Icon } from '../icons/Icon';
 import { MenuRow, MenuSeparator, MenuSurface, type MenuRowProps } from '../components/Menu';
+import { ThemePortal } from '../foundations/ThemePortal';
 
 /**
  * Database menu search field. Measured (db-filter-menu, db-new-view-menu): 28px, padding 3 6, radius 6,
@@ -98,11 +99,11 @@ export function SubmenuRow({ content, value, width = 240, children, ...rowProps 
           {children}
         </DbMenuItem>
       </Popover.Trigger>
-      <Popover.Portal>
+      <ThemePortal primitive={Popover.Portal}>
         <Popover.Content aria-label={typeof children === 'string' ? children : undefined} side="right" align="start" sideOffset={6} alignOffset={-4} collisionPadding={8} className="motion-floating z-50 outline-none">
           <MenuSurface width={width}>{typeof content === 'function' ? content(() => setOpen(false)) : content}</MenuSurface>
         </Popover.Content>
-      </Popover.Portal>
+      </ThemePortal>
     </Popover.Root>
   );
 }
