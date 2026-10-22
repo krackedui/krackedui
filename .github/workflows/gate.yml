@@ -28,7 +28,10 @@ jobs:
     permissions:
       contents: write
     steps:
+      # Check out the branch itself (not the merge ref) so recorded baselines can be committed back to it.
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref || github.ref }}
       - uses: actions/setup-node@v4
         with:
           node-version: 22
@@ -36,19 +39,24 @@ jobs:
       - run: npm ci
       - run: npx playwright install --with-deps chromium
 
+      # Explicit update (manual run), or first-time bootstrap: a system with no Linux baselines at all gets
+      # them recorded once. After that, changed screenshots fail until someone runs the manual update.
       - name: Record Linux visual baselines
-        if: github.event_name == 'workflow_dispatch' && inputs.update_baselines
+        if: (github.event_name == 'workflow_dispatch' && inputs.update_baselines) || github.event_name == 'pull_request'
         run: |
           for dir in systems/*/; do
             name=$(basename "$dir")
             [ -f "systems/$name/registry/package.json" ] || continue
-            npm run gate -- "$name" --only visual --update-baselines
+            if [ "${{ github.event_name }}" = "workflow_dispatch" ] || [ ! -d "systems/$name/gate/baselines/linux" ]; then
+              npm run gate -- "$name" --only visual --update-baselines
+            fi
           done
+          [ -n "$(git status --porcelain systems/*/gate/baselines/linux)" ] || exit 0
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add systems/*/gate/baselines/linux
           git diff --cached --quiet || git commit -m "Record Linux visual baselines (CI)"
-          git push
+          git push origin "HEAD:${GITHUB_HEAD_REF:-$GITHUB_REF_NAME}"
 
       - name: Run the gate for every system
         if: github.event_name != 'workflow_dispatch' || !inputs.update_baselines
