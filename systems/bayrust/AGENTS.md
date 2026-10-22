@@ -1,0 +1,54 @@
+# Bayrust: system rules
+
+Bayrust is a dark-first, keyboard-driven system: the density and quietness of a launcher, built around
+a command surface rather than a page. Root rules: `/AGENTS.md`; the standard: `/standard/SPEC.md`.
+These rules add Bayrust's specifics.
+
+**Read `REPORT.md` first.** This system is early: tokens and six icons are here, the contract is not
+implemented, and the gate has never passed. Do not treat anything here as finished.
+
+## Where things go
+```
+registry/src/
+  styles/        tokens.css (generated, do not hand-edit), standard.css (--ds-* mapping, to be written)
+  icons/         product icons as SVG, drawn (tooling/build-icons.py regenerates)
+  foundations/   Theme and layout primitives
+tooling/         tokens.json (tokens as data, with the rule each came from), build-icons.py
+docs/            registry.tsx (nav + pages), pages/<group>.tsx
+templates/       fintech/, project-management/
+playground/      lab pages (internal)
+```
+
+## Tokens
+- Bayrust tokens keep their own names and live in `registry/src/styles/tokens.css`, under
+  `[data-theme="bayrust-dark"]` and `[data-theme="bayrust-light"]`. 467 of them.
+- They are **generated**. Edit them through `tooling/tokens.json` and the generator, per root rule 6.
+- `--ds-*` is the portable vocabulary and must be mapped in `styles/standard.css`. Prefer the Bayrust
+  names inside the system, `--ds-*` in anything that leaves it.
+- No hard-coded colours. A measured value with no token takes an arbitrary value and
+  `/* token-exempt: reason */`.
+- The reference is a dark, low-contrast surface. Its secondary and tertiary greys have **not** been
+  checked against WCAG AA yet; expect to raise some. Do not lower them again to match the reference —
+  check 3 is the authority, not the reference.
+
+## Look and feel
+Dark by default. Quiet surfaces, hairline borders, small radii, 13–14 px UI text, selection shown by a
+translucent wash rather than a border, one accent for the focused row and primary actions. Everything
+reachable by keyboard first: if a thing cannot be driven from the keyboard, it is not finished.
+
+## Provenance
+Bayrust is derived from a shipped desktop application. The measurements are kept outside this
+repository, as Motion keeps `capture/` and `mirror/`. Values here are traceable to a measurement
+(`tooling/tokens.json` records the declaration each token came from); anything inferred is marked.
+
+**Never copy code, markup, class names, icons or images from the reference into this package, its docs
+or its templates.** The reference is a specification to build against. This matters more here than in
+most systems: the original material is an entire shipped frontend, and copying from it would put the
+product's own name and assets into a public package — which `/standard/SPEC.md` §11 forbids and gate
+check 14 greps for.
+
+## Verifying a change (before you call it done)
+1. `npm run gate -- bayrust --only typecheck,lint,tokens,contract` — the subset that runs today.
+2. Add the component to the lab and check it dark, light and at 375 px.
+3. Docs page updated; `npm run gate -- bayrust --only docs`.
+4. Log every gap and usability issue in `REPORT.md`, per root rule 4.

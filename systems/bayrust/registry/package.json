@@ -1,0 +1,48 @@
+{
+  "name": "@krackedui/bayrust",
+  "version": "0.0.0",
+  "description": "Bayrust: a dark-first, keyboard-driven React design system built around a command surface.",
+  "license": "UNLICENSED",
+  "private": true,
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org",
+    "access": "public"
+  },
+  "type": "module",
+  "sideEffects": [
+    "*.css"
+  ],
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
+    },
+    "./styles.css": "./dist/styles.css",
+    "./tokens.json": "./dist/tokens.json",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "SYSTEM.md"
+  ],
+  "scripts": {
+    "typecheck": "tsc -p tsconfig.json",
+    "prepublishOnly": "node ../../../standard/gate/verify.mjs bayrust"
+  },
+  "peerDependencies": {
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
+  "keywords": [
+    "design-system",
+    "react",
+    "components",
+    "tokens",
+    "ui"
+  ]
+}
