@@ -1,0 +1,29 @@
+{
+  "name": "@krackedui/motion-template-fintech",
+  "version": "1.0.0",
+  "private": false,
+  "description": "Fintech dashboard template built with @krackedui/motion: balances, cash flow, transactions, cards, payments and budgets.",
+  "type": "module",
+  "files": ["src", "public", "index.html", "vite.config.ts", "tsconfig.json", "routes.json", "README.md", "_gitignore"],
+  "publishConfig": { "access": "public" },
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@krackedui/motion": "^1.0.0",
+    "react": "19.1.0",
+    "react-dom": "19.1.0"
+  },
+  "devDependencies": {
+    "@tailwindcss/vite": "4.1.11",
+    "@types/react": "19.1.8",
+    "@types/react-dom": "19.1.6",
+    "@vitejs/plugin-react": "4.5.2",
+    "tailwindcss": "4.1.11",
+    "typescript": "5.8.3",
+    "vite": "6.3.5"
+  }
+}

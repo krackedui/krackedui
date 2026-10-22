@@ -1,0 +1,84 @@
+/*
+ * Standard vocabulary (standard/SPEC.md, standard/contract/src/tokens.ts): the --ds-* names every
+ * KrackedUI system provides. This file maps them onto Motion's --n-* tokens, so templates and AI prompts
+ * written against --ds-* work here.
+ *
+ * Light/dark: custom properties that reference other properties resolve where they are declared, so the
+ * mapping is re-declared on every element that switches theme: the root, any .light / .dark element and
+ * overlays portalled to <body> while a dark Motion root is on the page (same selector as tokens.css).
+ */
+:root,
+.light,
+.dark,
+body:has(.motion-root.dark) :is([data-radix-popper-content-wrapper], .motion-portal, .motion-overlay) {
+  /* bg */
+  --ds-bg-app: var(--n-bg-primary);
+  --ds-bg-sidebar: var(--n-bg-secondary);
+  --ds-bg-surface: var(--n-bg-primary);
+  --ds-bg-surface-raised: var(--n-bg-elevated);
+  --ds-bg-surface-hover: var(--n-button-hover-bg-a);
+  --ds-bg-surface-selected: var(--n-blue-bg-secondary);
+  --ds-bg-overlay: var(--n-overlay-smoke-a);
+  --ds-bg-inverse: var(--n-bg-accent-primary);
+  /* text */
+  --ds-text-primary: var(--n-text-primary);
+  --ds-text-secondary: var(--n-text-secondary);
+  --ds-text-tertiary: var(--n-text-tertiary);
+  --ds-text-disabled: var(--n-text-disabled);
+  --ds-text-inverse: var(--n-text-inverse-primary);
+  --ds-text-link: var(--n-text-primary);
+  --ds-text-on-accent: var(--n-text-on-solid);
+  /* border */
+  --ds-border-subtle: var(--n-border-secondary);
+  --ds-border-default: var(--n-border-primary);
+  --ds-border-strong: var(--n-border-strong);
+  --ds-border-focus: var(--n-blue-border-accent-primary);
+  /* accent: solid fills carry white text at 4.5:1 or more */
+  --ds-accent-default: var(--n-blue-bg-solid);
+  --ds-accent-hover: var(--n-blue-bg-solid-hover);
+  --ds-accent-subtle: var(--n-blue-bg-secondary);
+  --ds-accent-text: var(--n-blue-text-accent-primary);
+  /* status */
+  --ds-status-success: var(--n-green-bg-solid);
+  --ds-status-success-subtle: var(--n-green-bg-secondary);
+  --ds-status-warning: var(--n-orange-bg-solid);
+  --ds-status-warning-subtle: var(--n-yellow-bg-secondary);
+  --ds-status-danger: var(--n-red-bg-solid);
+  --ds-status-danger-subtle: var(--n-red-bg-secondary);
+  --ds-status-info: var(--n-blue-bg-solid);
+  --ds-status-info-subtle: var(--n-blue-bg-secondary);
+  /* font */
+  --ds-font-sans: var(--n-font-sans);
+  --ds-font-mono: var(--n-font-code);
+  --ds-font-display: var(--n-font-sans);
+  /* type (size/line-height weight) */
+  --ds-type-display: 40px/48px 700;     --ds-type-title-1: 30px/39px 600;   --ds-type-title-2: 24px/31.2px 600;
+  --ds-type-title-3: 20px/26px 600;     --ds-type-body-large: 16px/24px 400; --ds-type-body: 14px/20px 400;
+  --ds-type-body-small: 13px/18px 400;  --ds-type-caption: 12px/16px 400;   --ds-type-label: 12px/14.4px 500;
+  --ds-type-code: 13.6px/20.4px 400;
+  /* space: the contract scale 0..16 in 4px units (Stack / Grid gap) */
+  --ds-space-0: 0px; --ds-space-1: 4px; --ds-space-2: 8px; --ds-space-3: 12px; --ds-space-4: 16px; --ds-space-5: 20px;
+  --ds-space-6: 24px; --ds-space-8: 32px; --ds-space-10: 40px; --ds-space-12: 48px; --ds-space-16: 64px;
+  /* radius */
+  --ds-radius-xs: var(--n-radius-xs);
+  --ds-radius-sm: var(--n-radius-sm);
+  --ds-radius-md: var(--n-radius-md);
+  --ds-radius-lg: var(--n-radius-lg);
+  --ds-radius-xl: var(--n-radius-xl);
+  --ds-radius-full: var(--n-radius-full);
+  /* shadow */
+  --ds-shadow-sm: var(--n-shadow-outline-sm);
+  --ds-shadow-md: var(--n-shadow-outline-md);
+  --ds-shadow-lg: var(--n-shadow-outline-lg);
+  --ds-shadow-popover: var(--n-shadow-outline-lg);
+  --ds-shadow-modal: var(--n-shadow-outline-scroll);
+  /* motion */
+  --ds-motion-duration-fast: var(--n-motion-fast);
+  --ds-motion-duration-base: var(--n-motion-base);
+  --ds-motion-duration-slow: var(--n-motion-slow);
+  --ds-motion-easing-standard: var(--n-motion-easing);
+  --ds-motion-easing-emphasized: var(--n-motion-easing-out);
+  /* size */
+  --ds-size-control-sm: 24px; --ds-size-control-md: 28px; --ds-size-control-lg: 32px;
+  --ds-size-sidebar-width: 270px; --ds-size-icon-sm: 16px; --ds-size-icon-md: 20px;
+}

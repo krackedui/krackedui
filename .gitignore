@@ -1,0 +1,30 @@
+# dependencies / builds
+node_modules/
+dist/
+.next/
+.astro/
+*.tsbuildinfo
+*.tgz
+
+# local-only
+.DS_Store
+.scratch/
+.browser-profile/
+
+# captured third-party material: stays on the capture machine, never pushed
+systems/*/raw/
+systems/*/capture/
+systems/*/mirror/
+apps/docs/reference/
+apps/docs/compare/
+
+# generated (npm run docs:assets)
+apps/docs/public/r/
+apps/docs/public/*/llms.txt
+apps/docs/public/*/llms-full.txt
+
+# template builds served by the docs (npm run docs:assets)
+apps/docs/public/*/*/
+
+# deny lists name what must not appear in public output; kept out of the tree (CI uses a secret)
+systems/*/.clean-deny

@@ -1,0 +1,9 @@
+{
+  "compilerOptions": {
+    "target": "ES2022", "module": "ESNext", "moduleResolution": "Bundler", "jsx": "react-jsx",
+    "strict": true, "noEmit": true, "skipLibCheck": true, "isolatedModules": true,
+    "lib": ["ES2022", "DOM", "DOM.Iterable"], "types": ["@testing-library/jest-dom/vitest"],
+    "paths": { "@system": ["../../../systems/motion/registry/src/index.ts"] }
+  },
+  "include": ["./**/*.ts", "./**/*.tsx", "../../../systems/*/registry/test/**/*.ts", "../../../systems/*/registry/test/**/*.tsx"]
+}

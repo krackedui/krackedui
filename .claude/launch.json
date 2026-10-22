@@ -1,0 +1,42 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "playground",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": [
+        "run",
+        "dev",
+        "-w",
+        "@krackedui/motion-playground"
+      ],
+      "port": 3001
+    },
+    {
+      "name": "docs",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": [
+        "run",
+        "dev",
+        "-w",
+        "@krackedui/docs"
+      ],
+      "port": 3002
+    },
+    {
+      "name": "template-pm",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": [
+        "run",
+        "dev",
+        "-w",
+        "@krackedui/motion-template-project-management",
+        "--",
+        "--port",
+        "3010",
+        "--strictPort"
+      ],
+      "port": 3010
+    }
+  ]
+}

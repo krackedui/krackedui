@@ -1,0 +1,13 @@
+/*
+ * @krackedui/motion for Tailwind v4 projects: use instead of styles.css when your app already runs
+ * Tailwind and you want the tokens as utilities (bg-n-bg-primary, text-n-text-secondary…):
+ *   @import "tailwindcss";
+ *   @import "@krackedui/motion/tailwind.css";
+ */
+@import './reset.css' layer(base);
+@import './tokens.css';
+@import './theme.css';
+@import './standard.css';
+@import './motion.css';
+@import './base.css';
+@source './';

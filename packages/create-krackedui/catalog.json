@@ -1,0 +1,6 @@
+{
+  "$comment": "Systems and their published templates. Package: @krackedui/<system>-template-<template>.",
+  "systems": {
+    "motion": { "description": "Calm, content-first; editor + database modules", "templates": ["project-management", "fintech"] }
+  }
+}

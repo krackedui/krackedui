@@ -1,0 +1,65 @@
+{
+  "name": "@krackedui/motion",
+  "version": "1.0.0",
+  "description": "Motion: a calm, content-first React design system. Tokens (light + dark), icons, components, a block editor, database views and an app shell.",
+  "license": "UNLICENSED",
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org",
+    "access": "public"
+  },
+  "type": "module",
+  "sideEffects": [
+    "*.css"
+  ],
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
+    },
+    "./styles.css": "./dist/styles.css",
+    "./tailwind.css": "./dist/tailwind.css",
+    "./tokens.json": "./dist/tokens.json",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "SYSTEM.md",
+    "LICENSES"
+  ],
+  "scripts": {
+    "build": "node build/build.mjs",
+    "typecheck": "tsc -p tsconfig.json",
+    "prepack": "npm run build",
+    "prepublishOnly": "node ../../../standard/gate/verify.mjs motion"
+  },
+  "peerDependencies": {
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
+  "dependencies": {
+    "radix-ui": "1.4.2",
+    "tailwind-merge": "3.3.1",
+    "tailwind-variants": "1.0.0"
+  },
+  "devDependencies": {
+    "@tailwindcss/cli": "4.1.11",
+    "@types/react": "19.1.8",
+    "@types/react-dom": "19.1.6",
+    "tailwindcss": "4.1.11",
+    "tsup": "8.5.0",
+    "typescript": "5.8.3"
+  },
+  "keywords": [
+    "design-system",
+    "react",
+    "components",
+    "tailwind",
+    "editor",
+    "ui"
+  ]
+}

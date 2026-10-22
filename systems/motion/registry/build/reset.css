@@ -1,0 +1,36 @@
+/*
+ * Scoped reset. Tailwind's preflight, limited to the UI (.motion-root, .motion-portal and Radix
+ * popovers), so importing @krackedui/motion/styles.css never restyles the rest of the host app.
+ * :where() keeps specificity at zero so component utilities always win.
+ */
+:where(.motion-root, .motion-portal, [data-radix-popper-content-wrapper]),
+:where(.motion-root, .motion-portal, [data-radix-popper-content-wrapper]) *,
+:where(.motion-root, .motion-portal, [data-radix-popper-content-wrapper]) ::before,
+:where(.motion-root, .motion-portal, [data-radix-popper-content-wrapper]) ::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  border: 0 solid;
+}
+:where(.motion-root, .motion-portal, [data-radix-popper-content-wrapper]) :where(h1, h2, h3, h4, h5, h6) { font-size: inherit; font-weight: inherit; }
+:where(.motion-root, .motion-portal, [data-radix-popper-content-wrapper]) :where(ol, ul, menu) { list-style: none; }
+:where(.motion-root, .motion-portal, [data-radix-popper-content-wrapper]) :where(a) { color: inherit; text-decoration: inherit; }
+:where(.motion-root, .motion-portal, [data-radix-popper-content-wrapper]) :where(b, strong) { font-weight: bolder; }
+:where(.motion-root, .motion-portal, [data-radix-popper-content-wrapper]) :where(code, kbd, samp, pre) { font-family: var(--n-font-code); font-size: 1em; }
+:where(.motion-root, .motion-portal, [data-radix-popper-content-wrapper]) :where(img, svg, video, canvas) { display: block; vertical-align: middle; }
+:where(.motion-root, .motion-portal, [data-radix-popper-content-wrapper]) :where(img, video) { max-width: 100%; height: auto; }
+:where(.motion-root, .motion-portal, [data-radix-popper-content-wrapper]) :where(button, input, select, optgroup, textarea) {
+  font: inherit;
+  font-feature-settings: inherit;
+  letter-spacing: inherit;
+  color: inherit;
+  background-color: transparent;
+  border-radius: 0;
+  opacity: 1;
+}
+:where(.motion-root, .motion-portal, [data-radix-popper-content-wrapper]) :where(button, [role='button']) { cursor: pointer; }
+:where(.motion-root, .motion-portal, [data-radix-popper-content-wrapper]) :where(button, input:where([type='button'], [type='reset'], [type='submit'])) { appearance: button; }
+:where(.motion-root, .motion-portal, [data-radix-popper-content-wrapper]) ::placeholder { opacity: 1; color: var(--n-text-tertiary); }
+:where(.motion-root, .motion-portal, [data-radix-popper-content-wrapper]) :where(table) { border-collapse: collapse; text-indent: 0; border-color: inherit; }
+:where(.motion-root, .motion-portal, [data-radix-popper-content-wrapper]) :where(hr) { height: 0; color: inherit; border-top-width: 1px; }
+:where(.motion-root, .motion-portal, [data-radix-popper-content-wrapper]) :where([hidden]:not([hidden='until-found'])) { display: none !important; }

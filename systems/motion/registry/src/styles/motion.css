@@ -1,0 +1,267 @@
+/*
+ * Motion layer: enter/exit animations for every overlay, plus size and indicator transitions.
+ * One file for the whole system; components opt in with a class. Durations derive from the
+ * --ds-motion-* tokens (change a token and every animation follows); easing uses
+ * --ds-motion-easing-emphasized for entrances and --ds-motion-easing-standard for exits.
+ *
+ * HOW TO USE (classes go on the element Radix gives `data-state` to):
+ *
+ *   .motion-floating   Popper content: Menu/ContextMenu/Popover/Select/Combobox/DatePicker content.
+ *                      Fade + 4px slide away from the trigger, using Radix `data-side`
+ *                      (top|right|bottom|left; no data-side, e.g. ContextMenu = slide down).
+ *                      Needs `data-state="open|closed"` (Radix sets it).
+ *   .motion-tooltip    Tooltip content: fade only (Radix data-state delayed-open|instant-open|closed).
+ *   .motion-overlay    Modal backdrop (Dialog.Overlay): fade in/out. Also opts portals into dark tokens.
+ *   .motion-dialog     Centered modal panel (Dialog/ConfirmDialog/CommandPaletteDialog/Settings):
+ *                      fade + 8px rise + 0.98 scale in, quicker fade + scale out.
+ *   .motion-sheet      Edge panel (Sheet, side peek, mobile sidebar drawer): slides from its edge.
+ *                      Set `data-side="left|right|top|bottom"` on the same element (default right).
+ *   .motion-toast      Toast (Radix Toast.Root): slides up + fades in, fades out; follows swipe
+ *                      (data-swipe=move|cancel|end, swipe direction down).
+ *   .motion-collapse   Accordion.Content / Collapsible.Content: animates height using
+ *                      --radix-accordion-content-height / --radix-collapsible-content-height.
+ *   .motion-indicator  Sliding selection indicator (Tabs underline, SegmentedControl thumb): the element
+ *                      is positioned with `transform`/`width`/`height`; changes transition smoothly.
+ *
+ *   Non-Radix elements can use the same classes with a manual `data-state="open"` / `"closed"`
+ *   (an element must stay mounted until `animationend` for the exit to play).
+ *
+ * Reduced motion: under `prefers-reduced-motion: reduce`, --motion-travel becomes 0, so every slide
+ * and scale collapses to an opacity fade; height and indicator transitions are switched off.
+ */
+
+:root {
+  /* time scale */
+  --motion-base: var(--ds-motion-duration-base, 200ms);
+  --motion-slow: var(--ds-motion-duration-slow, 300ms);
+  --motion-ease-in: var(--ds-motion-easing-emphasized, cubic-bezier(0.2, 0, 0, 1));
+  --motion-ease-out: var(--ds-motion-easing-standard, ease);
+
+  --motion-floating-in: calc(var(--motion-base) * 0.6);   /* 120ms */
+  --motion-floating-out: calc(var(--motion-base) * 0.4);  /* 80ms */
+  --motion-dialog-in: calc(var(--motion-base) * 0.9);     /* 180ms */
+  --motion-dialog-out: calc(var(--motion-base) * 0.6);    /* 120ms */
+  --motion-sheet-in: calc(var(--motion-slow) * 0.75);     /* 225ms */
+  --motion-sheet-out: calc(var(--motion-base) * 0.8);     /* 160ms */
+  --motion-toast-in: var(--motion-base);                  /* 200ms */
+  --motion-toast-out: calc(var(--motion-base) * 0.6);     /* 120ms */
+
+  /* 1 = full travel; 0 under reduced motion (slides/scales become fades). */
+  --motion-travel: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --motion-travel: 0;
+  }
+}
+
+/* ---------- keyframes (all read --motion-dx / --motion-dy / --motion-scale from the element) ---------- */
+
+@keyframes motion-enter {
+  from {
+    opacity: 0;
+    transform: translate3d(
+        calc(var(--motion-dx, 0px) * var(--motion-travel)),
+        calc(var(--motion-dy, 0px) * var(--motion-travel)),
+        0
+      )
+      scale(calc(1 - (1 - var(--motion-scale, 1)) * var(--motion-travel)));
+  }
+}
+
+@keyframes motion-exit {
+  to {
+    opacity: 0;
+    transform: translate3d(
+        calc(var(--motion-exit-dx, 0px) * var(--motion-travel)),
+        calc(var(--motion-exit-dy, 0px) * var(--motion-travel)),
+        0
+      )
+      scale(calc(1 - (1 - var(--motion-exit-scale, 1)) * var(--motion-travel)));
+  }
+}
+
+@keyframes motion-fade-in {
+  from { opacity: 0; }
+}
+
+@keyframes motion-fade-out {
+  to { opacity: 0; }
+}
+
+@keyframes motion-collapse-open {
+  from { height: 0; }
+  to { height: var(--motion-collapse-height); }
+}
+
+@keyframes motion-collapse-close {
+  from { height: var(--motion-collapse-height); }
+  to { height: 0; }
+}
+
+@keyframes motion-toast-swipe-out {
+  from { transform: translate3d(var(--radix-toast-swipe-end-x, 0px), var(--radix-toast-swipe-end-y, 0px), 0); }
+  to { opacity: 0; transform: translate3d(var(--radix-toast-swipe-end-x, 0px), calc(var(--radix-toast-swipe-end-y, 0px) + 100%), 0); }
+}
+
+/* ---------- floating content (menus, popovers, selects, date pickers) ---------- */
+
+.motion-floating {
+  --motion-dy: -4px;
+  transform-origin: var(--radix-popper-transform-origin, top left);
+}
+.motion-floating[data-side='top'] { --motion-dx: 0px; --motion-dy: 4px; }
+.motion-floating[data-side='bottom'] { --motion-dx: 0px; --motion-dy: -4px; }
+.motion-floating[data-side='left'] { --motion-dx: 4px; --motion-dy: 0px; }
+.motion-floating[data-side='right'] { --motion-dx: -4px; --motion-dy: 0px; }
+
+.motion-floating[data-state='open'] {
+  animation: motion-enter var(--motion-floating-in) var(--motion-ease-in);
+}
+.motion-floating[data-state='closed'] {
+  animation: motion-fade-out var(--motion-floating-out) var(--motion-ease-out) forwards;
+}
+
+/* ---------- tooltips: fade only ---------- */
+
+.motion-tooltip[data-state='delayed-open'],
+.motion-tooltip[data-state='instant-open'],
+.motion-tooltip[data-state='open'] {
+  animation: motion-fade-in var(--motion-floating-in) var(--motion-ease-in);
+}
+.motion-tooltip[data-state='closed'] {
+  animation: motion-fade-out var(--motion-floating-out) var(--motion-ease-out) forwards;
+}
+
+/* ---------- modal backdrop ---------- */
+
+.motion-overlay[data-state='open'] {
+  animation: motion-fade-in var(--motion-dialog-in) var(--motion-ease-in);
+}
+.motion-overlay[data-state='closed'] {
+  animation: motion-fade-out var(--motion-dialog-out) var(--motion-ease-out) forwards;
+}
+
+/* ---------- centered dialogs ---------- */
+
+.motion-dialog {
+  --motion-dy: 8px;
+  --motion-scale: 0.98;
+  --motion-exit-scale: 0.98;
+}
+.motion-dialog[data-state='open'] {
+  animation: motion-enter var(--motion-dialog-in) var(--motion-ease-in);
+}
+.motion-dialog[data-state='closed'] {
+  animation: motion-exit var(--motion-dialog-out) var(--motion-ease-out) forwards;
+}
+
+/* ---------- sheets / side peeks / drawers ---------- */
+
+.motion-sheet,
+.motion-sheet[data-side='right'] { --motion-dx: 100%; --motion-dy: 0px; --motion-exit-dx: 100%; --motion-exit-dy: 0px; }
+.motion-sheet[data-side='left'] { --motion-dx: -100%; --motion-exit-dx: -100%; }
+.motion-sheet[data-side='bottom'] { --motion-dx: 0px; --motion-dy: 100%; --motion-exit-dx: 0px; --motion-exit-dy: 100%; }
+.motion-sheet[data-side='top'] { --motion-dx: 0px; --motion-dy: -100%; --motion-exit-dx: 0px; --motion-exit-dy: -100%; }
+
+.motion-sheet[data-state='open'] {
+  animation: motion-enter var(--motion-sheet-in) var(--motion-ease-in);
+}
+.motion-sheet[data-state='closed'] {
+  animation: motion-exit var(--motion-sheet-out) var(--motion-ease-out) forwards;
+}
+
+/* ---------- toasts ---------- */
+
+.motion-toast {
+  --motion-dy: 8px;
+  --motion-scale: 0.96;
+  --motion-exit-scale: 0.96;
+}
+.motion-toast[data-state='open'] {
+  animation: motion-enter var(--motion-toast-in) var(--motion-ease-in);
+}
+.motion-toast[data-state='closed'] {
+  animation: motion-exit var(--motion-toast-out) var(--motion-ease-out) forwards;
+}
+.motion-toast[data-swipe='move'] {
+  transform: translate3d(var(--radix-toast-swipe-move-x, 0px), var(--radix-toast-swipe-move-y, 0px), 0);
+}
+.motion-toast[data-swipe='cancel'] {
+  transform: translate3d(0, 0, 0);
+  transition: transform var(--motion-toast-out) var(--motion-ease-out);
+}
+.motion-toast[data-swipe='end'] {
+  animation: motion-toast-swipe-out var(--motion-toast-out) var(--motion-ease-out) forwards;
+}
+
+/* ---------- accordion / collapsible height ---------- */
+
+.motion-collapse {
+  --motion-collapse-height: var(--radix-accordion-content-height, var(--radix-collapsible-content-height, auto));
+  overflow: hidden;
+}
+.motion-collapse[data-state='open'] {
+  animation: motion-collapse-open var(--motion-base) var(--motion-ease-in);
+}
+.motion-collapse[data-state='closed'] {
+  animation: motion-collapse-close var(--motion-base) var(--motion-ease-out);
+}
+
+/* ---------- sliding selection indicators ---------- */
+
+.motion-indicator {
+  transition:
+    transform var(--motion-base) var(--motion-ease-in),
+    width var(--motion-base) var(--motion-ease-in),
+    height var(--motion-base) var(--motion-ease-in),
+    opacity var(--motion-floating-in) var(--motion-ease-out);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .motion-collapse[data-state='open'],
+  .motion-collapse[data-state='closed'] {
+    animation: none;
+  }
+  .motion-indicator,
+  .motion-toast[data-swipe='cancel'] {
+    transition: none;
+  }
+}
+
+/* ---------- shell: docked sidebar width, sidebar sections and page-tree expand/collapse ---------- */
+/* Owned by src/shell (AppFrame, Sidebar): a `grid` wrapper animates grid-template-columns/rows between
+   0fr and 1fr (see useCollapse in shell/hooks.ts, which unmounts content after the transition). */
+.motion-shell-collapse {
+  transition-property: grid-template-columns, grid-template-rows;
+  transition-duration: var(--motion-base);
+  transition-timing-function: var(--motion-ease-out);
+}
+@media (prefers-reduced-motion: reduce) {
+  .motion-shell-collapse { transition: none; }
+}
+
+/* ---------- drag and drop: KanbanBoard (data/KanbanBoard.tsx) ---------- */
+/* .motion-lift   the floating copy of a dragged card: lifts (slight scale + tilt) as it appears.
+   .motion-drop   the insertion line where the card will land: grows in from its centre.
+   Under reduced motion both appear without movement. */
+@keyframes motion-lift-in {
+  from { transform: scale(1) rotate(0deg); }
+  to { transform: scale(1.02) rotate(1.5deg); }
+}
+@keyframes motion-drop-in {
+  from { transform: scaleX(0.6); opacity: 0; }
+  to { transform: scaleX(1); opacity: 1; }
+}
+.motion-lift {
+  transform: scale(1.02) rotate(1.5deg);
+  animation: motion-lift-in var(--motion-floating-in) var(--motion-ease-in);
+}
+.motion-drop {
+  animation: motion-drop-in var(--motion-floating-in) var(--motion-ease-in);
+}
+@media (prefers-reduced-motion: reduce) {
+  .motion-lift { transform: none; animation: none; }
+  .motion-drop { animation: none; }
+}

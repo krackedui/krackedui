@@ -1,0 +1,9 @@
+/* Entry for dist/styles.css: everything precompiled; consumers don't need Tailwind. */
+@layer theme, base, components, utilities;
+@import 'tailwindcss/theme.css' layer(theme);
+@import 'tailwindcss/utilities.css' layer(utilities);
+@import './reset.css' layer(base);
+@import '../src/styles/index.css';
+@source '../src';
+/* every class used in the docs examples, so code copied from the docs works without Tailwind */
+@source '../../docs';

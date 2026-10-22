@@ -1,0 +1,62 @@
+/*
+ * Docs theme for Motion. docs-shell keeps AlignUI's *structure* (layout, nav, page anatomy)
+ * but every visual value of the chrome comes from the documented system. This file maps the docs
+ * token layer (--docs-*) onto Motion tokens (--n-* / --ds-*), which already switch with `.dark`.
+ */
+:root, .dark {
+  /* neutral scale used by the chrome, low → high contrast */
+  --docs-gray-0: var(--n-bg-primary);              /* page */
+  --docs-gray-25: var(--n-bg-secondary);           /* sidebar, code wells */
+  --docs-gray-50: var(--n-bg-interactive);         /* filled controls (search, tabs track) */
+  --docs-gray-100: var(--n-border-primary);        /* rules, frames */
+  --docs-gray-200: var(--n-border-strong);
+  --docs-gray-300: var(--n-text-disabled);
+  --docs-gray-400: var(--n-icon-tertiary);
+  --docs-gray-450: var(--n-text-tertiary);         /* hints, placeholders */
+  --docs-gray-500: var(--n-text-tertiary);         /* nav icons, small labels (AA as text) */
+  --docs-gray-600: var(--n-text-secondary);        /* nav items, descriptions */
+  --docs-gray-700: var(--n-text-accent-primary);
+  --docs-gray-800: var(--n-icon-primary);
+  --docs-gray-900: var(--n-text-primary);          /* titles, body */
+  --docs-gray-925: var(--n-text-primary);
+  --docs-gray-950: var(--n-text-primary);
+  --docs-accent: var(--n-blue-text-accent-primary); /* the single accent: blue */
+  --docs-hover: var(--n-button-hover-bg-a);         /* hover tint */
+  --docs-active: var(--n-bg-interactive-translucent-a);
+  --docs-scroll-thumb: var(--n-border-strong);
+  --docs-overlay: var(--n-overlay-smoke-a);
+  --docs-ring: var(--n-border-primary-translucent-a);
+  --docs-focus: var(--n-focus-shadow);
+
+  /* type: Motion's UI font, no negative tracking, 600 for headings */
+  --docs-font: var(--n-font-sans);
+  --docs-font-code: var(--n-font-code);
+  --docs-tracking-tight: 0em;
+  --docs-tracking: 0em;
+  --docs-heading-weight: 600;
+  --docs-title-size: 40px;          /* page title size */
+  --docs-title-line: 48px;
+  --docs-title-weight: 700;
+  --docs-title-tracking: 0em;
+  --docs-smoothing: auto;
+
+  /* shape: Motion radii and hairline-ring shadows */
+  --docs-radius-sm: var(--n-radius-sm);   /* 4 */
+  --docs-radius-md: var(--n-radius-md);   /* 6 */
+  --docs-radius-lg: var(--n-radius-xl);   /* 10 */
+  --docs-radius-xl: var(--n-radius-2xl);  /* 12 */
+  --docs-shadow-raised: var(--n-shadow-outline-sm);
+  --docs-shadow-xs: inset 0 0 0 1px var(--n-border-primary-translucent-a);
+  --docs-shadow-badge: inset 0 0 0 1px var(--n-border-primary-translucent-a);
+  --docs-shadow-badge-accent: inset 0 0 0 1px var(--n-blue-border-primary);
+  --docs-shadow-popover: var(--n-shadow-outline-lg);
+
+  /* code highlighting in Motion's palette */
+  --docs-code-fg: var(--n-text-primary);
+  --docs-code-keyword: var(--n-purple-text-primary);
+  --docs-code-string: var(--n-green-text-primary);
+  --docs-code-fn: var(--n-blue-text-primary);
+  --docs-code-pink: var(--n-red-text-primary);
+  --docs-code-comment: var(--n-text-tertiary);
+  --docs-code-line-no: var(--n-text-disabled);
+}

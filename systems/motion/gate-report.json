@@ -1,0 +1,110 @@
+{
+ "system": "motion",
+ "status": "incomplete",
+ "partial": true,
+ "timestamp": "2026-10-22T09:18:24.608Z",
+ "durationSec": 98,
+ "command": "npm run gate -- motion --only clean",
+ "sourceHash": "3d33f5148f259727fbe4d1cda93c066b8de2a0722c30522c26746040121e41ac",
+ "checks": [
+  {
+   "id": "typecheck",
+   "title": "Typecheck",
+   "status": "skip",
+   "summary": "not selected (--only)",
+   "details": []
+  },
+  {
+   "id": "lint",
+   "title": "Lint",
+   "status": "skip",
+   "summary": "not selected (--only)",
+   "details": []
+  },
+  {
+   "id": "tokens",
+   "title": "Tokens",
+   "status": "skip",
+   "summary": "not selected (--only)",
+   "details": []
+  },
+  {
+   "id": "contract",
+   "title": "Contract",
+   "status": "skip",
+   "summary": "not selected (--only)",
+   "details": []
+  },
+  {
+   "id": "tests",
+   "title": "Behaviour tests",
+   "status": "skip",
+   "summary": "not selected (--only)",
+   "details": []
+  },
+  {
+   "id": "build",
+   "title": "Build",
+   "status": "skip",
+   "summary": "not selected (--only)",
+   "details": []
+  },
+  {
+   "id": "install",
+   "title": "Install",
+   "status": "skip",
+   "summary": "not selected (--only)",
+   "details": []
+  },
+  {
+   "id": "copy-paste",
+   "title": "Copy-paste",
+   "status": "skip",
+   "summary": "not selected (--only)",
+   "details": []
+  },
+  {
+   "id": "docs",
+   "title": "Docs",
+   "status": "skip",
+   "summary": "not selected (--only)",
+   "details": []
+  },
+  {
+   "id": "a11y",
+   "title": "Accessibility",
+   "status": "skip",
+   "summary": "not selected (--only)",
+   "details": []
+  },
+  {
+   "id": "responsive",
+   "title": "Responsive",
+   "status": "skip",
+   "summary": "not selected (--only)",
+   "details": []
+  },
+  {
+   "id": "visual",
+   "title": "Visual",
+   "status": "skip",
+   "summary": "not selected (--only)",
+   "details": []
+  },
+  {
+   "id": "templates",
+   "title": "Templates",
+   "status": "skip",
+   "summary": "not selected (--only)",
+   "details": []
+  },
+  {
+   "id": "clean",
+   "title": "Clean",
+   "status": "pass",
+   "summary": "276 files scanned, 24 packed files: 0 problems",
+   "durationSec": 97,
+   "details": []
+  }
+ ]
+}

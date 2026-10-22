@@ -1,0 +1,11 @@
+{
+  "name": "@krackedui/contract",
+  "version": "1.0.0",
+  "private": true,
+  "description": "The KrackedUI standard: component API contract, inventory and required tokens every design system implements.",
+  "type": "module",
+  "exports": { ".": "./src/index.ts" },
+  "types": "./src/index.ts",
+  "scripts": { "typecheck": "tsc -p tsconfig.json" },
+  "peerDependencies": { "@types/react": "19.1.8" }
+}

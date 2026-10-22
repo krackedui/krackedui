@@ -1,0 +1,36 @@
+/* @krackedui/motion styles. Consumers: `@import "tailwindcss"; @import "@krackedui/motion/styles.css"; @source "<path-to>/ds/src";` */
+@import './tokens.css';
+@import './theme.css';
+@import './standard.css';
+@import './motion.css';
+
+@layer base {
+  .motion-root {
+    font-family: var(--n-font-sans);
+    color: var(--n-text-primary);
+    background: var(--n-bg-primary);
+    -webkit-font-smoothing: auto;
+    font-size: 14px;
+    line-height: 1.5;
+  }
+  .motion-root ::selection {
+    background: var(--n-blue-bg-tertiary-translucent-a);
+  }
+  /* Overlays render in portals outside .motion-root (Radix): give them the same base type. */
+  [data-radix-popper-content-wrapper]:has(> [class*='--n-']),
+  [data-radix-popper-content-wrapper]:has(> [class*='bg-n-']),
+  .motion-portal {
+    font-family: var(--n-font-sans);
+    color: var(--n-text-primary);
+    font-size: 14px;
+    line-height: 1.5;
+    -webkit-font-smoothing: auto;
+  }
+  /* Baseline focus ring for any focusable element (components also set it themselves, in the utilities layer). */
+  .motion-root *:focus-visible,
+  .motion-portal *:focus-visible,
+  [data-radix-popper-content-wrapper] *:focus-visible {
+    outline: none;
+    box-shadow: var(--n-focus-shadow);
+  }
+}
