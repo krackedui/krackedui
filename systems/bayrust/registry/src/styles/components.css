@@ -1,0 +1,176 @@
+/*
+ * Component styles. Every rule is scoped under `.bay` — the element `<Theme>` renders — so installing
+ * Bayrust never restyles the host app (SPEC §2). Colour, radius, spacing and motion come from --ds-*
+ * only; there are no literal colours here.
+ */
+
+.bay {
+  color: var(--ds-text-primary);
+  font-family: var(--ds-font-sans);
+  font-size: 13px;
+  line-height: 1.45;
+  -webkit-font-smoothing: antialiased;
+}
+.bay *,
+.bay *::before,
+.bay *::after {
+  box-sizing: border-box;
+}
+
+.bay-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+.bay :focus-visible {
+  outline: 2px solid var(--ds-border-focus);
+  outline-offset: 2px;
+}
+
+/* ---------- icon ---------- */
+.bay .bay-icon {
+  flex: none;
+  display: block;
+}
+
+/* ---------- layout ---------- */
+.bay .bay-stack {
+  display: flex;
+  flex-direction: var(--bay-dir-base, column);
+  gap: var(--bay-gap-base, 0);
+}
+.bay .bay-stack[data-align='start'] { align-items: flex-start; }
+.bay .bay-stack[data-align='center'] { align-items: center; }
+.bay .bay-stack[data-align='end'] { align-items: flex-end; }
+.bay .bay-stack[data-align='stretch'] { align-items: stretch; }
+.bay .bay-stack[data-align='baseline'] { align-items: baseline; }
+.bay .bay-stack[data-justify='start'] { justify-content: flex-start; }
+.bay .bay-stack[data-justify='center'] { justify-content: center; }
+.bay .bay-stack[data-justify='end'] { justify-content: flex-end; }
+.bay .bay-stack[data-justify='between'] { justify-content: space-between; }
+.bay .bay-stack[data-wrap] { flex-wrap: wrap; }
+
+.bay .bay-grid {
+  display: grid;
+  grid-template-columns: repeat(var(--bay-cols-base, 1), minmax(0, 1fr));
+  gap: var(--bay-gap-base, 0);
+}
+
+@media (min-width: 640px) {
+  .bay .bay-stack { flex-direction: var(--bay-dir-sm, var(--bay-dir-base, column)); gap: var(--bay-gap-sm, var(--bay-gap-base, 0)); }
+  .bay .bay-grid { grid-template-columns: repeat(var(--bay-cols-sm, var(--bay-cols-base, 1)), minmax(0, 1fr)); gap: var(--bay-gap-sm, var(--bay-gap-base, 0)); }
+}
+@media (min-width: 768px) {
+  .bay .bay-stack { flex-direction: var(--bay-dir-md, var(--bay-dir-sm, var(--bay-dir-base, column))); gap: var(--bay-gap-md, var(--bay-gap-sm, var(--bay-gap-base, 0))); }
+  .bay .bay-grid { grid-template-columns: repeat(var(--bay-cols-md, var(--bay-cols-sm, var(--bay-cols-base, 1))), minmax(0, 1fr)); gap: var(--bay-gap-md, var(--bay-gap-sm, var(--bay-gap-base, 0))); }
+}
+@media (min-width: 1024px) {
+  .bay .bay-stack { flex-direction: var(--bay-dir-lg, var(--bay-dir-md, var(--bay-dir-sm, var(--bay-dir-base, column)))); gap: var(--bay-gap-lg, var(--bay-gap-md, var(--bay-gap-sm, var(--bay-gap-base, 0)))); }
+  .bay .bay-grid { grid-template-columns: repeat(var(--bay-cols-lg, var(--bay-cols-md, var(--bay-cols-sm, var(--bay-cols-base, 1)))), minmax(0, 1fr)); gap: var(--bay-gap-lg, var(--bay-gap-md, var(--bay-gap-sm, var(--bay-gap-base, 0)))); }
+}
+@media (min-width: 1280px) {
+  .bay .bay-stack { flex-direction: var(--bay-dir-xl, var(--bay-dir-lg, var(--bay-dir-md, var(--bay-dir-sm, var(--bay-dir-base, column))))); gap: var(--bay-gap-xl, var(--bay-gap-lg, var(--bay-gap-md, var(--bay-gap-sm, var(--bay-gap-base, 0))))); }
+  .bay .bay-grid { grid-template-columns: repeat(var(--bay-cols-xl, var(--bay-cols-lg, var(--bay-cols-md, var(--bay-cols-sm, var(--bay-cols-base, 1))))), minmax(0, 1fr)); gap: var(--bay-gap-xl, var(--bay-gap-lg, var(--bay-gap-md, var(--bay-gap-sm, var(--bay-gap-base, 0))))); }
+}
+
+.bay .bay-divider {
+  background: var(--ds-border-subtle);
+  flex: none;
+}
+.bay .bay-divider[data-orientation='horizontal'] { height: 1px; width: 100%; }
+.bay .bay-divider[data-orientation='vertical'] { width: 1px; align-self: stretch; }
+
+/* ---------- button ---------- */
+.bay .bay-button {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  border: 1px solid transparent;
+  border-radius: var(--ds-radius-md);
+  font: inherit;
+  font-weight: 500;
+  cursor: pointer;
+  white-space: nowrap;
+  text-decoration: none;
+  background: transparent;
+  color: var(--ds-text-primary);
+  transition: background var(--ds-motion-duration-fast) var(--ds-motion-easing-standard),
+    border-color var(--ds-motion-duration-fast) var(--ds-motion-easing-standard);
+}
+.bay .bay-button__content { display: inline-flex; align-items: center; gap: 6px; }
+.bay .bay-button[data-loading] .bay-button__content { visibility: hidden; }
+.bay .bay-button[data-full] { width: 100%; }
+.bay .bay-button:disabled { cursor: not-allowed; color: var(--ds-text-disabled); }
+
+.bay .bay-button--sm { height: var(--ds-size-control-sm); padding: 0 8px; font-size: 12px; }
+.bay .bay-button--md { height: var(--ds-size-control-md); padding: 0 12px; }
+.bay .bay-button--lg { height: var(--ds-size-control-lg); padding: 0 16px; font-size: 14px; }
+
+.bay .bay-button--primary { background: var(--ds-accent-default); color: var(--ds-text-on-accent); }
+.bay .bay-button--primary:hover:not(:disabled) { background: var(--ds-accent-hover); }
+.bay .bay-button--secondary { background: var(--ds-bg-surface-hover); border-color: var(--ds-border-default); }
+.bay .bay-button--secondary:hover:not(:disabled) { background: var(--ds-bg-surface-selected); }
+.bay .bay-button--ghost { background: transparent; }
+.bay .bay-button--ghost:hover:not(:disabled) { background: var(--ds-bg-surface-hover); }
+.bay .bay-button--danger { background: var(--ds-status-danger); color: var(--ds-text-on-accent); }
+.bay .bay-button--danger:hover:not(:disabled) { filter: brightness(1.08); }
+.bay .bay-button:disabled:not([data-loading]) { background: var(--ds-bg-surface-hover); border-color: transparent; }
+
+.bay .bay-button__spinner {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  border-radius: var(--ds-radius-full);
+  border: 2px solid currentColor;
+  border-top-color: transparent;
+  animation: bay-spin 600ms linear infinite;
+}
+@keyframes bay-spin { to { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) {
+  .bay .bay-button__spinner { animation-duration: 2s; }
+  .bay * { transition-duration: 1ms !important; }
+}
+
+/* ---------- icon button ---------- */
+.bay .bay-icon-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid transparent;
+  border-radius: var(--ds-radius-md);
+  background: transparent;
+  color: var(--ds-text-secondary);
+  cursor: pointer;
+  transition: background var(--ds-motion-duration-fast) var(--ds-motion-easing-standard);
+}
+.bay .bay-icon-button--sm { width: var(--ds-size-control-sm); height: var(--ds-size-control-sm); }
+.bay .bay-icon-button--md { width: var(--ds-size-control-md); height: var(--ds-size-control-md); }
+.bay .bay-icon-button--lg { width: var(--ds-size-control-lg); height: var(--ds-size-control-lg); }
+.bay .bay-icon-button--secondary { background: var(--ds-bg-surface-hover); border-color: var(--ds-border-default); }
+.bay .bay-icon-button:hover:not(:disabled) { background: var(--ds-bg-surface-hover); color: var(--ds-text-primary); }
+.bay .bay-icon-button[data-active] { background: var(--ds-bg-surface-selected); color: var(--ds-text-primary); }
+.bay .bay-icon-button:disabled { cursor: not-allowed; color: var(--ds-text-disabled); }
+
+/* Touch devices get a target of at least 24px even where the control is drawn smaller (WCAG 2.5.8). */
+@media (pointer: coarse) {
+  .bay .bay-icon-button--sm,
+  .bay .bay-button--sm { min-width: 24px; min-height: 24px; }
+}
+
+/* ---------- link ---------- */
+.bay .bay-link {
+  color: var(--ds-text-link);
+  text-decoration: none;
+  border-radius: var(--ds-radius-xs);
+}
+.bay .bay-link:hover { text-decoration: underline; }
+.bay .bay-link__external { display: inline-block; vertical-align: -1px; margin-left: 2px; }

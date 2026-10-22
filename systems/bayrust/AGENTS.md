@@ -4,15 +4,18 @@ Bayrust is a dark-first, keyboard-driven system: the density and quietness of a 
 a command surface rather than a page. Root rules: `/AGENTS.md`; the standard: `/standard/SPEC.md`.
 These rules add Bayrust's specifics.
 
-**Read `REPORT.md` first.** This system is early: tokens and six icons are here, the contract is not
-implemented, and the gate has never passed. Do not treat anything here as finished.
+**Read `REPORT.md` first.** This system is early: 8 of the 61 contract entries are implemented, there
+is no build, no tests and no docs, and the gate has never run. Do not treat anything here as finished.
 
 ## Where things go
 ```
 registry/src/
-  styles/        tokens.css (generated, do not hand-edit), standard.css (--ds-* mapping, to be written)
+  styles/        tokens.css (generated, do not hand-edit), standard.css (--ds-* mapping), components.css, index.css
   icons/         product icons as SVG, drawn (tooling/build-icons.py regenerates)
-  foundations/   Theme and layout primitives
+  foundations/   Theme, Icon, icon-paths.ts (the 80 interface icons)
+  layout/        Stack, Grid, Divider
+  actions/       Button, IconButton, Link
+  lib/           cn, the variant helper, the asChild merge (no components)
 tooling/         tokens.json (tokens as data, with the rule each came from), build-icons.py
 docs/            registry.tsx (nav + pages), pages/<group>.tsx
 templates/       fintech/, project-management/

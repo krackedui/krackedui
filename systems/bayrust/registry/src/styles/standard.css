@@ -1,0 +1,112 @@
+/*
+ * The standard vocabulary (--ds-*) expressed in Bayrust's own tokens.
+ *
+ * Most entries are a straight alias: the measured token already says the right thing. Four are not,
+ * and they are marked `tuned` with the measurement and the ratio. SPEC §4 requires every --ds-* token
+ * in both appearances; gate check 3 requires the pairs in standard/contract/src/tokens.ts to clear
+ * WCAG AA (4.5:1). The reference is a low-contrast dark surface and four of its values do not clear it.
+ * Per AGENTS.md they are raised, not lowered back:
+ *
+ *   text-tertiary   measured 3.67:1 dark / 2.85:1 light  ->  --fg at 48% / 56%   = 4.63 / 4.94
+ *   accent-text     measured 3.77:1 dark / 4.02:1 light  ->  accent toward fg    = 4.67 / 4.64
+ *   accent-default  white on the measured accent is 4.02:1 -> accent darkened 7% = 4.56 with white
+ *
+ * Ratios were computed from the resolved token values, not estimated.
+ */
+
+[data-theme='bayrust-dark'],
+[data-theme='bayrust-light'] {
+  /* font — Bayrust ships no family token; these stacks are the system's own */
+  --ds-font-sans: InterVariable, Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --ds-font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  --ds-font-display: var(--ds-font-sans);
+
+  /* radius */
+  --ds-radius-xs: var(--radius-2);
+  --ds-radius-sm: var(--radius-4);
+  --ds-radius-md: var(--radius-8);
+  --ds-radius-lg: var(--radius-12);
+  --ds-radius-xl: var(--radius-16);
+  --ds-radius-full: var(--radius-full);
+
+  /* motion */
+  --ds-motion-duration-fast: 100ms;
+  --ds-motion-duration-base: 160ms;
+  --ds-motion-duration-slow: 260ms;
+  --ds-motion-easing-standard: var(--easing-ease-out-expo);
+  --ds-motion-easing-emphasized: var(--easing-ease-out-back);
+
+  /* size */
+  --ds-size-control-sm: 24px;
+  --ds-size-control-md: 32px;
+  --ds-size-control-lg: 40px;
+  --ds-size-sidebar-width: 240px;
+  --ds-size-icon-sm: var(--icon-12);
+  --ds-size-icon-md: var(--icon-16);
+
+  /* surfaces */
+  --ds-bg-app: var(--color-window-base);
+  --ds-bg-sidebar: var(--color-window-bg-secondary);
+  --ds-bg-surface: var(--color-window-bg);
+  --ds-bg-surface-raised: var(--color-panel-background);
+  --ds-bg-surface-hover: var(--color-surface-list-hover);
+  --ds-bg-surface-selected: var(--color-surface-list-selection);
+  --ds-bg-overlay: var(--color-panel-overlay);
+  --ds-bg-inverse: var(--color-fg-max);
+
+  /* text */
+  --ds-text-primary: var(--color-text-primary);
+  --ds-text-secondary: var(--color-text-secondary);
+  --ds-text-disabled: var(--color-text-disabled);
+  --ds-text-inverse: var(--color-bg-max);
+  --ds-text-link: var(--ds-accent-text);
+  --ds-text-on-accent: #ffffff; /* token-exempt: pure white, the ink the accent is tuned against (4.56:1) */
+
+  /* borders */
+  --ds-border-subtle: var(--color-border-tertiary);
+  --ds-border-default: var(--color-border-secondary);
+  --ds-border-strong: var(--color-border-primary);
+  --ds-border-focus: var(--color-border-focus-ring);
+
+  /* status — the measured hues; the -subtle steps are the palette's own 10% tints */
+  --ds-status-success: var(--green);
+  --ds-status-success-subtle: var(--green-10);
+  --ds-status-warning: var(--orange);
+  --ds-status-warning-subtle: var(--orange-10);
+  --ds-status-danger: var(--red);
+  --ds-status-danger-subtle: var(--red-10);
+  --ds-status-info: var(--blue);
+  --ds-status-info-subtle: var(--blue-10);
+
+  /* accent — subtle and hover come from the palette; default and text are tuned, see the header */
+  --ds-accent-subtle: var(--accent-10);
+}
+
+[data-theme='bayrust-dark'] {
+  --ds-text-tertiary: rgb(from var(--fg) r g b / 48%); /* tuned: measured 3.67:1, this is 4.63:1 */
+  --ds-accent-text: #288fff; /* tuned: measured accent is 3.77:1 on the app background, this is 4.67:1 */
+  --ds-accent-default: #0071ed; /* tuned: white on the measured accent is 4.02:1, on this 4.56:1 */
+  --ds-accent-hover: #2a86f0;
+
+  /* token-exempt: the reference leaves --shadow-color unresolved, so a shadow has no colour token to
+     take; these are the system's own elevations, black at the opacity each level needs */
+  --ds-shadow-sm: 0 1px 2px rgb(0 0 0 / 0.3);
+  --ds-shadow-md: 0 2px 8px rgb(0 0 0 / 0.35);
+  --ds-shadow-lg: 0 8px 24px rgb(0 0 0 / 0.4);
+  --ds-shadow-popover: var(--shadow-panel);
+  --ds-shadow-modal: var(--shadow-panel);
+}
+
+[data-theme='bayrust-light'] {
+  --ds-text-tertiary: rgb(from var(--fg) r g b / 56%); /* tuned: measured 2.85:1, this is 4.94:1 */
+  --ds-accent-text: #0070ea; /* tuned: measured accent is 4.02:1 on the app background, this is 4.64:1 */
+  --ds-accent-default: #0071ed; /* tuned: white on the measured accent is 4.02:1, on this 4.56:1 */
+  --ds-accent-hover: #0063d1;
+
+  /* token-exempt: see the dark block */
+  --ds-shadow-sm: 0 1px 2px rgb(0 0 0 / 0.08);
+  --ds-shadow-md: 0 2px 8px rgb(0 0 0 / 0.1);
+  --ds-shadow-lg: 0 8px 24px rgb(0 0 0 / 0.12);
+  --ds-shadow-popover: var(--shadow-panel);
+  --ds-shadow-modal: var(--shadow-panel);
+}

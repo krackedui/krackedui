@@ -4,7 +4,7 @@ Bayrust is a dark-first, keyboard-driven system: a launcher's density and quietn
 command surface rather than a page. This report tracks what is here, what the gate will say, and what
 is left. Gate results: `GATE.md` (written by `npm run gate -- bayrust`).
 
-**Status: not gate-ready.** Nothing here claims to pass. `gate-report.json` is deliberately absent, so
+**Status: 8 of 61 contract entries implemented; not gate-ready.** Nothing here claims to pass. `gate-report.json` is deliberately absent, so
 `prepublishOnly` and the docs deploy refuse to run, as `/standard/SPEC.md` §12 requires. The sections
 below say exactly what is missing, so the next person does not have to rediscover it.
 
@@ -22,23 +22,50 @@ before then would mean hand-building components the system lacks, which rule 4 f
 | `tooling/tokens.json` | The same tokens as data: value, the declaration it came from, and both appearances | Measured |
 | `registry/src/icons/*.svg` | Six product icons, drawn | Ours. Shape is a superellipse; gradients and glyph colours are sampled from the reference, the glyphs are drawn as curves |
 | `tooling/build-icons.py` | Regenerates those six | Ours |
+| `registry/src/styles/standard.css` | The `--ds-*` vocabulary in Bayrust's tokens, both appearances | Aliases, except four values tuned for contrast (below) |
+| `registry/src/foundations/` | `Theme`, `Icon`, and all 80 interface icons as 24×24 stroke paths | Ours, drawn for this system |
+| `registry/src/layout/` | `Stack`, `Grid`, `Divider` | Ours |
+| `registry/src/actions/` | `Button`, `IconButton`, `Link` | Ours |
+| `registry/src/lib/` | `cn`, a variant helper, and the `asChild` merge | Ours |
+
+### Contrast: four values had to be raised
+
+Gate check 3 wants the pairs in `standard/contract/src/tokens.ts` at 4.5:1. Measured from the
+reference's own resolved values, four do not clear it. Ratios were computed, not estimated:
+
+| Token | Measured | Now | Why |
+|---|---|---|---|
+| `--ds-text-tertiary` | 3.67:1 dark, 2.85:1 light | 4.63 / 4.94 | `--fg` at 48% / 56% |
+| `--ds-accent-text` | 3.77:1 dark, 4.02:1 light | 4.67 / 4.64 | the accent moved toward the foreground |
+| `--ds-accent-default` | white on it is 4.02:1 | 4.56:1 | the accent darkened 7%, so `--ds-text-on-accent` can be white |
+
+Per `AGENTS.md` these are raised, not lowered back to match the reference. Each is marked `tuned` in
+`standard.css` with its measurement.
+
+### Verified so far
+
+- Strict typecheck: 0 errors.
+- Contract: each of the eight implemented entries accepts its contract props type, asserted the way
+  `check-contract` does it. `asChild` is implemented rather than omitted, since narrowing a contract
+  prop is not allowed.
+- Rendered in both appearances: every variant, size, loading and disabled state, and all 80 icons.
+  `asChild` produces a single `<a>` styled as a button.
+- `settings` was redrawn as a cog after the first render: a ring of spokes was indistinguishable from
+  `sun` at 16 px.
 
 Per `/standard/SPEC.md` §5, every value above is traceable; nothing here is inferred.
 
 ## What is missing, in the order it has to be done
 
-1. **The contract.** `/standard/contract/src/inventory.ts` lists what every system exports. Bayrust
-   exports none of it yet. This is the bulk of the work: each entry needs the component, its variants,
-   a behaviour test, a docs page and a registry item.
-2. **`--ds-*` mapping.** The tokens are Bayrust's own names. `styles/standard.css` has to map them onto
-   the standard vocabulary before check 3 can pass.
-3. **Contrast.** Check 3 wants every contrast pair at 4.5:1. The reference is a dark, low-contrast
-   surface; its secondary and tertiary greys have not been measured against AA yet, and some will need
-   tuning. Motion's rule applies — tune them up, do not lighten them back.
-4. **Icons.** Six of roughly 192 product icons are drawn. The rest are still only in the reference, and
-   the reference's own interface icon set (a sprite) is not ours to ship.
-5. **Templates.** Both, after the contract.
-6. **Docs, playground, tests, baselines.** All absent.
+1. **The rest of the contract — 53 of 61 entries.** Forms (`Field` through `FileUpload`), data display,
+   charts, navigation, overlays, feedback and the app shell. Each needs the component, its variants, a
+   behaviour test, a docs page and a registry item.
+2. **A build.** `registry/` has no build yet, so there is no `dist/`, no `styles.css`, no `tokens.json`
+   and no exports map to resolve. Checks 6, 7 and 8 cannot run until there is.
+3. **Tests.** None. Every interactive entry needs one (check 5).
+4. **Docs and playground.** Absent; checks 9 and 12 depend on them.
+5. **Icons.** Six of roughly 192 product icons are drawn. The interface icons are complete (all 80).
+6. **Templates.** Both, after the contract.
 
 ## The clean rule, and why this system is unusual
 
@@ -63,6 +90,9 @@ loader, which is one more reason the components are rewritten here rather than w
 
 | Date | Decision | Why |
 |---|---|---|
-| 2026-10-22 | Tokens and drawn icons ported; no component code | §11. The component code that exists elsewhere is the reference's own, not this system's |
+| 2026-10-22 | Tokens and drawn icons ported; no component code copied | §11. The component code that exists elsewhere is the reference's own, not this system's |
+| 2026-10-22 | Foundations, layout and actions written from scratch | The first 8 contract entries, to establish the pattern the rest follow |
+| 2026-10-22 | Plain CSS, no Tailwind and no UI dependencies | The package must work without Tailwind anyway (§2); starting without it keeps the dependency list empty and the bundle small |
+| 2026-10-22 | Four token values tuned for AA | Check 3 is the authority, not the reference |
 | 2026-10-22 | Icons drawn rather than traced | Tracing the artwork produced ~130 run-length rectangles per icon: stair-stepped, no curves, emboss lost. Drawing from sampled colour and measured geometry reads correctly at 44 pt |
 | 2026-10-22 | `fintech` + `project-management` | Owner's choice |
