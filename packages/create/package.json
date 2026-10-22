@@ -1,11 +1,11 @@
 {
   "name": "@krackedui/create",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Start a project from a KrackedUI design-system template: npm create @krackedui my-app -- --system motion --template fintech",
   "license": "UNLICENSED",
   "type": "module",
   "bin": {
-    "create-krackedui": "./index.mjs"
+    "create": "index.mjs"
   },
   "files": [
     "index.mjs",
