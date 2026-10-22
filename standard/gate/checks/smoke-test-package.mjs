@@ -88,7 +88,7 @@ export default function Page() {
   );
 }
 `,
-}, ['next@15.3.4', 'react@19.1.0', 'react-dom@19.1.0'], ['typescript@5.8.3', '@types/react@19.1.8', '@types/react-dom@19.1.6', '@types/node@22.15.30'],
+}, ['next@15.5.28', 'react@19.1.0', 'react-dom@19.1.0'], ['typescript@5.8.3', '@types/react@19.1.8', '@types/react-dom@19.1.6', '@types/node@22.15.30'],
 [['build', 'npx', ['next', 'build']]]);
 
 console.log(`\nAll consumer checks passed for ${pkg.name}@${pkg.version} (${path.basename(tgz)}).`);

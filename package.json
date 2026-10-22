@@ -52,5 +52,11 @@
     "systems/*/templates/*",
     "apps/*",
     "packages/*"
-  ]
+  ],
+  "overrides": {
+    "next": {
+      "postcss": "8.5.30",
+      "sharp": "0.35.5"
+    }
+  }
 }

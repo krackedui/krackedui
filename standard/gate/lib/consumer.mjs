@@ -11,7 +11,7 @@ import { run } from './context.mjs';
 
 export const PINS = {
   react: 'react@19.1.0', reactDom: 'react-dom@19.1.0', vite: 'vite@6.3.5', pluginReact: '@vitejs/plugin-react@4.5.2',
-  typescript: 'typescript@5.8.3', typesReact: '@types/react@19.1.8', typesReactDom: '@types/react-dom@19.1.6', typesNode: '@types/node@22.15.30', next: 'next@15.3.4',
+  typescript: 'typescript@5.8.3', typesReact: '@types/react@19.1.8', typesReactDom: '@types/react-dom@19.1.6', typesNode: '@types/node@22.15.30', next: 'next@15.5.28',
 };
 
 export const workDir = (ctx, name) => path.join(os.tmpdir(), `krackedui-gate-${ctx.system}`, name);
