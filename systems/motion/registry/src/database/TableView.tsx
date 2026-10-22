@@ -10,6 +10,7 @@ import { PropertyMenu } from './PropertyMenu';
 import { useDatabaseContext } from './useDatabase';
 import { groupRows, queryRows, visibleProperties } from './query';
 import type { Property, Row } from './types';
+import { ThemePortal } from '../foundations/ThemePortal';
 
 export interface TableViewProps {
   /** Rows selected (row-selection checkboxes). Controlled optional. */
@@ -80,8 +81,8 @@ export function TableView({ selected: selectedProp, onSelectedChange, onOpenRow,
               className="absolute -right-0.5 top-0 z-10 h-full w-[5px] cursor-col-resize hover:bg-n-palette-ui-blue-200-a"
             />
           </div>
-          <Popover.Portal>
-            <Popover.Content role="presentation" side="bottom" align="start" sideOffset={4} alignOffset={-6} collisionPadding={8} className="motion-floating z-50 outline-none">
+          <ThemePortal primitive={Popover.Portal}>
+            <Popover.Content role="presentation" side="bottom" align="start" sideOffset={4} alignOffset={-6} collisionPadding={8} sticky="always" className="motion-floating z-50 max-w-[calc(100vw-16px)] outline-none">
               <PropertyMenu
                 property={p}
                 wrap={wrapped.includes(p.id)}
@@ -94,7 +95,7 @@ export function TableView({ selected: selectedProp, onSelectedChange, onOpenRow,
                 onHide={() => { db.updateView(view.id, (v) => ({ visible: (v.visible ?? collection.properties.map((x) => x.id)).filter((x) => x !== p.id) })); setMenuFor(undefined); }}
               />
             </Popover.Content>
-          </Popover.Portal>
+          </ThemePortal>
         </Popover.Root>
       ))}
       <div role="columnheader" className="flex w-14 items-center justify-center">

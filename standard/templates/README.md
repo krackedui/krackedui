@@ -33,4 +33,4 @@ spec in the same format and a PR to the standard.
 ## Where templates live and how people get them
 - Source: `systems/<system>/templates/<sector>/`
 - Live: `https://<system>.krackedui.com/<sector>`
-- Pull: `npm create krackedui@latest my-app -- --system <system> --template <sector>`
+- Pull: `npm create @krackedui my-app -- --system <system> --template <sector>`

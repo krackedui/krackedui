@@ -5,6 +5,7 @@ import { tv } from '../lib/tv';
 import { Icon, type IconName } from '../icons/Icon';
 import { switchVariants } from '../atoms/Switch';
 import { Badge } from '../atoms/Badge';
+import { ThemePortal } from '../foundations/ThemePortal';
 
 /**
  * Menu: the surface used by dropdown menus, context menus, block menus, property menus, view menus,
@@ -347,7 +348,7 @@ function createItemParts(P: MenuPrimitives) {
     { className, children, width, style, sideOffset = 2, collisionPadding = 8, ...props }, ref,
   ) {
     return (
-      <P.Portal>
+      <ThemePortal primitive={P.Portal}>
         <P.SubContent
           ref={ref}
           sideOffset={sideOffset}
@@ -358,7 +359,7 @@ function createItemParts(P: MenuPrimitives) {
         >
           <div data-slot="menu-list" className={s.list()}>{children}</div>
         </P.SubContent>
-      </P.Portal>
+      </ThemePortal>
     );
   });
 
@@ -378,7 +379,7 @@ const Content = forwardRef<ElementRef<typeof DropdownMenu.Content>, MenuContentP
   { className, children, sideOffset = 4, align = 'start', collisionPadding = 8, width, style, header, footer, ...props }, ref,
 ) {
   return (
-    <DropdownMenu.Portal>
+    <ThemePortal primitive={DropdownMenu.Portal}>
       <DropdownMenu.Content
         ref={ref}
         sideOffset={sideOffset}
@@ -392,7 +393,7 @@ const Content = forwardRef<ElementRef<typeof DropdownMenu.Content>, MenuContentP
         <div data-slot="menu-list" className={s.list()}>{children}</div>
         {footer}
       </DropdownMenu.Content>
-    </DropdownMenu.Portal>
+    </ThemePortal>
   );
 });
 
@@ -433,7 +434,7 @@ const CMContent = forwardRef<ElementRef<typeof CM.Content>, ContextMenuContentPr
   { className, children, width, style, header, footer, side: _side, align: _align, collisionPadding = 8, ...props }, ref,
 ) {
   return (
-    <CM.Portal>
+    <ThemePortal primitive={CM.Portal}>
       <CM.Content
         ref={ref}
         collisionPadding={collisionPadding}
@@ -445,7 +446,7 @@ const CMContent = forwardRef<ElementRef<typeof CM.Content>, ContextMenuContentPr
         <div data-slot="menu-list" className={s.list()}>{children}</div>
         {footer}
       </CM.Content>
-    </CM.Portal>
+    </ThemePortal>
   );
 });
 

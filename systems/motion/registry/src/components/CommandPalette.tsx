@@ -4,6 +4,7 @@ import { cn } from '../lib/cn';
 import { tv } from '../lib/tv';
 import { Icon, iconNames, type IconName } from '../icons/Icon';
 import { dialogVariants } from './Dialog';
+import { ThemePortal } from '../foundations/ThemePortal';
 
 /**
  * Command palette (⌘K). Search-panel look:
@@ -330,7 +331,7 @@ export function CommandPaletteDialog({
   const size = { '--cp-width': `${w}px`, '--cp-height': h === undefined ? 'auto' : `${h}px` } as CSSProperties;
   return (
     <D.Root open={open} onOpenChange={set}>
-      <D.Portal>
+      <ThemePortal primitive={D.Portal}>
         {/* The search panel keeps the page visible: a transparent click-catcher, no smoke underlay. */}
         <D.Overlay className="motion-overlay fixed inset-0 z-50" />
         <D.Content
@@ -368,7 +369,7 @@ export function CommandPaletteDialog({
             {...props}
           />
         </D.Content>
-      </D.Portal>
+      </ThemePortal>
     </D.Root>
   );
 }

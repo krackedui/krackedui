@@ -72,7 +72,7 @@ export const PropertyList = forwardRef<HTMLDivElement, PropertyListProps>(functi
       <button
         type="button"
         onClick={onAddProperty}
-        className="flex h-[34px] cursor-pointer items-center gap-1.5 whitespace-nowrap rounded-n-md pl-1.5 pr-2 leading-[16.8px] text-n-text-tertiary hover:bg-n-button-hover-bg-a"
+        className="flex h-[34px] cursor-pointer items-center gap-1.5 whitespace-nowrap rounded-n-md pl-1.5 pr-2 leading-[16.8px] text-n-text-secondary hover:bg-n-button-hover-bg-a"
       >
         <Icon name="plusFillSmall" size={16} className="mt-px text-n-icon-tertiary" />
         Add a property

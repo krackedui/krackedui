@@ -12,7 +12,7 @@ standard/           the standard: SPEC.md, contract/ (inventory + prop types + t
                     templates/<sector>/SPEC.md, gate/ (runner, checks, contract tests)
 systems/<name>/     one design system: registry/ (package), docs/, templates/, playground/, tooling/, REPORT.md
 apps/docs/          the docs site (Next.js); renders every system's docs at <name>.krackedui.com
-packages/           shared tools, e.g. create-krackedui (pulls templates)
+packages/           shared tools, e.g. @krackedui/create (`npm create @krackedui`, pulls templates)
 tooling/pipeline/   generic generators (package export list, copy-paste registry, template builds)
 ```
 

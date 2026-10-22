@@ -6,7 +6,8 @@ import { parseDay, toISODay, today } from '../lib/dates';
 import { navigate } from '../lib/router';
 import { useStore } from '../state/store';
 
-const ALL = 'all';
+/** Empty value = no filter (Select shows the "All …" option for it). */
+const ALL = '';
 
 /** Projects and their dated tasks on a week / month scale; tasks move with drag or ← / →. */
 export function TimelinePage() {

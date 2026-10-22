@@ -177,6 +177,7 @@ native props onto its root. Docs: one page per component (`ui/<kebab-name>`).
 ### Foundations and layout
 - **Theme** (`appearance: 'light'|'dark'|'system'`, `asChild`) + `useTheme()` → `{ appearance, resolvedAppearance }`.
   Wrap the app once; a nested `<Theme appearance="dark">` forces a section dark. Portalled menus/dialogs follow it.
+  Each overlay follows the Theme it opens from (light and dark Themes can share a page); for your own floating UI use `<ThemePortal>` (`primitive={X.Portal}` for Radix).
 - **Icon** (`name`, `size`, `label`): decorative by default; `label` makes it an image with a name.
 - **Stack** (`direction: 'row'|'column'`, `gap: 0|1|2|3|4|5|6|8|10|12|16` (×4px), `align`, `justify: start|center|end|between`, `wrap`, `asChild`).
   `direction` and `gap` accept responsive objects `{ base, sm, md, lg, xl }`.

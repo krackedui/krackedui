@@ -5,6 +5,7 @@ import { Icon, type IconName } from '../icons/Icon';
 import { Avatar } from '../atoms/Avatar';
 import { useDialogReturnFocus, usePresence } from './hooks';
 import { ResizeHandle } from './ResizeHandle';
+import { ThemePortal } from '../foundations/ThemePortal';
 
 /* -------------------------------------------------------------------------------------------------
  * Page peeks. Measured (capture/states/side-peek, 1710x1037):
@@ -141,7 +142,7 @@ export function PeekProperties({ children, onAddProperty, className, ...props }:
       <button
         type="button"
         onClick={onAddProperty}
-        className="flex h-[34px] cursor-pointer items-center gap-1.5 whitespace-nowrap rounded-n-md pl-1.5 pr-2 text-[14px] leading-[16.8px] text-n-text-tertiary hover:bg-n-button-hover-bg-a"
+        className="flex h-[34px] cursor-pointer items-center gap-1.5 whitespace-nowrap rounded-n-md pl-1.5 pr-2 text-[14px] leading-[16.8px] text-n-text-secondary hover:bg-n-button-hover-bg-a"
       >
         <Icon name="plusFillSmall" size={16} className="mt-px text-n-icon-tertiary" />
         Add a property
@@ -259,7 +260,7 @@ export function CenterPeek({ open, onOpenChange, title = 'Page', onClose, onOpen
   const returnFocus = useDialogReturnFocus();
   return (
     <Dialog.Root open={open} onOpenChange={change}>
-      <Dialog.Portal>
+      <ThemePortal primitive={Dialog.Portal}>
         <Dialog.Overlay className="motion-overlay fixed inset-0 z-[108] bg-n-modal-underlay-bg-a" />
         <Dialog.Content
           aria-describedby={undefined}
@@ -275,7 +276,7 @@ export function CenterPeek({ open, onOpenChange, title = 'Page', onClose, onOpen
           <PeekTopBar mode="center" onClose={() => change(false)} {...{ onOpenFull, onSwitchMode, onPrev, onNext, actions }} />
           {children}
         </Dialog.Content>
-      </Dialog.Portal>
+      </ThemePortal>
     </Dialog.Root>
   );
 }

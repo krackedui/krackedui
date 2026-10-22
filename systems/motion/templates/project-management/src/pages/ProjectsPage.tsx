@@ -8,7 +8,8 @@ import { href } from '../lib/router';
 import { progressOf } from '../lib/selectors';
 import { useStore } from '../state/store';
 
-const ALL = 'all';
+/** Empty value = no filter (Select shows the "All …" option for it). */
+const ALL = '';
 
 /** All projects as cards, filterable by status, with "New project". */
 export function ProjectsPage({ onNewProject }: { onNewProject: () => void }) {

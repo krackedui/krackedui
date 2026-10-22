@@ -43,7 +43,7 @@ export const PropertyMenu = forwardRef<HTMLDivElement, PropertyMenuProps>(functi
           className="flex size-7 shrink-0 cursor-pointer focus-visible:shadow-n-focus-shadow items-center justify-center rounded-n-md text-n-icon-primary shadow-[inset_0_0_0_1px_var(--n-border-primary-translucent-a)] hover:bg-n-button-hover-bg-a">
           <PropertyTypeIcon type={p.type} size={16} />
         </button>
-        <div className="flex h-7 min-w-0 flex-1 items-center rounded-n-md bg-n-bg-secondary-translucent-a px-1.5 shadow-[0_0_0_1px_var(--n-border-primary-translucent-a)] focus-within:shadow-n-input-blue-focus-ring">
+        <div className="flex h-7 min-w-0 flex-1 items-center rounded-n-md bg-n-bg-secondary-translucent-a px-1.5 pointer-coarse:h-8 shadow-[0_0_0_1px_var(--n-border-primary-translucent-a)] focus-within:shadow-n-input-blue-focus-ring">
           <input
             aria-label="Property name"
             autoFocus={autoFocus}
@@ -51,7 +51,7 @@ export const PropertyMenu = forwardRef<HTMLDivElement, PropertyMenuProps>(functi
             onChange={(e) => setName(e.target.value)}
             onBlur={() => name.trim() && name !== p.name && onRename?.(name.trim())}
             onKeyDown={(e) => { if (e.key === 'Enter') (e.target as HTMLInputElement).blur(); e.stopPropagation(); }}
-            className="h-5 min-w-0 flex-1 bg-transparent text-[14px] leading-5 text-n-text-primary outline-none"
+            className="h-5 min-w-0 flex-1 bg-transparent text-[14px] leading-5 text-n-text-primary outline-none pointer-coarse:h-6"
           />
           <button type="button" aria-label="Add property description" className="ml-1 flex shrink-0 cursor-pointer items-center justify-center rounded-n-sm text-n-icon-secondary pointer-coarse:size-6">
             <Icon name="infoCircleFill" size={15} />

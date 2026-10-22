@@ -1,7 +1,6 @@
-// Filtering and sorting of the transactions table (pure functions).
-import { compareValues, type DataTableSort, type DateRange } from '@krackedui/motion';
+// Filtering of the transactions table (pure functions). Sorting and paging are DataTable's.
+import type { DateRange } from '@krackedui/motion';
 import type { Category, Transaction, TransactionStatus } from '../data/types';
-import { accountById } from '../data/accounts';
 import { toIsoDate } from './dates';
 
 export interface TransactionFilters {
@@ -29,23 +28,6 @@ export function filterTransactions(rows: Transaction[], f: TransactionFilters): 
     if (q && !`${t.merchant} ${t.note} ${t.category} ${t.id}`.toLowerCase().includes(q)) return false;
     return true;
   });
-}
-
-const sortValue: Record<string, (t: Transaction) => string | number> = {
-  date: (t) => t.date,
-  merchant: (t) => t.merchant,
-  category: (t) => t.category,
-  account: (t) => accountById[t.account].name,
-  status: (t) => t.status,
-  amount: (t) => t.amount,
-};
-
-/** Sorts before paginating, so the whole result is in order (not just the visible page). */
-export function sortTransactions(rows: Transaction[], sort: DataTableSort | null): Transaction[] {
-  const get = sort ? sortValue[sort.key] : undefined;
-  if (!sort || !get) return rows;
-  const dir = sort.direction === 'asc' ? 1 : -1;
-  return [...rows].sort((a, b) => compareValues(get(a), get(b)) * dir || a.id.localeCompare(b.id));
 }
 
 export function countActiveFilters(f: TransactionFilters): number {

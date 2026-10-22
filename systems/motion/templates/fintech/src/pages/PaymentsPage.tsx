@@ -24,11 +24,12 @@ export function PaymentsPage() {
       cell: (p) => (
         <span className="flex min-w-0 flex-col py-0.5">
           <span>{payeeById[p.payeeId].name}</span>
-          <span className="text-n-ui-sm text-n-text-secondary">{p.memo || payeeById[p.payeeId].destination} · from {accountById[p.account].name}</span>
+          <span className="text-n-ui-sm text-n-text-secondary">{p.memo || payeeById[p.payeeId].destination}</span>
         </span>
       ),
     },
     { key: 'date', header: 'Date', sortable: true, cell: (p) => <span className="whitespace-nowrap tabular-nums">{formatShortDate(p.date)}</span> },
+    { key: 'account', header: 'From', hideBelow: 'sm', cell: (p) => accountById[p.account].name },
     { key: 'amount', header: 'Amount', sortable: true, align: 'end', cell: (p) => <span className="whitespace-nowrap tabular-nums">{formatMoney(p.amount)}</span> },
     {
       key: 'actions',

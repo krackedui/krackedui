@@ -2,7 +2,7 @@ import {
   useCallback, useEffect, useId, useRef, useState,
   type HTMLAttributes, type KeyboardEvent, type PointerEvent as ReactPointerEvent, type ReactNode,
 } from 'react';
-import { createPortal } from 'react-dom';
+import { ThemePortal } from '../foundations/ThemePortal';
 import { cn } from '../lib/cn';
 import { tv } from '../lib/tv';
 import { Badge } from '../atoms/Badge';
@@ -24,7 +24,9 @@ import { ContextMenu, Menu } from '../components/Menu';
 export const kanbanBoardVariants = tv({
   slots: {
     root: 'relative min-w-0',
-    scroller: 'overflow-x-auto pb-2 outline-none focus-visible:shadow-n-focus-shadow',
+    // relative: the containing block of absolutely positioned descendants (sr-only counts, drop lines), so they
+    // scroll and clip with the columns instead of widening the page.
+    scroller: 'relative overflow-x-auto pb-2 outline-none focus-visible:shadow-n-focus-shadow',
     track: 'flex w-max items-start gap-3',
     column: 'flex shrink-0 flex-col gap-2 rounded-n-lg bg-n-bg-secondary p-2 transition-shadow duration-100',
     header: 'm-0 flex h-7 min-w-0 items-center gap-2 px-1 text-n-ui font-normal',
@@ -315,17 +317,18 @@ export function KanbanBoard<Item>({
         </div>
       </div>
       <div role="status" aria-live="polite" aria-atomic="true" className="sr-only">{announcement}</div>
-      {drag && dragged !== undefined && typeof document !== 'undefined' && createPortal(
-        <div
-          aria-hidden
-          inert
-          className={cn('motion-portal', s.ghost(), 'rounded-n-lg')}
-          style={{ left: drag.x - drag.dx, top: drag.y - drag.dy, width: drag.w }}
-        >
-          {renderCard(dragged, { dragging: false, actions: null })}
-        </div>,
-        // Inside the nearest Theme so the copy keeps the board's tokens (light/dark).
-        scroller.current?.closest('.motion-root') ?? document.body,
+      {drag && dragged !== undefined && (
+        // The Theme's portal layer: the copy keeps the board's tokens (light/dark) and escapes clipping.
+        <ThemePortal>
+          <div
+            aria-hidden
+            inert
+            className={cn('motion-portal', s.ghost(), 'rounded-n-lg')}
+            style={{ left: drag.x - drag.dx, top: drag.y - drag.dy, width: drag.w }}
+          >
+            {renderCard(dragged, { dragging: false, actions: null })}
+          </div>
+        </ThemePortal>
       )}
     </div>
   );

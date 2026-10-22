@@ -1,109 +1,263 @@
 {
  "system": "motion",
- "status": "incomplete",
- "partial": true,
- "timestamp": "2026-10-22T09:18:24.608Z",
- "durationSec": 98,
- "command": "npm run gate -- motion --only clean",
- "sourceHash": "3d33f5148f259727fbe4d1cda93c066b8de2a0722c30522c26746040121e41ac",
+ "status": "pass",
+ "partial": false,
+ "timestamp": "2026-10-22T11:53:56.984Z",
+ "durationSec": 1222,
+ "command": "npm run gate -- motion",
+ "sourceHash": "1ada92e77b31b032704fce681ead055ea479c6c3010582747161d006ad480bdf",
  "checks": [
   {
    "id": "typecheck",
    "title": "Typecheck",
-   "status": "skip",
-   "summary": "not selected (--only)",
-   "details": []
+   "status": "pass",
+   "summary": "0 errors (docs (apps/docs + systems docs): 0 errors, registry: 0 errors, playground: 0 errors, template fintech: 0 errors, tests: 0 errors, template project-management: 0 errors)",
+   "durationSec": 22,
+   "details": [],
+   "data": {
+    "counts": {
+     "docs (apps/docs + systems docs)": 0,
+     "registry": 0,
+     "playground": 0,
+     "template fintech": 0,
+     "tests": 0,
+     "template project-management": 0
+    }
+   }
   },
   {
    "id": "lint",
    "title": "Lint",
-   "status": "skip",
-   "summary": "not selected (--only)",
-   "details": []
+   "status": "pass",
+   "summary": "0 errors, 0 warnings in 271 files",
+   "durationSec": 14,
+   "details": [],
+   "data": {
+    "byRule": {}
+   }
   },
   {
    "id": "tokens",
    "title": "Tokens",
-   "status": "skip",
-   "summary": "not selected (--only)",
-   "details": []
+   "status": "pass",
+   "summary": "0 hard-coded colors, 0 missing token values (of 56×2), 0 contrast pairs below 4.5:1 (of 8×2)",
+   "durationSec": 8,
+   "details": [],
+   "data": {
+    "hardCodedColors": 0,
+    "missingTokens": 0,
+    "contrast": [
+     {
+      "theme": "light",
+      "text": "--ds-text-primary",
+      "bg": "--ds-bg-app",
+      "ratio": 13.98
+     },
+     {
+      "theme": "light",
+      "text": "--ds-text-secondary",
+      "bg": "--ds-bg-app",
+      "ratio": 5.32
+     },
+     {
+      "theme": "light",
+      "text": "--ds-text-tertiary",
+      "bg": "--ds-bg-app",
+      "ratio": 4.93
+     },
+     {
+      "theme": "light",
+      "text": "--ds-text-primary",
+      "bg": "--ds-bg-sidebar",
+      "ratio": 13.18
+     },
+     {
+      "theme": "light",
+      "text": "--ds-text-secondary",
+      "bg": "--ds-bg-sidebar",
+      "ratio": 5.02
+     },
+     {
+      "theme": "light",
+      "text": "--ds-text-primary",
+      "bg": "--ds-bg-surface-raised",
+      "ratio": 13.98
+     },
+     {
+      "theme": "light",
+      "text": "--ds-text-on-accent",
+      "bg": "--ds-accent-default",
+      "ratio": 4.61
+     },
+     {
+      "theme": "light",
+      "text": "--ds-accent-text",
+      "bg": "--ds-bg-app",
+      "ratio": 5.25
+     },
+     {
+      "theme": "dark",
+      "text": "--ds-text-primary",
+      "bg": "--ds-bg-app",
+      "ratio": 15.3
+     },
+     {
+      "theme": "dark",
+      "text": "--ds-text-secondary",
+      "bg": "--ds-bg-app",
+      "ratio": 7.52
+     },
+     {
+      "theme": "dark",
+      "text": "--ds-text-tertiary",
+      "bg": "--ds-bg-app",
+      "ratio": 4.98
+     },
+     {
+      "theme": "dark",
+      "text": "--ds-text-primary",
+      "bg": "--ds-bg-sidebar",
+      "ratio": 14.18
+     },
+     {
+      "theme": "dark",
+      "text": "--ds-text-secondary",
+      "bg": "--ds-bg-sidebar",
+      "ratio": 6.97
+     },
+     {
+      "theme": "dark",
+      "text": "--ds-text-primary",
+      "bg": "--ds-bg-surface-raised",
+      "ratio": 14.18
+     },
+     {
+      "theme": "dark",
+      "text": "--ds-text-on-accent",
+      "bg": "--ds-accent-default",
+      "ratio": 4.61
+     },
+     {
+      "theme": "dark",
+      "text": "--ds-accent-text",
+      "bg": "--ds-bg-app",
+      "ratio": 6.75
+     }
+    ]
+   }
   },
   {
    "id": "contract",
    "title": "Contract",
-   "status": "skip",
-   "summary": "not selected (--only)",
-   "details": []
+   "status": "pass",
+   "summary": "62/62 inventory entries conform",
+   "durationSec": 4,
+   "details": [],
+   "data": {
+    "failing": []
+   }
   },
   {
    "id": "tests",
    "title": "Behaviour tests",
-   "status": "skip",
-   "summary": "not selected (--only)",
-   "details": []
+   "status": "pass",
+   "summary": "433/433 tests passed in 240 files; 36/36 interactive inventory entries have a contract test; 74/74 interactive extras tested (warning only)",
+   "durationSec": 44,
+   "details": [],
+   "data": {
+    "missingTests": []
+   }
   },
   {
    "id": "build",
    "title": "Build",
-   "status": "skip",
-   "summary": "not selected (--only)",
-   "details": []
+   "status": "pass",
+   "summary": "built in 6s; client.js 401 KB min (≤ 600 KB), styles.css 178 KB (≤ 250 KB); 7 export targets resolve",
+   "durationSec": 0,
+   "details": [],
+   "data": {
+    "clientMinBytes": 411035,
+    "stylesBytes": 182710
+   }
   },
   {
    "id": "install",
    "title": "Install",
-   "status": "skip",
-   "summary": "not selected (--only)",
-   "details": []
+   "status": "pass",
+   "summary": "vite app ok, next RSC app ok (10 compounds); 388/388 examples render clean in light + dark (0 problems); 1 whole-document examples built but not rendered (ui/theme#next-js-root-layout)",
+   "durationSec": 133,
+   "details": [],
+   "data": {
+    "buildErrors": {}
+   }
   },
   {
    "id": "copy-paste",
    "title": "Copy-paste",
-   "status": "skip",
-   "summary": "not selected (--only)",
+   "status": "pass",
+   "summary": "146/146 registry items install alone with shadcn and typecheck",
+   "durationSec": 374,
    "details": []
   },
   {
    "id": "docs",
    "title": "Docs",
-   "status": "skip",
-   "summary": "not selected (--only)",
-   "details": []
+   "status": "pass",
+   "summary": "coverage: 184/184 exports have a complete page (0 without page, 0 incomplete); API: 0 wrong, 0 undocumented props, 0 tables not matched; snippets: 0 errors; pages: 0 problems on 128; SYSTEM.md misses 0 entries",
+   "durationSec": 224,
+   "details": [],
+   "data": {
+    "coverage": {
+     "required": 184,
+     "noPage": 0,
+     "incomplete": 0
+    }
+   }
   },
   {
    "id": "a11y",
    "title": "Accessibility",
-   "status": "skip",
-   "summary": "not selected (--only)",
-   "details": []
+   "status": "pass",
+   "summary": "388/388 examples clean (axe light+dark, focus-visible, 24px targets on touch); 22 template pages",
+   "durationSec": 222,
+   "details": [],
+   "data": {
+    "byRule": {}
+   }
   },
   {
    "id": "responsive",
    "title": "Responsive",
-   "status": "skip",
-   "summary": "not selected (--only)",
-   "details": []
+   "status": "pass",
+   "summary": "388/388 examples fit at 320/375/768/1024/1440 px (problems by width: 320:0, 375:0, 768:0, 1024:0, 1440:0); 22 template pages",
+   "durationSec": 129,
+   "details": [],
+   "data": {
+    "byWidth": {}
+   }
   },
   {
    "id": "visual",
    "title": "Visual",
-   "status": "skip",
-   "summary": "not selected (--only)",
+   "status": "pass",
+   "summary": "388/388 examples match their baseline (0 changed, 0 without baseline; threshold 0.5% pixels)",
+   "durationSec": 49,
    "details": []
   },
   {
    "id": "templates",
    "title": "Templates",
-   "status": "skip",
-   "summary": "not selected (--only)",
+   "status": "pass",
+   "summary": "2 templates, 2 build from the tarball; 22 pages: 0 a11y problems, 0 responsive problems",
+   "durationSec": 0,
    "details": []
   },
   {
    "id": "clean",
    "title": "Clean",
    "status": "pass",
-   "summary": "276 files scanned, 24 packed files: 0 problems",
-   "durationSec": 97,
+   "summary": "284 files scanned, 24 packed files: 0 problems",
+   "durationSec": 0,
    "details": []
   }
  ]

@@ -4,6 +4,7 @@ import { cn } from '../lib/cn';
 import { tv } from '../lib/tv';
 import { Icon, iconNames, type IconName } from '../icons/Icon';
 import { menuStyles } from './Menu';
+import { ThemePortal } from '../foundations/ThemePortal';
 
 /**
  * Topbar breadcrumb. Region 44px tall, 14/16.8 text-primary.
@@ -129,7 +130,7 @@ export const Breadcrumbs = forwardRef<HTMLElement, BreadcrumbsProps>(function Br
             {it === 'ellipsis' ? (
               <DropdownMenu.Root>
                 <DropdownMenu.Trigger aria-label={collapsedLabel} className={cn(s.segment(), s.interactive(), 'shrink-0')}>…</DropdownMenu.Trigger>
-                <DropdownMenu.Portal>
+                <ThemePortal primitive={DropdownMenu.Portal}>
                   <DropdownMenu.Content align="start" sideOffset={4} collisionPadding={8} className={cn('motion-floating', m.surface(), 'z-50 p-1')}>
                     {collapsed.map((c, j) => (
                       <DropdownMenu.Item
@@ -152,7 +153,7 @@ export const Breadcrumbs = forwardRef<HTMLElement, BreadcrumbsProps>(function Br
                       </DropdownMenu.Item>
                     ))}
                   </DropdownMenu.Content>
-                </DropdownMenu.Portal>
+                </ThemePortal>
               </DropdownMenu.Root>
             ) : (
               <Segment item={it} current={i === shown.length - 1} />

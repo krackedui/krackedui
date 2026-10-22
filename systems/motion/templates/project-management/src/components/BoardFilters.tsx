@@ -16,7 +16,7 @@ export function BoardFilters({ value, onChange }: { value: TaskFilters; onChange
         <Combobox
           options={[{ value: ANY, label: 'Any assignee' }, { value: 'none', label: 'Unassigned' }, ...memberOptions(members)]}
           value={value.assigneeId}
-          onValueChange={(v) => set({ assigneeId: v || ANY })}
+          onValueChange={(v) => set({ assigneeId: v })}
           searchPlaceholder="Search people"
         />
       </Field>

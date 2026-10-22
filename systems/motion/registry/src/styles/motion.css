@@ -11,7 +11,7 @@
  *                      (top|right|bottom|left; no data-side, e.g. ContextMenu = slide down).
  *                      Needs `data-state="open|closed"` (Radix sets it).
  *   .motion-tooltip    Tooltip content: fade only (Radix data-state delayed-open|instant-open|closed).
- *   .motion-overlay    Modal backdrop (Dialog.Overlay): fade in/out. Also opts portals into dark tokens.
+ *   .motion-overlay    Modal backdrop (Dialog.Overlay): fade in/out. Outside a <Theme>, also opts portals into dark tokens.
  *   .motion-dialog     Centered modal panel (Dialog/ConfirmDialog/CommandPaletteDialog/Settings):
  *                      fade + 8px rise + 0.98 scale in, quicker fade + scale out.
  *   .motion-sheet      Edge panel (Sheet, side peek, mobile sidebar drawer): slides from its edge.

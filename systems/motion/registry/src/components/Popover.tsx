@@ -2,6 +2,7 @@ import { forwardRef, type ComponentPropsWithoutRef, type ElementRef, type HTMLAt
 import { Popover as P } from 'radix-ui';
 import { cn } from '../lib/cn';
 import { tv, type VariantProps } from '../lib/tv';
+import { ThemePortal } from '../foundations/ThemePortal';
 
 /**
  * Popover surface: the floating card behind pickers (emoji, date, color), the share panel and
@@ -34,7 +35,7 @@ const Content = forwardRef<ElementRef<typeof P.Content>, PopoverContentProps>(fu
   { className, radius, width, style, sideOffset = 4, align = 'start', collisionPadding = 8, ...props }, ref,
 ) {
   return (
-    <P.Portal>
+    <ThemePortal primitive={P.Portal}>
       <P.Content
         ref={ref}
         sideOffset={sideOffset}
@@ -44,7 +45,7 @@ const Content = forwardRef<ElementRef<typeof P.Content>, PopoverContentProps>(fu
         style={{ width, ...style }}
         {...props}
       />
-    </P.Portal>
+    </ThemePortal>
   );
 });
 

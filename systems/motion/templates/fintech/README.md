@@ -9,7 +9,7 @@ Live: https://motion.krackedui.com/fintech
 ## Run it
 
 ```bash
-npm create krackedui@latest my-finance-app -- --system motion --template fintech
+npm create @krackedui my-finance-app -- --system motion --template fintech
 cd my-finance-app
 npm install
 npm run dev        # http://localhost:5173

@@ -1,5 +1,6 @@
 // Layout pages: Theme (the root), Stack, Grid. Divider's page lives in atoms.tsx and is listed here.
-import { Badge, Button, Grid, Stack, Theme, useTheme } from '@krackedui/motion';
+import { useState } from 'react';
+import { Badge, Button, Grid, Menu, Popover, Stack, Theme, ThemePortal, Tooltip, useTheme } from '@krackedui/motion';
 import type { DocPage, NavGroup } from '../../../../apps/docs/lib/types';
 import { docHelpers } from './atoms';
 
@@ -12,6 +13,40 @@ const Cell = ({ children }: { children: string }) => (
 function ThemeLabel() {
   const { appearance, resolvedAppearance } = useTheme();
   return <span className="text-n-ui text-n-text-secondary">{`appearance: ${appearance} · showing: ${resolvedAppearance}`}</span>;
+}
+
+/** One Theme's worth of overlays: each opens in the appearance of the Theme around it. */
+function ThemedOverlays({ appearance }: { appearance: 'light' | 'dark' }) {
+  return (
+    <Theme appearance={appearance} className="flex flex-wrap items-center gap-2 rounded-n-lg p-4 shadow-n-shadow-outline-sm">
+      <Menu.Root>
+        <Menu.Trigger asChild><Button>{appearance === 'light' ? 'Light menu' : 'Dark menu'}</Button></Menu.Trigger>
+        <Menu.Content>
+          <Menu.Item icon="edit">Rename</Menu.Item>
+          <Menu.Item icon="copy">Duplicate</Menu.Item>
+        </Menu.Content>
+      </Menu.Root>
+      <Popover.Root>
+        <Popover.Trigger asChild><Button>Popover</Button></Popover.Trigger>
+        <Popover.Content aria-label="Details" width={220} className="p-3 text-n-ui">Opens in this Theme’s appearance.</Popover.Content>
+      </Popover.Root>
+      <Tooltip content="Same here"><Button>Tooltip</Button></Tooltip>
+    </Theme>
+  );
+}
+
+function FloatingNote() {
+  const [open, setOpen] = useState(false);
+  return (
+    <>
+      <Button onClick={() => setOpen((o) => !o)}>{open ? 'Hide note' : 'Show note'}</Button>
+      {open && (
+        <ThemePortal>
+          <div role="note" className="fixed bottom-4 right-4 z-50 rounded-n-lg bg-n-bg-elevated p-3 text-n-ui shadow-n-shadow-outline-lg">Saved</div>
+        </ThemePortal>
+      )}
+    </>
+  );
 }
 
 const themePage: DocPage = {
@@ -49,15 +84,105 @@ const themePage: DocPage = {
       code: snippet(['Theme'], 'Appearances', `<Theme appearance="light">…</Theme>\n<Theme appearance="dark">…</Theme>\n<Theme appearance="system">…</Theme>`),
     },
     {
+      title: 'Mixed themes',
+      description: 'Light and dark Themes can share a page. Menus, popovers, selects, tooltips and dialogs open in the appearance of the Theme they belong to, not of the page.',
+      render: () => (
+        <div className="flex flex-wrap justify-center gap-3">
+          <ThemedOverlays appearance="light" />
+          <ThemedOverlays appearance="dark" />
+        </div>
+      ),
+      code: `import { Button, Menu, Popover, Theme, Tooltip } from '@krackedui/motion';
+
+function Overlays({ label }: { label: string }) {
+  return (
+    <>
+      <Menu.Root>
+        <Menu.Trigger asChild><Button>{label}</Button></Menu.Trigger>
+        <Menu.Content>
+          <Menu.Item icon="edit">Rename</Menu.Item>
+          <Menu.Item icon="copy">Duplicate</Menu.Item>
+        </Menu.Content>
+      </Menu.Root>
+      <Popover.Root>
+        <Popover.Trigger asChild><Button>Popover</Button></Popover.Trigger>
+        <Popover.Content aria-label="Details" width={220} className="p-3">Opens in this Theme’s appearance.</Popover.Content>
+      </Popover.Root>
+      <Tooltip content="Same here"><Button>Tooltip</Button></Tooltip>
+    </>
+  );
+}
+
+// Each menu, popover and tooltip opens in the appearance of the Theme it belongs to.
+export function MixedThemes() {
+  return (
+    <div className="flex flex-wrap gap-3">
+      <Theme appearance="light" className="flex gap-2 p-4"><Overlays label="Light menu" /></Theme>
+      <Theme appearance="dark" className="flex gap-2 p-4"><Overlays label="Dark menu" /></Theme>
+    </div>
+  );
+}`,
+    },
+    {
       title: 'Next.js root layout',
       description: 'Use `asChild` to make `<body>` the root, so portalled overlays sit inside it.',
-      render: () => <Theme className="rounded-n-lg p-4"><ThemeLabel /></Theme>,
+      render: () => <Theme appearance="system" className="rounded-n-lg p-4"><ThemeLabel /></Theme>,
       code: `import '${PKG}/styles.css';\nimport type { ReactNode } from 'react';\nimport { Theme } from '${PKG}';\n\nexport default function RootLayout({ children }: { children: ReactNode }) {\n  return (\n    <html lang="en">\n      <Theme asChild appearance="light">\n        <body>{children}</body>\n      </Theme>\n    </html>\n  );\n}`,
     },
     {
       title: 'Reading the theme',
-      render: () => <Theme className="rounded-n-lg p-4"><ThemeLabel /></Theme>,
-      code: snippet(['useTheme'], 'ThemeLabel', `<span>{appearance} / {resolvedAppearance}</span>`, { hooks: 'const { appearance, resolvedAppearance } = useTheme();' }),
+      render: () => <Theme appearance="system" className="rounded-n-lg p-4"><ThemeLabel /></Theme>,
+      code: `import { Theme, useTheme } from '@krackedui/motion';
+
+// useTheme() reads the nearest <Theme>, so the component that calls it renders inside one.
+function ThemeLabel() {
+  const { appearance, resolvedAppearance } = useTheme();
+  return <span>{appearance} / {resolvedAppearance}</span>;
+}
+
+export function ReadingTheTheme() {
+  return (
+    <Theme appearance="system" className="rounded-n-lg p-4">
+      <ThemeLabel />
+    </Theme>
+  );
+}`,
+    },
+    {
+      title: 'Your own floating UI',
+      description: '`ThemePortal` is the portal every Motion overlay uses. Wrap custom floating elements in it; pass `primitive={X.Portal}` when rendering a Radix primitive yourself.',
+      render: () => (
+        <Theme appearance="dark" className="flex flex-col items-start gap-2 rounded-n-lg p-4">
+          <ThemeLabel />
+          <FloatingNote />
+        </Theme>
+      ),
+      code: `import { useState } from 'react';
+import { Button, Theme, ThemePortal } from '@krackedui/motion';
+
+// Your own floating UI: render it through ThemePortal so it lands in the Theme's portal layer
+// (on <body>, outside clipping and transforms) and keeps the Theme's appearance and tokens.
+function FloatingNote() {
+  const [open, setOpen] = useState(false);
+  return (
+    <>
+      <Button onClick={() => setOpen((o) => !o)}>{open ? 'Hide note' : 'Show note'}</Button>
+      {open && (
+        <ThemePortal>
+          <div role="note" className="fixed bottom-4 right-4 z-50 rounded-n-lg bg-n-bg-elevated p-3 shadow-n-shadow-outline-lg">Saved</div>
+        </ThemePortal>
+      )}
+    </>
+  );
+}
+
+export function CustomFloatingUI() {
+  return (
+    <Theme appearance="dark">
+      <FloatingNote />
+    </Theme>
+  );
+}`,
     },
   ],
   api: [
@@ -67,6 +192,16 @@ const themePage: DocPage = {
       props: [
         { name: 'appearance', type: ['"light"', '"dark"', '"system"'], default: '"light"', description: 'Color scheme; also sets CSS `color-scheme`.' },
         { name: 'asChild', type: 'boolean', default: 'false', description: 'Apply the root to the child element instead of a `<div>`.' },
+      ],
+    },
+    {
+      name: 'ThemePortal',
+      description: 'Renders its children into the nearest Theme’s portal layer: a container on `<body>` carrying that Theme’s `light`/`dark` class and custom properties. Outside a Theme it renders into `<body>`.',
+      props: [
+        { name: 'children', type: 'ReactNode', description: 'The floating content.' },
+        { name: 'primitive', type: 'PortalPrimitive', description: 'A Radix primitive’s Portal part (e.g. `DropdownMenu.Portal`) to render through, so its presence and `forceMount` keep working. Omit for a plain React portal.' },
+        { name: 'forceMount', type: 'true', description: 'Passed to the primitive’s Portal: keep the layer mounted while closed.' },
+        { name: 'container', type: 'Element | DocumentFragment | null', description: 'Render here instead of the Theme’s portal layer.' },
       ],
     },
     {
@@ -83,10 +218,12 @@ const themePage: DocPage = {
       'Sets `color-scheme`, so native controls and scrollbars match the theme.',
       'Every text token pair meets WCAG AA (4.5:1) in both themes; `system` respects the user’s OS preference.',
       'Theme adds no landmarks or roles; use `asChild` on `<body>` or `<main>` when you want its semantics.',
+      'Overlays render in the Theme’s portal layer at the end of `<body>`: focus is still trapped in dialogs and returned to the trigger on close, and modal dialogs hide the rest of the page from assistive technology as usual.',
+      'Each overlay keeps the contrast of the Theme it opened from, so a light Theme’s menu never turns dark because a dark section is on the page.',
     ]),
     usage(
-      ['wrap the whole app once (on `<body>` with `asChild`)', 'force a section into the other appearance (a nested `<Theme appearance="dark">`)'],
-      ['styling outside Motion components (Motion styles only apply inside a Theme and its overlays)'],
+      ['wrap the whole app once (on `<body>` with `asChild`)', 'force a section into the other appearance (a nested `<Theme appearance="dark">`); its overlays follow it', 'portal your own floating UI with `<ThemePortal>` so it keeps the Theme’s appearance'],
+      ['styling outside Motion components (Motion styles only apply inside a Theme and its overlays)', 'raw `createPortal` or a Radix `*.Portal` to `<body>` for Motion surfaces (they lose the Theme’s appearance)'],
     ),
   ],
 };

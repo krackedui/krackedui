@@ -5,6 +5,7 @@ import {
 import { Dialog } from 'radix-ui';
 import { cn } from '../lib/cn';
 import { SHELL_MOBILE_QUERY, useCollapse, useDialogReturnFocus, useShellMediaQuery } from './hooks';
+import { ThemePortal } from '../foundations/ThemePortal';
 
 /* -------------------------------------------------------------------------------------------------
  * App frame: sidebar + (topbar over scrolling page frame) + optional peek layer.
@@ -165,7 +166,7 @@ export const AppFrame = forwardRef<HTMLDivElement, AppFrameProps>(function AppFr
             {/* Phone: modal drawer. */}
             {mobile && (
               <Dialog.Root open={open} onOpenChange={setSidebarOpen}>
-                <Dialog.Portal>
+                <ThemePortal primitive={Dialog.Portal}>
                   <Dialog.Overlay className="motion-overlay fixed inset-0 z-[150] bg-n-modal-underlay-bg-a" />
                   <Dialog.Content
                     aria-describedby={undefined}
@@ -177,7 +178,7 @@ export const AppFrame = forwardRef<HTMLDivElement, AppFrameProps>(function AppFr
                     <Dialog.Title className="sr-only">{drawerLabel}</Dialog.Title>
                     <Ctx.Provider value={drawerState}>{render(sidebar, drawerState)}</Ctx.Provider>
                   </Dialog.Content>
-                </Dialog.Portal>
+                </ThemePortal>
               </Dialog.Root>
             )}
           </>

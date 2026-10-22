@@ -2,7 +2,7 @@
 // the reader touches (sidebar rows, section labels, search, icon buttons, tabs) is Motion's own UI.
 'use client';
 import Link from 'next/link';
-import { Icon, IconButton, Kbd, cn, sidebarStyles, type IconName } from '@krackedui/motion';
+import { Icon, IconButton, Kbd, Theme, cn, sidebarStyles, type IconName } from '@krackedui/motion';
 import type { ChromeIcon, DocsChrome, NavIcon } from '../../../apps/docs/lib/types';
 
 const NAV_ICONS: Record<NavIcon, IconName> = {
@@ -18,6 +18,10 @@ const CHROME_ICONS: Record<ChromeIcon, IconName> = {
 const row = sidebarStyles;
 
 export const motionChrome: DocsChrome = {
+  // Each example renders inside its own <Theme>, as in an app: its menus, popovers and dialogs follow
+  // the example's appearance, even next to a forced-dark example on the same page.
+  PreviewRoot: ({ appearance, className, children }) => <Theme appearance={appearance} className={className}>{children}</Theme>,
+
   sidebarClassName: 'bg-n-bg-secondary border-r-0 shadow-[inset_-1px_0_0_0_var(--n-border-secondary)]',
   separator: 'none',
   groupRail: false,

@@ -14,12 +14,9 @@ interface PanelProps {
 export function Panel({ title, description, action, children, className }: PanelProps) {
   return (
     <Card.Root className={className}>
-      <Card.Header className="flex-row flex-wrap items-start justify-between gap-x-3 gap-y-2">
-        <div className="flex min-w-0 flex-col gap-0.5">
-          <Card.Title asChild><h2>{title}</h2></Card.Title>
-          {description && <Card.Description>{description}</Card.Description>}
-        </div>
-        {action}
+      <Card.Header action={action}>
+        <Card.Title asChild><h2>{title}</h2></Card.Title>
+        {description && <Card.Description>{description}</Card.Description>}
       </Card.Header>
       <Card.Content className="flex min-w-0 flex-1 flex-col">{children}</Card.Content>
     </Card.Root>

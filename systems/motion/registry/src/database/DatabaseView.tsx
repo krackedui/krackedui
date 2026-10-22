@@ -20,6 +20,7 @@ import { PropertyList } from './PropertyList';
 import { useDialogReturnFocus } from '../shell/hooks';
 import { getProperty, operatorLabels, findOption, rowTitle } from './query';
 import type { DatabaseData, Filter, Property, Row, View } from './types';
+import { ThemePortal } from '../foundations/ThemePortal';
 
 export type DatabaseMenu = 'filter' | 'sort' | 'settings' | 'views' | 'new-view' | 'new' | 'filter-add';
 
@@ -257,7 +258,7 @@ function DatabaseViewInner({ db, width, bleed, today, onOpenRow, defaultOpenMenu
             <Icon name="arrowChevronSingleDownFill" size={16} className="mt-0.5" />
           </button>
         </Popover.Trigger>
-        <Popover.Portal>
+        <ThemePortal primitive={Popover.Portal}>
           <Popover.Content aria-label="More ways to add" collisionPadding={8} align="end" sideOffset={4} className="motion-floating z-50 outline-none">
             <MenuSurface width={240}>
               <MenuList role="group">
@@ -266,7 +267,7 @@ function DatabaseViewInner({ db, width, bleed, today, onOpenRow, defaultOpenMenu
               </MenuList>
             </MenuSurface>
           </Popover.Content>
-        </Popover.Portal>
+        </ThemePortal>
       </Popover.Root>
     </div>
   );
@@ -293,7 +294,7 @@ function DatabaseViewInner({ db, width, bleed, today, onOpenRow, defaultOpenMenu
                     {hidden} more…
                   </button>
                 </Popover.Trigger>
-                <Popover.Portal>
+                <ThemePortal primitive={Popover.Portal}>
                   <Popover.Content aria-label="Views" collisionPadding={8} align="start" sideOffset={4} className="motion-floating z-50 outline-none">
                     <div className="relative">
                       <ViewsMenu views={views} activeViewId={view.id} newViewHighlighted={menu === 'new-view'}
@@ -304,7 +305,7 @@ function DatabaseViewInner({ db, width, bleed, today, onOpenRow, defaultOpenMenu
                       )}
                     </div>
                   </Popover.Content>
-                </Popover.Portal>
+                </ThemePortal>
               </Popover.Root>
             )}
           </div>
@@ -312,21 +313,21 @@ function DatabaseViewInner({ db, width, bleed, today, onOpenRow, defaultOpenMenu
             {view.type === 'timeline' && <ToolbarButton icon="arrowChevronDoubleForwardSmall" label="Open table" />}
             <Popover.Root open={menu === 'filter'} onOpenChange={open('filter')}>
               <Popover.Trigger asChild><ToolbarButton icon="filterSmall" label="Filter" active={view.filters.length > 0} /></Popover.Trigger>
-              <Popover.Portal>
+              <ThemePortal primitive={Popover.Portal}>
                 <Popover.Content aria-label="Filter by property" collisionPadding={8} align="start" sideOffset={4} className="motion-floating z-50 outline-none" onCloseAutoFocus={(e) => e.preventDefault()}>
                   <FilterMenu autoFocus highlightFirst properties={collection.properties} onSelect={addFilter} />
                 </Popover.Content>
-              </Popover.Portal>
+              </ThemePortal>
             </Popover.Root>
             {!isChart && (
               <>
                 <Popover.Root open={menu === 'sort'} onOpenChange={open('sort')}>
                   <Popover.Trigger asChild><ToolbarButton icon="arrowUpDownSmall" label="Sort" active={view.sorts.length > 0} /></Popover.Trigger>
-                  <Popover.Portal>
+                  <ThemePortal primitive={Popover.Portal}>
                     <Popover.Content aria-label="Sort by property" collisionPadding={8} align="start" sideOffset={4} className="motion-floating z-50 outline-none">
                       <SortMenu autoFocus highlightFirst properties={collection.properties} onSelect={addSort} />
                     </Popover.Content>
-                  </Popover.Portal>
+                  </ThemePortal>
                 </Popover.Root>
                 {!compact && <ToolbarButton icon="lightningSmall" label="Automations" />}
                 {!compact && <ToolbarButton icon="magicWandSmall" label="AI Autofill" />}
@@ -343,12 +344,12 @@ function DatabaseViewInner({ db, width, bleed, today, onOpenRow, defaultOpenMenu
             {!compact && <ToolbarButton icon="arrowExpandDiagonalBottomLeftToTopRightSmall" label="Open as full page" />}
             <Popover.Root open={menu === 'settings'} onOpenChange={open('settings')}>
               <Popover.Trigger asChild><ToolbarButton icon="slidersSmall" label="Settings" /></Popover.Trigger>
-              <Popover.Portal>
+              <ThemePortal primitive={Popover.Portal}>
                 <Popover.Content role="presentation" align="start" sideOffset={-1} alignOffset={109} avoidCollisions={false} className="motion-floating z-50 outline-none">{/* db-view-settings: panel docks at the toolbar end (x+109 from the button), 1px under it */}
                   <ViewSettingsPanel collection={collection} view={view} height={627}
                     onChange={(patch) => db.updateView(view.id, patch)} onClose={() => setMenu(undefined)} />
                 </Popover.Content>
-              </Popover.Portal>
+              </ThemePortal>
             </Popover.Root>
             {newButton}
           </div>
@@ -361,11 +362,11 @@ function DatabaseViewInner({ db, width, bleed, today, onOpenRow, defaultOpenMenu
                 <Popover.Trigger asChild>
                   <RulePill active icon={<Icon name="arrowUpDownSmall" size={14} />}>{view.sorts.length === 1 ? getProperty(collection, view.sorts[0].propertyId)?.name : `${view.sorts.length} sorts`}</RulePill>
                 </Popover.Trigger>
-                <Popover.Portal>
+                <ThemePortal primitive={Popover.Portal}>
                   <Popover.Content aria-label="Sorts" collisionPadding={8} align="start" sideOffset={4} className="motion-floating z-50 outline-none">
                     <SortEditor properties={collection.properties} sorts={view.sorts} onChange={(sorts) => db.updateView(view.id, { sorts })} />
                   </Popover.Content>
-                </Popover.Portal>
+                </ThemePortal>
               </Popover.Root>
             )}
             {view.sorts.length > 0 && view.filters.length > 0 && <span className="mx-1 h-6 w-px bg-n-border-primary-translucent-a" />}
@@ -380,13 +381,13 @@ function DatabaseViewInner({ db, width, bleed, today, onOpenRow, defaultOpenMenu
                       {p.name}{summary ? <span className="font-medium">: {summary}</span> : null}
                     </RulePill>
                   </Popover.Trigger>
-                  <Popover.Portal>
+                  <ThemePortal primitive={Popover.Portal}>
                     <Popover.Content aria-label={`${p.name} filter`} collisionPadding={8} align="start" sideOffset={4} className="motion-floating z-50 outline-none">
                       <FilterEditor property={p} filter={f}
                         onChange={(nf) => db.updateView(view.id, (v) => ({ filters: v.filters.map((x) => (x.id === f.id ? nf : x)) }))}
                         onRemove={() => db.updateView(view.id, (v) => ({ filters: v.filters.filter((x) => x.id !== f.id) }))} />
                     </Popover.Content>
-                  </Popover.Portal>
+                  </ThemePortal>
                 </Popover.Root>
               );
             })}
@@ -396,11 +397,11 @@ function DatabaseViewInner({ db, width, bleed, today, onOpenRow, defaultOpenMenu
                   <Icon name="plusSmall" size={14} />Filter
                 </button>
               </Popover.Trigger>
-              <Popover.Portal>
+              <ThemePortal primitive={Popover.Portal}>
                 <Popover.Content aria-label="Add a filter" collisionPadding={8} align="start" sideOffset={4} className="motion-floating z-50 outline-none" onCloseAutoFocus={(e) => e.preventDefault()}>
                   <FilterMenu autoFocus properties={collection.properties} onSelect={addFilter} />
                 </Popover.Content>
-              </Popover.Portal>
+              </ThemePortal>
             </Popover.Root>
           </div>
         )}
@@ -435,7 +436,7 @@ function PagePeek({ row, title, onClose, children }: { row: Row; title: string; 
   const returnFocus = useDialogReturnFocus();
   return (
     <Dialog.Root open onOpenChange={(o) => { if (!o) onClose(); }}>
-      <Dialog.Portal>
+      <ThemePortal primitive={Dialog.Portal}>
         <Dialog.Overlay className="motion-overlay fixed inset-0 z-40 bg-n-modal-underlay-bg-a" />
         <Dialog.Content
           aria-describedby={undefined}
@@ -455,7 +456,7 @@ function PagePeek({ row, title, onClose, children }: { row: Row; title: string; 
             {children}
           </div>
         </Dialog.Content>
-      </Dialog.Portal>
+      </ThemePortal>
     </Dialog.Root>
   );
 }

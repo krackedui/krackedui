@@ -161,7 +161,7 @@ Each system is proven by building **two sector templates** chosen by the person 
 - meet the same accessibility and responsive checks as the docs;
 - use `<Theme appearance="system">` by default (with a toggle), and list every route in `routes.json`;
 - are served at `<name>.krackedui.com/<sector>` and published as `@krackedui/<name>-template-<sector>`,
-  pulled with `npm create krackedui@latest my-app -- --system <name> --template <sector>`.
+  pulled with `npm create @krackedui my-app -- --system <name> --template <sector>`.
 
 **The gap loop.** Whatever a template needs that the system lacks is added to the system (component,
 variants, docs, registry item, tests), not hand-built inside the template. Gaps that any system would
