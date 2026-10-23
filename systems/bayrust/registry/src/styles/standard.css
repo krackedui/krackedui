@@ -1,4 +1,12 @@
 /*
+ * Bayrust scopes its tokens with `data-theme`, which is the system's own convention and stays. The
+ * ecosystem's harnesses — the docs preview, the gate's examples app — mount a system under
+ * `.<root>` and add `.dark`, with no attribute. Both selectors are therefore listed on every token
+ * block: without the class form none of these custom properties resolve in those harnesses, and a
+ * declaration like `outline: 2px solid var(--ds-border-focus)` silently becomes no outline at all.
+ * Nothing about a component changes; the same values simply answer to both spellings.
+ */
+/*
  * The standard vocabulary (--ds-*) expressed in Bayrust's own tokens.
  *
  * Most entries are a straight alias: the measured token already says the right thing. Four are not,
@@ -16,7 +24,8 @@
  */
 
 [data-theme='bayrust-dark'],
-[data-theme='bayrust-light'] {
+[data-theme='bayrust-light'],
+.bay {
   /* font — Bayrust ships no family token; these stacks are the system's own */
   --ds-font-sans: InterVariable, Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --ds-font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
@@ -78,6 +87,9 @@
   --ds-status-warning-subtle: var(--orange-10);
   --ds-status-danger: var(--red);
   --ds-status-danger-subtle: var(--red-10);
+  /* tuned: white on the measured red is 2.9:1; on this it is 4.57:1. Only the filled surface moves —
+     --ds-status-danger itself is the brand red and keeps its value. */
+  --ds-status-danger-solid: #c74d4d;
   --ds-status-info: var(--blue);
   --ds-status-info-subtle: var(--blue-10);
 
@@ -85,14 +97,15 @@
   --ds-accent-subtle: var(--accent-10);
 }
 
-[data-theme='bayrust-dark'] {
+[data-theme='bayrust-dark'],
+.bay.dark {
   /* raised sits above the app, so it lifts; the sidebar sits behind it, so it recedes */
   --ds-bg-surface-raised: color-mix(in srgb, var(--fg) 8%, var(--color-window-base));
   --ds-bg-sidebar: color-mix(in srgb, var(--bg) 35%, var(--color-window-base));
   /* the reference's "overlay" is a light wash for a native panel, not a scrim behind a modal */
   --ds-bg-overlay: color-mix(in srgb, var(--bg) 60%, transparent);
 
-  --ds-text-tertiary: rgb(from var(--fg) r g b / 48%); /* tuned: measured 3.67:1, this is 4.63:1 */
+  --ds-text-tertiary: rgb(from var(--fg) r g b / 54%); /* tuned: measured 3.67:1. 48% cleared the app background at 4.63:1 but only reached 4.07:1 on --ds-bg-surface-raised, where card descriptions sit; 54% is 4.72:1 there */
   --ds-accent-text: #288fff; /* tuned: measured accent is 3.77:1 on the app background, this is 4.67:1 */
   --ds-accent-default: #0071ed; /* tuned: white on the measured accent is 4.02:1, on this 4.56:1 */
   --ds-accent-hover: #2a86f0;
@@ -106,7 +119,8 @@
   --ds-shadow-modal: var(--shadow-panel);
 }
 
-[data-theme='bayrust-light'] {
+[data-theme='bayrust-light'],
+.bay:not(.dark) {
   /* on white there is nothing lighter to lift to, so a raised surface stays white and is told
      apart by its border and shadow */
   --ds-bg-surface-raised: var(--color-window-base);
@@ -114,6 +128,10 @@
   --ds-bg-overlay: color-mix(in srgb, var(--fg) 40%, transparent);
 
   --ds-text-tertiary: rgb(from var(--fg) r g b / 56%); /* tuned: measured 2.85:1, this is 4.94:1 */
+  /* tuned: the measured orange on its own subtle wash is 3.71:1 at 11 px; this is 4.51:1 */
+  --ds-status-warning: #b15306;
+  /* tuned: white on the measured red is 2.9:1; on this it is 4.57:1. The brand red is unchanged. */
+  --ds-status-danger-solid: #c74d4d;
   --ds-accent-text: #0070ea; /* tuned: measured accent is 4.02:1 on the app background, this is 4.64:1 */
   --ds-accent-default: #0071ed; /* tuned: white on the measured accent is 4.02:1, on this 4.56:1 */
   --ds-accent-hover: #0063d1;

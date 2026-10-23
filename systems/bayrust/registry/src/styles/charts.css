@@ -14,7 +14,8 @@
  * Green keeps its separate job as the success status colour, which is a different scale.
  */
 
-[data-theme='bayrust-dark'] {
+[data-theme='bayrust-dark'],
+.bay.dark {
   --ds-chart-1: #f05d5d; /* red */
   --ds-chart-2: #9a7df0; /* purple */
   --ds-chart-3: #b88e23; /* yellow */
@@ -23,7 +24,8 @@
   --ds-chart-6: #cf2f98; /* magenta */
   --ds-chart-grid: var(--fg-10);
 }
-[data-theme='bayrust-light'] {
+[data-theme='bayrust-light'],
+.bay:not(.dark) {
   --ds-chart-1: #b12424;
   --ds-chart-2: #6a3dec;
   --ds-chart-3: #cb8600;

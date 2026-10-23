@@ -51,7 +51,9 @@ interface ChartBase<Datum> {
 }
 
 const num = (v: unknown): number => (typeof v === 'number' ? v : Number(v) || 0);
-const PAD = { top: 8, right: 8, bottom: 20, left: 36 };
+// `left` has to hold the widest formatted tick, not a bare number: 36 px fits "60" and clips
+// "$36k". 48 holds a five-character label at 10 px, which is what valueFormat usually produces.
+const PAD = { top: 8, right: 8, bottom: 20, left: 48 };
 
 /** The table every chart carries, for assistive tech and for anyone who wants the numbers. */
 function DataTableFallback<Datum>({ label, data, index, series, valueFormat }: { label: string; data: Datum[]; index: string; series: ChartSeries[]; valueFormat?: (v: number) => string }) {

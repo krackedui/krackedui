@@ -107,7 +107,9 @@
     border-color var(--ds-motion-duration-fast) var(--ds-motion-easing-standard);
 }
 .bay .bay-button__content { display: inline-flex; align-items: center; gap: 6px; }
-.bay .bay-button[data-loading] .bay-button__content { visibility: hidden; }
+/* opacity, not visibility: the label still has to name the button while it is busy, and it still
+   has to hold the button's width. `visibility: hidden` took it out of the accessibility tree. */
+.bay .bay-button[data-loading] .bay-button__content { opacity: 0; }
 .bay .bay-button[data-full] { width: 100%; }
 .bay .bay-button:disabled { cursor: not-allowed; color: var(--ds-text-disabled); }
 
@@ -121,7 +123,7 @@
 .bay .bay-button--secondary:hover:not(:disabled) { background: var(--ds-bg-surface-selected); }
 .bay .bay-button--ghost { background: transparent; }
 .bay .bay-button--ghost:hover:not(:disabled) { background: var(--ds-bg-surface-hover); }
-.bay .bay-button--danger { background: var(--ds-status-danger); color: var(--ds-text-on-accent); }
+.bay .bay-button--danger { background: var(--ds-status-danger-solid, var(--ds-status-danger)); color: var(--ds-text-on-accent); }
 .bay .bay-button--danger:hover:not(:disabled) { filter: brightness(1.08); }
 .bay .bay-button:disabled:not([data-loading]) { background: var(--ds-bg-surface-hover); border-color: transparent; }
 
@@ -174,3 +176,21 @@
 }
 .bay .bay-link:hover { text-decoration: underline; }
 .bay .bay-link__external { display: inline-block; vertical-align: -1px; margin-left: 2px; }
+
+
+/* ---------- touch ---------- */
+/* Bayrust is a dense system, which is the point of it on a desktop. On a coarse pointer the density
+   is not a style choice any more, it is a 24 px floor (WCAG 2.5.8), so the hit area grows while the
+   drawn control stays the size it was. */
+@media (pointer: coarse) {
+  .bay .bay-button,
+  .bay .bay-iconbutton,
+  .bay .bay-sidebar__link,
+  .bay .bay-pagination__page,
+  .bay .bay-pagination__step,
+  .bay .bay-tabs__trigger,
+  .bay .bay-menu__item,
+  .bay .bay-crumbs__link { min-height: 24px; min-width: 24px; }
+  .bay .bay-slider { padding-block: 5px; }
+  .bay .bay-slider__input { height: 24px; }
+}

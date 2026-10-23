@@ -120,11 +120,16 @@ export function SidebarItem({ children, icon, active, href, onClick, trailing, c
   );
 }
 
-/** The bottom of the sidebar: the account, settings. */
+/**
+ * The bottom of the sidebar: the account, settings.
+ *
+ * The children are wrapped in a list, because a `SidebarItem` is an `<li>` and an `<li>` outside a
+ * list is not a list item to anything reading the page.
+ */
 export function SidebarFooter({ children, className, ...rest }: PartProps) {
   return (
     <div className={cn('bay-sidebar__footer', className)} {...rest}>
-      {children}
+      <ul className="bay-sidebar__items">{children}</ul>
     </div>
   );
 }

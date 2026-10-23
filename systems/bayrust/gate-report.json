@@ -1,38 +1,25 @@
 {
  "system": "bayrust",
- "status": "incomplete",
+ "status": "fail",
  "partial": true,
- "timestamp": "2026-10-23T13:20:59.647Z",
- "durationSec": 9,
- "command": "npm run gate -- bayrust --only typecheck,lint,tests",
- "sourceHash": "05d444fd3816d7ef1d5e307fffbd7efc6a0dbd313ef7c0da97066fe0bf7a9d60",
+ "timestamp": "2026-10-23T13:49:16.874Z",
+ "durationSec": 43,
+ "command": "npm run gate -- bayrust --only a11y",
+ "sourceHash": "c1c2922f5db55e23c913edd8a6a5a4825c2bab8e5cd3222e3356052abb15224f",
  "checks": [
   {
    "id": "typecheck",
    "title": "Typecheck",
-   "status": "pass",
-   "summary": "0 errors (playground: 0 errors, registry: 0 errors, docs (apps/docs + systems docs): 0 errors, tests: 0 errors)",
-   "durationSec": 2,
-   "details": [],
-   "data": {
-    "counts": {
-     "playground": 0,
-     "registry": 0,
-     "docs (apps/docs + systems docs)": 0,
-     "tests": 0
-    }
-   }
+   "status": "skip",
+   "summary": "not selected (--only)",
+   "details": []
   },
   {
    "id": "lint",
    "title": "Lint",
-   "status": "pass",
-   "summary": "0 errors, 0 warnings in 36 files",
-   "durationSec": 4,
-   "details": [],
-   "data": {
-    "byRule": {}
-   }
+   "status": "skip",
+   "summary": "not selected (--only)",
+   "details": []
   },
   {
    "id": "tokens",
@@ -44,136 +31,9 @@
   {
    "id": "tests",
    "title": "Behaviour tests",
-   "status": "pass",
-   "summary": "34/34 tests passed in 27 files; 16/40 interactive components have a test (untested ones are flagged)",
-   "durationSec": 3,
-   "details": [],
-   "warnings": [
-    {
-     "where": "AccordionItem",
-     "message": "interactive component (display/accordion.tsx) has no test in systems/bayrust/registry/test"
-    },
-    {
-     "where": "AccordionRoot",
-     "message": "interactive component (display/accordion.tsx) has no test in systems/bayrust/registry/test"
-    },
-    {
-     "where": "DialogRoot",
-     "message": "interactive component (overlays/dialog.tsx) has no test in systems/bayrust/registry/test"
-    },
-    {
-     "where": "MenuCheckboxItem",
-     "message": "interactive component (navigation/menu.tsx) has no test in systems/bayrust/registry/test"
-    },
-    {
-     "where": "MenuItem",
-     "message": "interactive component (navigation/menu.tsx) has no test in systems/bayrust/registry/test"
-    },
-    {
-     "where": "MenuRadioGroup",
-     "message": "interactive component (navigation/menu.tsx) has no test in systems/bayrust/registry/test"
-    },
-    {
-     "where": "MenuRadioItem",
-     "message": "interactive component (navigation/menu.tsx) has no test in systems/bayrust/registry/test"
-    },
-    {
-     "where": "MenuRoot",
-     "message": "interactive component (navigation/menu.tsx) has no test in systems/bayrust/registry/test"
-    },
-    {
-     "where": "MenuSub",
-     "message": "interactive component (navigation/menu.tsx) has no test in systems/bayrust/registry/test"
-    },
-    {
-     "where": "PopoverRoot",
-     "message": "interactive component (overlays/popover.tsx) has no test in systems/bayrust/registry/test"
-    },
-    {
-     "where": "Progress",
-     "message": "interactive component (feedback/status.tsx) has no test in systems/bayrust/registry/test"
-    },
-    {
-     "where": "Radio",
-     "message": "interactive component (forms/choice.tsx) has no test in systems/bayrust/registry/test"
-    },
-    {
-     "where": "SegmentedControl",
-     "message": "interactive component (forms/choice.tsx) has no test in systems/bayrust/registry/test"
-    },
-    {
-     "where": "Select",
-     "message": "interactive component (forms/choice.tsx) has no test in systems/bayrust/registry/test"
-    },
-    {
-     "where": "Sheet",
-     "message": "interactive component (overlays/dialog.tsx) has no test in systems/bayrust/registry/test"
-    },
-    {
-     "where": "SheetRoot",
-     "message": "interactive component (overlays/dialog.tsx) has no test in systems/bayrust/registry/test"
-    },
-    {
-     "where": "Sidebar",
-     "message": "interactive component (shell/shell.tsx) has no test in systems/bayrust/registry/test"
-    },
-    {
-     "where": "SidebarItem",
-     "message": "interactive component (shell/shell.tsx) has no test in systems/bayrust/registry/test"
-    },
-    {
-     "where": "Stat",
-     "message": "interactive component (display/stat.tsx) has no test in systems/bayrust/registry/test"
-    },
-    {
-     "where": "TableHead",
-     "message": "interactive component (display/table.tsx) has no test in systems/bayrust/registry/test"
-    },
-    {
-     "where": "TabsContent",
-     "message": "interactive component (navigation/tabs.tsx) has no test in systems/bayrust/registry/test"
-    },
-    {
-     "where": "TabsRoot",
-     "message": "interactive component (navigation/tabs.tsx) has no test in systems/bayrust/registry/test"
-    },
-    {
-     "where": "TabsTrigger",
-     "message": "interactive component (navigation/tabs.tsx) has no test in systems/bayrust/registry/test"
-    },
-    {
-     "where": "Tag",
-     "message": "interactive component (display/badge.tsx) has no test in systems/bayrust/registry/test"
-    }
-   ],
-   "data": {
-    "untested": [
-     "AccordionItem",
-     "AccordionRoot",
-     "DialogRoot",
-     "MenuCheckboxItem",
-     "MenuItem",
-     "MenuRadioGroup",
-     "MenuRadioItem",
-     "MenuRoot",
-     "MenuSub",
-     "PopoverRoot",
-     "Progress",
-     "Radio",
-     "SegmentedControl",
-     "Select",
-     "Sheet",
-     "SheetRoot",
-     "Sidebar",
-     "SidebarItem",
-     "Stat",
-     "TableHead",
-     "TabsContent",
-     "TabsRoot",
-     "TabsTrigger",
-     "Tag"
-    ]
-   }
+   "status": "skip",
+   "summary": "not selected (--only)",
+   "details": []
   },
   {
    "id": "build",
@@ -199,9 +59,24 @@
   {
    "id": "a11y",
    "title": "Accessibility",
-   "status": "skip",
-   "summary": "not selected (--only)",
-   "details": []
+   "status": "fail",
+   "summary": "43/44 examples clean (axe light+dark, focus-visible, 24px targets on touch); 0 template pages (no templates yet) — by rule: axe/color-contrast 2",
+   "durationSec": 38,
+   "details": [
+    {
+     "where": "badge#hero (light)",
+     "message": "axe/color-contrast: Elements must meet minimum color contrast ratio thresholds (serious, 1 nodes) — .bay-tag__label — Element has insufficient color contrast of 3.13 (foreground color: #138af2, background color: #e7f3fe, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1"
+    },
+    {
+     "where": "badge#hero (light)",
+     "message": "axe/color-contrast: Elements must meet minimum color contrast ratio thresholds (serious, 1 nodes) — .bay-tag__label — Element has insufficient color contrast of 3.13 (foreground color: #138af2, background color: #e7f3fe, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1"
+    }
+   ],
+   "data": {
+    "byRule": {
+     "axe/color-contrast": 2
+    }
+   }
   },
   {
    "id": "responsive",

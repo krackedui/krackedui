@@ -23,7 +23,13 @@
 .bay .bay-input--sm { min-height: var(--ds-size-control-sm); font-size: 12px; }
 .bay .bay-input--md { min-height: var(--ds-size-control-md); }
 .bay .bay-input--lg { min-height: var(--ds-size-control-lg); font-size: 14px; }
-.bay .bay-input:focus-within { border-color: var(--ds-border-focus); }
+/* an invalid control already has a coloured border, so a border-colour change is not a focus
+   indicator on it: the ring is what makes focus distinct from error */
+.bay .bay-input:focus-within {
+  border-color: var(--ds-border-focus);
+  outline: 2px solid var(--ds-border-focus);
+  outline-offset: 2px;
+}
 .bay .bay-input[data-invalid] { border-color: var(--ds-status-danger); }
 .bay .bay-input[data-disabled] { background: var(--ds-bg-surface-hover); color: var(--ds-text-disabled); }
 .bay .bay-input__control {

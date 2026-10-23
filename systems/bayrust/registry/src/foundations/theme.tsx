@@ -68,7 +68,17 @@ export function Theme({ appearance = 'dark', className, style, id, children }: T
 
   return (
     <ThemeContext.Provider value={value}>
-      <div id={id} className={cn('bay', className)} style={style} data-theme={`bayrust-${resolved}`}>
+      {/*
+        Two spellings of the same thing: `data-theme` is Bayrust's own, and `.dark` is what the
+        ecosystem's harnesses look for. Both are set so the tokens resolve either way — see the note
+        at the top of styles/standard.css.
+      */}
+      <div
+        id={id}
+        className={cn('bay', resolved === 'dark' && 'dark', className)}
+        style={style}
+        data-theme={`bayrust-${resolved}`}
+      >
         {children}
         <div ref={portalRef} className="bay-portal" />
       </div>
