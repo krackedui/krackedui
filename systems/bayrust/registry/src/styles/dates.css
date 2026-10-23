@@ -1,0 +1,98 @@
+/* Calendar and the two pickers. Scoped under `.bay`, tokens only. */
+
+.bay .bay-calendar { width: 252px; padding: 8px; }
+.bay .bay-calendar__header { display: flex; align-items: center; justify-content: space-between; gap: 4px; margin-bottom: 6px; }
+.bay .bay-calendar__month { font-weight: 500; font-variant-numeric: tabular-nums; }
+.bay .bay-calendar__weekdays,
+.bay .bay-calendar__grid { display: grid; grid-template-columns: repeat(7, 1fr); }
+.bay .bay-calendar__weekdays span {
+  display: grid;
+  place-items: center;
+  height: 22px;
+  font-size: 11px;
+  color: var(--ds-text-tertiary);
+}
+.bay .bay-calendar__day {
+  position: relative;
+  display: grid;
+  place-items: center;
+  height: 30px;
+  border: 0;
+  border-radius: var(--ds-radius-sm);
+  background: none;
+  color: var(--ds-text-primary);
+  font: inherit;
+  font-variant-numeric: tabular-nums;
+  cursor: pointer;
+}
+.bay .bay-calendar__day:hover:not(:disabled) { background: var(--ds-bg-surface-hover); }
+.bay .bay-calendar__day[data-outside] { color: var(--ds-text-tertiary); }
+.bay .bay-calendar__day[data-today] { font-weight: 600; }
+/* today also carries a mark, so "today" is not colour alone */
+.bay .bay-calendar__day[data-today]::after {
+  content: '';
+  position: absolute;
+  margin-top: 20px;
+  width: 3px;
+  height: 3px;
+  border-radius: var(--ds-radius-full);
+  background: currentColor;
+}
+.bay .bay-calendar__day[data-in-range] { background: var(--ds-accent-subtle); border-radius: 0; }
+.bay .bay-calendar__day[data-selected] { background: var(--ds-accent-default); color: var(--ds-text-on-accent); border-radius: var(--ds-radius-sm); }
+.bay .bay-calendar__day:disabled { color: var(--ds-text-disabled); cursor: not-allowed; }
+
+.bay .bay-datepicker { display: inline-flex; position: relative; }
+.bay .bay-datepicker__trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  width: 100%;
+  padding: 0 10px;
+  border: 1px solid var(--ds-border-default);
+  border-radius: var(--ds-radius-md);
+  background: var(--ds-bg-surface);
+  color: var(--ds-text-primary);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+.bay .bay-datepicker__trigger[data-placeholder] { color: var(--ds-text-tertiary); }
+.bay .bay-datepicker__trigger:hover:not(:disabled) { border-color: var(--ds-border-strong); }
+.bay .bay-datepicker__trigger:disabled { color: var(--ds-text-disabled); cursor: not-allowed; }
+.bay .bay-datepicker__icon { flex: none; color: var(--ds-text-tertiary); }
+.bay .bay-datepicker__value { flex: 1 1 auto; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+.bay .bay-datepicker__panel {
+  position: fixed;
+  z-index: 1;
+  border: 1px solid var(--ds-border-subtle);
+  border-radius: var(--ds-radius-lg);
+  background: var(--ds-bg-surface-raised);
+  box-shadow: var(--ds-shadow-popover);
+}
+.bay .bay-datepicker__panel--range { display: flex; }
+.bay .bay-datepicker__presets {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 8px;
+  border-right: 1px solid var(--ds-border-subtle);
+}
+.bay .bay-datepicker__preset {
+  padding: 5px 8px;
+  border: 0;
+  border-radius: var(--ds-radius-sm);
+  background: none;
+  color: var(--ds-text-secondary);
+  font: inherit;
+  text-align: left;
+  white-space: nowrap;
+  cursor: pointer;
+}
+.bay .bay-datepicker__preset:hover { background: var(--ds-bg-surface-hover); color: var(--ds-text-primary); }
+
+@media (max-width: 640px) {
+  .bay .bay-datepicker__panel--range { flex-direction: column; }
+  .bay .bay-datepicker__presets { flex-direction: row; flex-wrap: wrap; border-right: 0; border-bottom: 1px solid var(--ds-border-subtle); }
+}

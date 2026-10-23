@@ -20,7 +20,10 @@ interface MenuCtx {
   triggerRef: React.RefObject<HTMLElement | null>;
   contentRef: React.RefObject<HTMLDivElement | null>;
 }
-const MenuContext = createContext<MenuCtx | null>(null);
+/* Exported for ContextMenu, which is the same menu opened from a right-click instead of a button:
+   it supplies this context with a pointer-positioned anchor, so every Menu part works unchanged. */
+export const MenuContext = createContext<MenuCtx | null>(null);
+export type { MenuCtx };
 const RadioCtx = createContext<{ value?: string; onValueChange?: (v: string) => void } | null>(null);
 
 function useMenu(part: string): MenuCtx {

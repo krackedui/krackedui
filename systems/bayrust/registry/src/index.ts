@@ -88,5 +88,23 @@ export {
   AppFrame, Sidebar, SidebarRoot, SidebarHeader, SidebarSection, SidebarItem, SidebarFooter, Topbar, PageHeader,
   type AppFrameProps, type SidebarSectionProps, type SidebarItemProps, type TopbarProps, type PageHeaderProps,
 } from './shell/shell';
+export { Calendar, isSameDay, startOfDay, type CalendarProps } from './forms/calendar';
+export {
+  DatePicker, DateRangePicker,
+  type DatePickerProps, type DateRangePickerProps, type DateRange,
+} from './forms/date-picker';
+export { Combobox, type ComboboxProps } from './forms/combobox';
+export { FileUpload, type FileUploadProps } from './forms/file-upload';
+export { ConfirmDialog, type ConfirmDialogProps } from './overlays/confirm-dialog';
+export {
+  ContextMenu, ContextMenuRoot, ContextMenuTrigger, ContextMenuContent, ContextMenuItem,
+  ContextMenuCheckboxItem, ContextMenuRadioGroup, ContextMenuRadioItem, ContextMenuLabel,
+  ContextMenuSeparator, ContextMenuGroup, ContextMenuSub, ContextMenuSubTrigger, ContextMenuSubContent,
+  type ContextMenuRootProps, type ContextMenuTriggerProps,
+} from './navigation/context-menu';
+export {
+  CommandPalette, CommandPaletteDialog,
+  type CommandPaletteProps, type CommandPaletteDialogProps, type CommandPaletteItem,
+} from './overlays/command-palette';
 export { useTheme } from './foundations/theme';
 export { cn } from './lib/cn';
