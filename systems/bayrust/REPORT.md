@@ -4,7 +4,8 @@ Bayrust is a dark-first, keyboard-driven system: a launcher's density and quietn
 command surface rather than a page. This report tracks what is here, what the gate will say, and what
 is left. Gate results: `GATE.md` (written by `npm run gate -- bayrust`).
 
-**Status: 40 of 61 contract entries implemented; not gate-ready.** Nothing here claims to pass. `gate-report.json` is deliberately absent, so
+**Status: 53 of 62 contract inventory entries implemented (52 of the 61 components, plus the
+`useToast` hook); not gate-ready.** Nothing here claims to pass. `gate-report.json` is deliberately absent, so
 `prepublishOnly` and the docs deploy refuse to run, as `/standard/SPEC.md` §12 requires. The sections
 below say exactly what is missing, so the next person does not have to rediscover it.
 
@@ -27,10 +28,13 @@ before then would mean hand-building components the system lacks, which rule 4 f
 | `registry/src/layout/` | `Stack`, `Grid`, `Divider` | Ours |
 | `registry/src/actions/` | `Button`, `IconButton`, `Link` | Ours |
 | `registry/src/forms/` | `Field`, `TextInput`, `Textarea`, `SearchInput`, `NumberInput`, `Checkbox`, `RadioGroup`, `Radio`, `Switch`, `SegmentedControl`, `Select`, `Slider` | Ours |
-| `registry/src/display/` | `Badge`, `Tag`, `Kbd`, `Avatar`, `AvatarGroup`, `Card`, `Stat`, `Table`, `EmptyState`, `Accordion` | Ours |
-| `registry/src/feedback/` | `Skeleton`, `Progress`, `Spinner` | Ours |
+| `registry/src/display/` | `Badge`, `Tag`, `Kbd`, `Avatar`, `AvatarGroup`, `Card`, `Stat`, `Table`, `EmptyState`, `Accordion`, `DataTable`, `Pagination` | Ours |
+| `registry/src/feedback/` | `Skeleton`, `Progress`, `Spinner`, `Alert`, `ToastProvider`, `useToast` | Ours |
 | `registry/src/navigation/` | `Tabs`, `Breadcrumbs`, `Menu` | Ours |
 | `registry/src/overlays/` | `Dialog`, `Sheet`, `Popover`, `Tooltip` | Ours |
+| `registry/src/charts/` | `LineChart`, `BarChart`, `DonutChart`, `Sparkline` | Ours. Built to the `dataviz` method; the palette is validated, not chosen by eye |
+| `registry/src/styles/charts.css` | The six categorical slots, in both appearances, and the mark specs | Ours. Steps of Bayrust's own hues, snapped to values that pass the validator |
+| `registry/src/shell/` | `AppFrame`, `Sidebar` (Root/Header/Section/Item/Footer), `Topbar`, `PageHeader` | Ours |
 | `registry/src/lib/overlay.tsx` | Portal into the nearest `Theme`, dismiss, focus trap, scroll lock, anchoring | Ours |
 | `registry/src/lib/` | `cn`, a variant helper, and the `asChild` merge | Ours |
 
@@ -78,6 +82,28 @@ Per `AGENTS.md` these are raised, not lowered back to match the reference. Each 
   then reports `aria-expanded="false"`; a dialog is `aria-modal`, labelled by its title and
   described by its description, moves focus inside, locks the page's scroll, and on Escape closes,
   restores the scroll and returns focus to whatever opened it.
+- The chart palette was computed and then **validated with the skill's own
+  `scripts/validate_palette.js`**, not judged by eye. Both appearances report ALL CHECKS PASS: dark's
+  worst adjacent pair is ΔE 19.3 under deuteranopia and 22.9 for normal vision, light's 20.7 and 22.0.
+  The first two candidate orderings FAILED (a lightness band, then a 3.7 red↔yellow under deutan), so
+  the order was searched rather than assumed: red, purple, yellow, blue, orange, magenta.
+- Charts, checked in the browser: every chart carries a hidden `<table>` of its own data, so the
+  numbers are readable without the picture; ≥2 series always draw a legend; grid and axes take
+  `--ds-text-tertiary` and `--ds-chart-grid`, and no value or label wears a series colour.
+- Zooming the stacked bars showed every segment rounded, including the joins inside a stack, which is
+  not what "4px rounded data-ends anchored to the baseline" means. `rx` moved from the CSS rule onto
+  each rect and is now `4` only on a stack's top segment, `0` elsewhere; grouped bars are all ends, so
+  all four. Re-rendered and confirmed: the first stacked rect reports `rx="0"`, the one above it `4`.
+- Alerts and toasts, checked in the browser: an alert always draws an icon as well as its tone, so
+  nothing rests on colour alone; `danger` and `warning` are `role="alert"` and assertive, the quieter
+  tones `role="status"` and polite. The toast region is labelled `Notifications`; firing one from the
+  page showed `role="status"` as expected and it cleared itself on its timer.
+- `DataTable` and `Pagination`, checked in the browser: the select-all box reports `aria-checked`
+  `"mixed"` when some rows are selected, a sorted column reports `aria-sort`, the current page button
+  reports `aria-current="page"`, and the first/last step buttons disable at the ends.
+- The shell: `AppFrame` renders one `main`, the sidebar is a `nav` landmark labelled "Main", and
+  `PageHeader` renders the page's single `h1`. Below `md` the same `sidebarOpen` state turns the
+  docked sidebar into a drawer with a scrim, so an app needs no breakpoint logic of its own.
 
 ### The reference's surfaces assume a backdrop that a browser does not have
 
@@ -96,11 +122,11 @@ Per `/standard/SPEC.md` §5, every value above is traceable; nothing here is inf
 
 ## What is missing, in the order it has to be done
 
-1. **The rest of the contract — 21 of 61 entries.** The rest of forms (`Combobox`, `Calendar`,
-   `DatePicker`, `DateRangePicker`, `FileUpload` — the ones that need a popover or a date engine),
-   `DataTable` and `Pagination`, the charts, `ContextMenu`, the command palette, `ConfirmDialog`,
-   `Alert` and the toasts, and the app shell. Each needs the component, its variants, a behaviour
-   test, a docs page and a registry item.
+1. **The rest of the contract — 9 entries.** `Combobox`, `Calendar`, `DatePicker`,
+   `DateRangePicker` and `FileUpload` from forms; `ContextMenu`, `CommandPalette`,
+   `CommandPaletteDialog` and `ConfirmDialog`. Four of them need a date engine and the rest build on
+   the popover and menu that now exist. Each needs the component, its variants, a behaviour test, a
+   docs page and a registry item.
 2. **A build.** `registry/` has no build yet, so there is no `dist/`, no `styles.css`, no `tokens.json`
    and no exports map to resolve. Checks 6, 7 and 8 cannot run until there is.
 3. **Tests.** None. Every interactive entry needs one (check 5).
@@ -141,4 +167,9 @@ loader, which is one more reason the components are rewritten here rather than w
 | 2026-10-22 | `Stat`'s delta tone comes from `trend` and `upIsGood` together | Costs rising is not a success. The direction alone cannot say which colour is right |
 | 2026-10-22 | `Slider` is one `<input type="range">` per thumb | The browser gives the `slider` role, the keyboard handling and the live announcement. Thumbs are kept ordered in the change handler |
 | 2026-10-22 | Icons drawn rather than traced | Tracing the artwork produced ~130 run-length rectangles per icon: stair-stepped, no curves, emboss lost. Drawing from sampled colour and measured geometry reads correctly at 44 pt |
+| 2026-10-23 | Six categorical chart slots, not eight | Bayrust's green has no step that clears the chroma floor in light — it is a desaturated teal. Inventing a hue to fill the slot would break "documented palette only", so a seventh series folds into Other or becomes a facet. Green keeps its separate job as the success status colour |
+| 2026-10-23 | The chart palette is derived and validated, never eyeballed | `dataviz` makes the colour step computable. Two candidate orderings failed the validator before the third passed; the numbers are in `styles/charts.css` |
+| 2026-10-23 | Charts are written here, with no charting library | Four forms at this size are less code than a dependency's adapter, and the dependency list stays empty. A chart the contract does not cover should pull in a real library rather than grow this file |
+| 2026-10-23 | `DataTable` reports a sort, it does not perform one | Sorting server-side and sorting in memory are the same component with a different owner of the data. Reporting `onSortChange` lets both work; sorting internally would quietly break the paged case |
+| 2026-10-23 | One `sidebarOpen` state, two behaviours | Docked above `md`, a drawer below it. Two props would make every app write the breakpoint logic the frame already knows |
 | 2026-10-22 | `fintech` + `project-management` | Owner's choice |

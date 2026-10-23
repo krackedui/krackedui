@@ -1,0 +1,201 @@
+/* Alerts, toasts, the data table's extras and the app shell. Scoped under `.bay`, tokens only. */
+
+/* ---------- alert ---------- */
+.bay .bay-alert {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 10px 12px;
+  border: 1px solid var(--ds-border-subtle);
+  border-radius: var(--ds-radius-md);
+  background: var(--ds-bg-surface-raised);
+}
+.bay .bay-alert__icon { flex: none; margin-top: 1px; }
+.bay .bay-alert[data-tone='info'] .bay-alert__icon,
+.bay .bay-alert[data-tone='accent'] .bay-alert__icon { color: var(--ds-status-info); }
+.bay .bay-alert[data-tone='success'] .bay-alert__icon { color: var(--ds-status-success); }
+.bay .bay-alert[data-tone='warning'] .bay-alert__icon { color: var(--ds-status-warning); }
+.bay .bay-alert[data-tone='danger'] .bay-alert__icon { color: var(--ds-status-danger); }
+.bay .bay-alert[data-tone='neutral'] .bay-alert__icon { color: var(--ds-text-tertiary); }
+.bay .bay-alert[data-tone='info'] { background: var(--ds-status-info-subtle); }
+.bay .bay-alert[data-tone='success'] { background: var(--ds-status-success-subtle); }
+.bay .bay-alert[data-tone='warning'] { background: var(--ds-status-warning-subtle); }
+.bay .bay-alert[data-tone='danger'] { background: var(--ds-status-danger-subtle); }
+.bay .bay-alert__body { flex: 1 1 auto; min-width: 0; }
+.bay .bay-alert__title { margin: 0; font-weight: 500; }
+.bay .bay-alert__text { font-size: 12px; color: var(--ds-text-secondary); }
+.bay .bay-alert__action { flex: none; }
+.bay .bay-alert__x {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 20px;
+  height: 20px;
+  border: 0;
+  border-radius: var(--ds-radius-sm);
+  background: none;
+  color: var(--ds-text-tertiary);
+  cursor: pointer;
+}
+.bay .bay-alert__x:hover { background: var(--ds-bg-surface-hover); color: var(--ds-text-primary); }
+
+/* ---------- toasts ---------- */
+.bay .bay-toasts {
+  position: fixed;
+  right: 12px;
+  bottom: 12px;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  width: min(360px, calc(100vw - 24px));
+}
+.bay .bay-toast {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 10px 12px;
+  border: 1px solid var(--ds-border-subtle);
+  border-radius: var(--ds-radius-lg);
+  background: var(--ds-bg-surface-raised);
+  box-shadow: var(--ds-shadow-lg);
+}
+.bay .bay-toast__icon { flex: none; margin-top: 1px; color: var(--ds-text-tertiary); }
+.bay .bay-toast[data-tone='success'] .bay-toast__icon { color: var(--ds-status-success); }
+.bay .bay-toast[data-tone='danger'] .bay-toast__icon { color: var(--ds-status-danger); }
+.bay .bay-toast__body { flex: 1 1 auto; min-width: 0; }
+.bay .bay-toast__message { margin: 0; font-weight: 500; }
+.bay .bay-toast__description { margin: 0; font-size: 12px; color: var(--ds-text-tertiary); }
+.bay .bay-toast__action {
+  flex: none;
+  border: 0;
+  background: none;
+  color: var(--ds-accent-text);
+  font: inherit;
+  font-weight: 500;
+  cursor: pointer;
+  padding: 0 4px;
+}
+.bay .bay-toast__x {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 18px;
+  height: 18px;
+  border: 0;
+  border-radius: var(--ds-radius-sm);
+  background: none;
+  color: var(--ds-text-tertiary);
+  cursor: pointer;
+}
+.bay .bay-toast__x:hover { background: var(--ds-bg-surface-hover); color: var(--ds-text-primary); }
+
+/* ---------- data table extras ---------- */
+.bay .bay-datatable__check { width: 32px; }
+/* a narrow screen keeps the columns that matter */
+@media (max-width: 640px) { .bay [data-hide-below='sm'] { display: none; } }
+@media (max-width: 768px) { .bay [data-hide-below='md'] { display: none; } }
+@media (max-width: 1024px) { .bay [data-hide-below='lg'] { display: none; } }
+
+/* ---------- pagination ---------- */
+.bay .bay-pagination { display: flex; align-items: center; gap: 2px; }
+.bay .bay-pagination__page,
+.bay .bay-pagination__step {
+  display: grid;
+  place-items: center;
+  min-width: 26px;
+  height: 26px;
+  padding: 0 6px;
+  border: 0;
+  border-radius: var(--ds-radius-sm);
+  background: none;
+  color: var(--ds-text-secondary);
+  font: inherit;
+  cursor: pointer;
+}
+.bay .bay-pagination__page:hover:not([data-current]),
+.bay .bay-pagination__step:hover:not(:disabled) { background: var(--ds-bg-surface-hover); color: var(--ds-text-primary); }
+.bay .bay-pagination__page[data-current] { background: var(--ds-accent-default); color: var(--ds-text-on-accent); }
+.bay .bay-pagination__step:disabled { color: var(--ds-text-disabled); cursor: not-allowed; }
+.bay .bay-pagination__gap { padding: 0 2px; color: var(--ds-text-tertiary); }
+
+/* ---------- app frame ---------- */
+.bay .bay-frame { display: flex; min-height: 100%; background: var(--ds-bg-app); }
+.bay .bay-frame__sidebar {
+  flex: none;
+  width: var(--ds-size-sidebar-width);
+  background: var(--ds-bg-sidebar);
+  border-right: 1px solid var(--ds-border-subtle);
+  transition: margin-left var(--ds-motion-duration-base) var(--ds-motion-easing-standard);
+}
+.bay .bay-frame:not([data-sidebar-open]) .bay-frame__sidebar { margin-left: calc(-1 * var(--ds-size-sidebar-width)); }
+.bay .bay-frame__scrim { display: none; }
+.bay .bay-frame__main { flex: 1 1 auto; min-width: 0; display: flex; flex-direction: column; }
+.bay .bay-frame__topbarSlot { display: flex; align-items: center; gap: 6px; padding: 0 10px; border-bottom: 1px solid var(--ds-border-subtle); }
+.bay .bay-frame__toggle { flex: none; }
+.bay .bay-frame__content { flex: 1 1 auto; min-width: 0; padding: 16px; }
+
+/* below md there is nowhere to dock it, so the same state makes it a drawer */
+@media (max-width: 768px) {
+  .bay .bay-frame__sidebar {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 2;
+    margin-left: 0;
+    transform: translateX(-100%);
+    transition: transform var(--ds-motion-duration-base) var(--ds-motion-easing-standard);
+  }
+  .bay .bay-frame[data-sidebar-open] .bay-frame__sidebar { transform: translateX(0); }
+  .bay .bay-frame[data-sidebar-open] .bay-frame__scrim {
+    display: block;
+    position: fixed;
+    inset: 0;
+    z-index: 1;
+    border: 0;
+    background: var(--ds-bg-overlay);
+  }
+}
+
+/* ---------- sidebar ---------- */
+.bay .bay-sidebar { display: flex; flex-direction: column; height: 100%; padding: 8px; gap: 10px; }
+.bay .bay-sidebar__header { padding: 4px 6px; font-weight: 600; }
+.bay .bay-sidebar__section { display: flex; flex-direction: column; gap: 2px; }
+.bay .bay-sidebar__sectionTitle { padding: 4px 6px 2px; font-size: 11px; color: var(--ds-text-tertiary); }
+.bay .bay-sidebar__items { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 1px; }
+.bay .bay-sidebar__link {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 5px 6px;
+  border: 0;
+  border-radius: var(--ds-radius-sm);
+  background: none;
+  color: var(--ds-text-secondary);
+  font: inherit;
+  text-align: left;
+  text-decoration: none;
+  cursor: pointer;
+}
+.bay .bay-sidebar__link:hover { background: var(--ds-bg-surface-hover); color: var(--ds-text-primary); }
+.bay .bay-sidebar__link[data-active] { background: var(--ds-bg-surface-selected); color: var(--ds-text-primary); }
+.bay .bay-sidebar__icon { flex: none; color: var(--ds-text-tertiary); }
+.bay .bay-sidebar__link[data-active] .bay-sidebar__icon { color: var(--ds-accent-text); }
+.bay .bay-sidebar__label { flex: 1 1 auto; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.bay .bay-sidebar__trailing { flex: none; }
+.bay .bay-sidebar__footer { margin-top: auto; padding: 4px 6px; }
+
+/* ---------- topbar and page header ---------- */
+.bay .bay-topbar { display: flex; align-items: center; gap: 8px; flex: 1 1 auto; min-width: 0; height: 44px; }
+.bay .bay-topbar__where { flex: 1 1 auto; min-width: 0; }
+.bay .bay-topbar__actions { display: flex; align-items: center; gap: 6px; flex: none; }
+.bay .bay-pageheader { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 16px; }
+.bay .bay-pageheader__text { flex: 1 1 auto; min-width: 0; }
+.bay .bay-pageheader__title { margin: 0; font-size: 18px; font-weight: 600; }
+.bay .bay-pageheader__description { margin: 2px 0 0; font-size: 12px; color: var(--ds-text-tertiary); }
+.bay .bay-pageheader__actions { display: flex; align-items: center; gap: 6px; flex: none; }

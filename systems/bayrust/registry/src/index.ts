@@ -75,5 +75,18 @@ export {
   Popover, PopoverRoot, PopoverTrigger, PopoverAnchor, PopoverContent, PopoverClose, Tooltip,
   type PopoverRootProps, type PopoverTriggerProps, type PopoverContentProps, type TooltipProps,
 } from './overlays/popover';
+export {
+  LineChart, BarChart, DonutChart, Sparkline, seriesColor, chartSlots,
+  type LineChartProps, type BarChartProps, type DonutChartProps, type SparklineProps, type ChartSeries,
+} from './charts/charts';
+export { DataTable, Pagination, type DataTableProps, type DataTableColumn, type PaginationProps } from './display/data-table';
+export {
+  Alert, ToastProvider, useToast,
+  type AlertProps, type ToastOptions, type ToastApi, type ToastProviderProps,
+} from './feedback/alert';
+export {
+  AppFrame, Sidebar, SidebarRoot, SidebarHeader, SidebarSection, SidebarItem, SidebarFooter, Topbar, PageHeader,
+  type AppFrameProps, type SidebarSectionProps, type SidebarItemProps, type TopbarProps, type PageHeaderProps,
+} from './shell/shell';
 export { useTheme } from './foundations/theme';
 export { cn } from './lib/cn';

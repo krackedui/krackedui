@@ -1,0 +1,82 @@
+/*
+ * Chart colours and marks.
+ *
+ * The categorical slots are a fixed order, assigned in sequence and never cycled. They are steps of
+ * Bayrust's own hues, snapped to the nearest value that clears the lightness band, the chroma floor,
+ * adjacent CVD separation and 3:1 against each mode's surface. Verified with the validator:
+ *
+ *   dark   worst adjacent ΔE 19.3 (deutan), normal-vision 22.9 — all checks pass
+ *   light  worst adjacent ΔE 20.7 (deutan), normal-vision 22.0 — all checks pass
+ *
+ * There are six slots, not eight. Bayrust's green has no step that clears the chroma floor in light —
+ * it is a desaturated teal — so it is not a categorical slot. Inventing a colour to fill the gap
+ * would break "documented palette only"; a seventh series folds into Other or becomes a facet.
+ * Green keeps its separate job as the success status colour, which is a different scale.
+ */
+
+[data-theme='bayrust-dark'] {
+  --ds-chart-1: #f05d5d; /* red */
+  --ds-chart-2: #9a7df0; /* purple */
+  --ds-chart-3: #b88e23; /* yellow */
+  --ds-chart-4: #459bcc; /* blue */
+  --ds-chart-5: #d67b13; /* orange */
+  --ds-chart-6: #cf2f98; /* magenta */
+  --ds-chart-grid: var(--fg-10);
+}
+[data-theme='bayrust-light'] {
+  --ds-chart-1: #b12424;
+  --ds-chart-2: #6a3dec;
+  --ds-chart-3: #cb8600;
+  --ds-chart-4: #138af2;
+  --ds-chart-5: #c75d07;
+  --ds-chart-6: #9a1b6e;
+  --ds-chart-grid: var(--fg-10);
+}
+
+.bay .bay-chart { position: relative; display: block; width: 100%; }
+.bay .bay-chart svg { display: block; width: 100%; overflow: visible; }
+
+/* recessive grid and axes: they locate the data, they are not the data */
+.bay .bay-chart__grid { stroke: var(--ds-chart-grid); stroke-width: 1; }
+.bay .bay-chart__axis { fill: var(--ds-text-tertiary); font-size: 10px; }
+
+/* 2px lines, >=8px markers */
+.bay .bay-chart__line { fill: none; stroke-width: 2; stroke-linejoin: round; stroke-linecap: round; }
+.bay .bay-chart__area { stroke: none; opacity: 0.16; }
+.bay .bay-chart__dot { r: 4; stroke: var(--ds-bg-app); stroke-width: 2; }
+
+/* a 2px surface gap between adjacent and stacked fills */
+/* rx is set per rect, so only the data end is rounded; the stroke is the 2px surface gap */
+.bay .bay-chart__bar { stroke: var(--ds-bg-app); stroke-width: 2; }
+
+.bay .bay-chart__legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 12px;
+  margin-top: 8px;
+  font-size: 11px;
+  color: var(--ds-text-secondary); /* text wears text tokens, never the series colour */
+}
+.bay .bay-chart__key { display: inline-flex; align-items: center; gap: 5px; }
+.bay .bay-chart__swatch { width: 8px; height: 8px; border-radius: 2px; flex: none; }
+
+.bay .bay-chart__tip {
+  position: absolute;
+  z-index: 1;
+  min-width: 96px;
+  padding: 6px 8px;
+  border: 1px solid var(--ds-border-subtle);
+  border-radius: var(--ds-radius-md);
+  background: var(--ds-bg-surface-raised);
+  box-shadow: var(--ds-shadow-popover);
+  font-size: 11px;
+  pointer-events: none;
+  transform: translate(-50%, calc(-100% - 10px));
+}
+.bay .bay-chart__tipRow { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.bay .bay-chart__tipLabel { display: inline-flex; align-items: center; gap: 5px; color: var(--ds-text-secondary); }
+.bay .bay-chart__tipValue { color: var(--ds-text-primary); font-variant-numeric: tabular-nums; }
+.bay .bay-chart__crosshair { stroke: var(--ds-border-strong); stroke-width: 1; stroke-dasharray: 3 3; }
+
+.bay .bay-sparkline { display: inline-block; vertical-align: middle; }
+.bay .bay-sparkline path { fill: none; stroke-width: 2; stroke-linejoin: round; stroke-linecap: round; }
