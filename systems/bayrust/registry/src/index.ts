@@ -58,4 +58,22 @@ export {
 } from './display/accordion';
 export { Stat, EmptyState, type StatProps, type EmptyStateProps } from './display/stat';
 export { Skeleton, Progress, Spinner, type SkeletonProps, type ProgressProps, type SpinnerProps } from './feedback/status';
+export { Tabs, TabsRoot, TabsList, TabsTrigger, TabsContent, type TabsRootProps, type TabsTriggerProps, type TabsContentProps } from './navigation/tabs';
+export { Breadcrumbs, type BreadcrumbsProps, type BreadcrumbItem } from './navigation/breadcrumbs';
+export {
+  Menu, MenuRoot, MenuTrigger, MenuContent, MenuItem, MenuCheckboxItem, MenuRadioGroup, MenuRadioItem,
+  MenuLabel, MenuSeparator, MenuGroup, MenuSub, MenuSubTrigger, MenuSubContent,
+  type MenuRootProps, type MenuTriggerProps, type MenuContentProps, type MenuItemProps,
+  type MenuCheckboxItemProps, type MenuRadioItemProps,
+} from './navigation/menu';
+export {
+  Dialog, DialogRoot, DialogTrigger, DialogContent, DialogTitle, DialogDescription, DialogFooter, DialogClose,
+  Sheet, SheetContent,
+  type DialogRootProps, type DialogTriggerProps, type DialogContentProps, type DialogCloseProps, type SheetContentProps,
+} from './overlays/dialog';
+export {
+  Popover, PopoverRoot, PopoverTrigger, PopoverAnchor, PopoverContent, PopoverClose, Tooltip,
+  type PopoverRootProps, type PopoverTriggerProps, type PopoverContentProps, type TooltipProps,
+} from './overlays/popover';
+export { useTheme } from './foundations/theme';
 export { cn } from './lib/cn';

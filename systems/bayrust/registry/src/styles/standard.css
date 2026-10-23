@@ -44,14 +44,16 @@
   --ds-size-icon-sm: var(--icon-12);
   --ds-size-icon-md: var(--icon-16);
 
-  /* surfaces */
+  /* surfaces
+   * The reference's panel, window and sidebar surfaces are translucent — 40% black over the native
+   * window's vibrancy. A browser has no vibrancy behind them, so used as-is a menu or a dialog shows
+   * the page through itself. They are composed here against the app background instead, which is
+   * what a plain surface needs; the hover and selection washes stay translucent, because a wash over
+   * a surface is exactly what they are. */
   --ds-bg-app: var(--color-window-base);
-  --ds-bg-sidebar: var(--color-window-bg-secondary);
-  --ds-bg-surface: var(--color-window-bg);
-  --ds-bg-surface-raised: var(--color-panel-background);
+  --ds-bg-surface: var(--color-window-base);
   --ds-bg-surface-hover: var(--color-surface-list-hover);
   --ds-bg-surface-selected: var(--color-surface-list-selection);
-  --ds-bg-overlay: var(--color-panel-overlay);
   --ds-bg-inverse: var(--color-fg-max);
 
   /* text */
@@ -83,6 +85,12 @@
 }
 
 [data-theme='bayrust-dark'] {
+  /* raised sits above the app, so it lifts; the sidebar sits behind it, so it recedes */
+  --ds-bg-surface-raised: color-mix(in srgb, var(--fg) 8%, var(--color-window-base));
+  --ds-bg-sidebar: color-mix(in srgb, var(--bg) 35%, var(--color-window-base));
+  /* the reference's "overlay" is a light wash for a native panel, not a scrim behind a modal */
+  --ds-bg-overlay: color-mix(in srgb, var(--bg) 60%, transparent);
+
   --ds-text-tertiary: rgb(from var(--fg) r g b / 48%); /* tuned: measured 3.67:1, this is 4.63:1 */
   --ds-accent-text: #288fff; /* tuned: measured accent is 3.77:1 on the app background, this is 4.67:1 */
   --ds-accent-default: #0071ed; /* tuned: white on the measured accent is 4.02:1, on this 4.56:1 */
@@ -98,6 +106,12 @@
 }
 
 [data-theme='bayrust-light'] {
+  /* on white there is nothing lighter to lift to, so a raised surface stays white and is told
+     apart by its border and shadow */
+  --ds-bg-surface-raised: var(--color-window-base);
+  --ds-bg-sidebar: color-mix(in srgb, var(--fg) 4%, var(--color-window-base));
+  --ds-bg-overlay: color-mix(in srgb, var(--fg) 40%, transparent);
+
   --ds-text-tertiary: rgb(from var(--fg) r g b / 56%); /* tuned: measured 2.85:1, this is 4.94:1 */
   --ds-accent-text: #0070ea; /* tuned: measured accent is 4.02:1 on the app background, this is 4.64:1 */
   --ds-accent-default: #0071ed; /* tuned: white on the measured accent is 4.02:1, on this 4.56:1 */

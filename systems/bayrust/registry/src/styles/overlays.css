@@ -1,0 +1,194 @@
+/* Navigation and overlays. Scoped under `.bay`, tokens only. */
+
+/* The portal container sits inside the Theme, so overlays inherit its appearance. It must not
+   affect layout, hence the zero box; its children position themselves. */
+.bay .bay-portal { position: fixed; inset: 0; pointer-events: none; z-index: 50; }
+.bay .bay-portal > * { pointer-events: auto; }
+
+/* ---------- tabs ---------- */
+.bay .bay-tabs { display: flex; flex-direction: column; gap: 10px; }
+.bay .bay-tabs__list {
+  display: flex;
+  gap: 2px;
+  border-bottom: 1px solid var(--ds-border-subtle);
+}
+.bay .bay-tabs__trigger {
+  position: relative;
+  padding: 6px 10px;
+  border: 0;
+  background: none;
+  color: var(--ds-text-secondary);
+  font: inherit;
+  cursor: pointer;
+  border-radius: var(--ds-radius-sm) var(--ds-radius-sm) 0 0;
+}
+.bay .bay-tabs__trigger:hover:not(:disabled) { color: var(--ds-text-primary); background: var(--ds-bg-surface-hover); }
+.bay .bay-tabs__trigger[data-selected] { color: var(--ds-text-primary); }
+.bay .bay-tabs__trigger[data-selected]::after {
+  content: '';
+  position: absolute;
+  left: 6px;
+  right: 6px;
+  bottom: -1px;
+  height: 2px;
+  background: var(--ds-accent-default);
+  border-radius: var(--ds-radius-full);
+}
+.bay .bay-tabs__trigger:disabled { color: var(--ds-text-disabled); cursor: not-allowed; }
+.bay .bay-tabs__content:focus-visible { outline: 2px solid var(--ds-border-focus); outline-offset: 2px; }
+
+/* ---------- breadcrumbs ---------- */
+.bay .bay-crumbs { display: flex; align-items: center; min-width: 0; }
+.bay .bay-crumbs__list { display: flex; align-items: center; gap: 2px; margin: 0; padding: 0; list-style: none; min-width: 0; }
+.bay .bay-crumbs__item { display: inline-flex; align-items: center; gap: 2px; min-width: 0; }
+.bay .bay-crumbs__sep { color: var(--ds-text-tertiary); flex: none; }
+.bay .bay-crumbs__link,
+.bay .bay-crumbs__current {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 4px;
+  border-radius: var(--ds-radius-sm);
+  color: var(--ds-text-secondary);
+  text-decoration: none;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.bay .bay-crumbs__link:hover { color: var(--ds-text-primary); background: var(--ds-bg-surface-hover); }
+.bay .bay-crumbs__current { color: var(--ds-text-primary); font-weight: 500; }
+.bay .bay-crumbs__ellipsis { display: none; align-items: center; color: var(--ds-text-tertiary); }
+/* on a narrow screen keep only the first and last: where you came from, and where you are */
+@media (max-width: 640px) {
+  .bay .bay-crumbs__item[data-middle] { display: none; }
+  .bay .bay-crumbs__ellipsis { display: inline-flex; order: 0; }
+  .bay .bay-crumbs__list { order: 1; }
+  .bay .bay-crumbs { flex-direction: row-reverse; justify-content: flex-end; }
+}
+
+/* ---------- menu ---------- */
+.bay .bay-menu {
+  position: fixed;
+  min-width: 180px;
+  max-height: min(60vh, 420px);
+  overflow-y: auto;
+  padding: 4px;
+  border: 1px solid var(--ds-border-subtle);
+  border-radius: var(--ds-radius-lg);
+  background: var(--ds-bg-surface-raised);
+  box-shadow: var(--ds-shadow-popover);
+}
+.bay .bay-menu__item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 8px;
+  border-radius: var(--ds-radius-sm);
+  color: var(--ds-text-primary);
+  cursor: pointer;
+  user-select: none;
+}
+.bay .bay-menu__item:hover:not([data-disabled]),
+.bay .bay-menu__item:focus-visible { background: var(--ds-bg-surface-hover); outline: none; }
+.bay .bay-menu__item[data-destructive] { color: var(--ds-status-danger); }
+.bay .bay-menu__item[data-disabled] { color: var(--ds-text-disabled); cursor: not-allowed; }
+.bay .bay-menu__icon { display: inline-flex; width: 14px; flex: none; color: var(--ds-text-tertiary); }
+.bay .bay-menu__label { flex: 1 1 auto; min-width: 0; }
+.bay .bay-menu__shortcut { color: var(--ds-text-tertiary); font-size: 11px; flex: none; }
+.bay .bay-menu__sectionLabel { padding: 6px 8px 2px; font-size: 11px; color: var(--ds-text-tertiary); }
+.bay .bay-menu__separator { height: 1px; margin: 4px -4px; background: var(--ds-border-subtle); }
+
+/* ---------- overlay backdrop ---------- */
+.bay .bay-overlay {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 16px;
+}
+.bay .bay-overlay[data-modal] { background: var(--ds-bg-overlay); }
+
+/* ---------- dialog ---------- */
+.bay .bay-dialog {
+  position: relative;
+  width: 100%;
+  max-height: calc(100vh - 32px);
+  overflow-y: auto;
+  padding: 16px;
+  border: 1px solid var(--ds-border-subtle);
+  border-radius: var(--ds-radius-lg);
+  background: var(--ds-bg-surface-raised);
+  box-shadow: var(--ds-shadow-modal);
+}
+.bay .bay-dialog--sm { max-width: 360px; }
+.bay .bay-dialog--md { max-width: 480px; }
+.bay .bay-dialog--lg { max-width: 680px; }
+.bay .bay-dialog__title { margin: 0 24px 2px 0; font-size: 14px; font-weight: 600; }
+.bay .bay-dialog__description { margin: 0 0 12px; font-size: 12px; color: var(--ds-text-tertiary); }
+.bay .bay-dialog__footer { display: flex; justify-content: flex-end; gap: 8px; margin-top: 16px; }
+.bay .bay-dialog__x {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  border: 0;
+  border-radius: var(--ds-radius-sm);
+  background: none;
+  color: var(--ds-text-tertiary);
+  cursor: pointer;
+}
+.bay .bay-dialog__x:hover { background: var(--ds-bg-surface-hover); color: var(--ds-text-primary); }
+
+/* ---------- sheet ---------- */
+.bay .bay-sheet {
+  position: fixed;
+  display: flex;
+  flex-direction: column;
+  padding: 16px;
+  background: var(--ds-bg-surface-raised);
+  box-shadow: var(--ds-shadow-modal);
+  overflow-y: auto;
+}
+.bay .bay-sheet[data-side='right'] { top: 0; right: 0; bottom: 0; border-left: 1px solid var(--ds-border-subtle); }
+.bay .bay-sheet[data-side='left'] { top: 0; left: 0; bottom: 0; border-right: 1px solid var(--ds-border-subtle); }
+.bay .bay-sheet[data-side='bottom'] { left: 0; right: 0; bottom: 0; border-top: 1px solid var(--ds-border-subtle); border-radius: var(--ds-radius-lg) var(--ds-radius-lg) 0 0; }
+.bay .bay-sheet--sm[data-side='left'], .bay .bay-sheet--sm[data-side='right'] { width: 280px; }
+.bay .bay-sheet--md[data-side='left'], .bay .bay-sheet--md[data-side='right'] { width: 360px; }
+.bay .bay-sheet--lg[data-side='left'], .bay .bay-sheet--lg[data-side='right'] { width: 480px; }
+.bay .bay-sheet--sm[data-side='bottom'] { max-height: 40vh; }
+.bay .bay-sheet--md[data-side='bottom'] { max-height: 60vh; }
+.bay .bay-sheet--lg[data-side='bottom'] { max-height: 80vh; }
+/* a phone has no room for an edge panel: take the full width whichever side it came from */
+@media (max-width: 640px) {
+  .bay .bay-sheet[data-side='left'], .bay .bay-sheet[data-side='right'] { width: 100%; }
+}
+
+/* ---------- popover ---------- */
+.bay .bay-popover {
+  position: fixed;
+  min-width: 180px;
+  max-width: min(90vw, 320px);
+  padding: 12px;
+  border: 1px solid var(--ds-border-subtle);
+  border-radius: var(--ds-radius-lg);
+  background: var(--ds-bg-surface-raised);
+  box-shadow: var(--ds-shadow-popover);
+}
+
+/* ---------- tooltip ---------- */
+.bay .bay-tooltip__trigger { display: inline-flex; }
+.bay .bay-tooltip {
+  position: fixed;
+  max-width: 260px;
+  padding: 4px 8px;
+  border-radius: var(--ds-radius-sm);
+  background: var(--ds-bg-inverse);
+  color: var(--ds-text-inverse);
+  font-size: 11px;
+  line-height: 1.4;
+  box-shadow: var(--ds-shadow-md);
+  pointer-events: none;
+}

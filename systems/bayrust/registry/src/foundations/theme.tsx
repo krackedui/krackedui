@@ -1,6 +1,6 @@
 'use client';
 
-import { createContext, useContext, useEffect, useMemo, useState, type ReactNode } from 'react';
+import { createContext, useContext, useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
 import { cn } from '../lib/cn';
 
 export type Appearance = 'light' | 'dark';
@@ -17,15 +17,25 @@ export interface ThemeProps {
 interface ThemeValue {
   /** The appearance actually in effect — never `system`. */
   appearance: Appearance;
+  /**
+   * Where overlays mount. Portalling into the Theme rather than `document.body` is what makes a
+   * menu or dialog follow the appearance of the Theme it belongs to, including a nested one.
+   */
+  portalContainer: HTMLElement | null;
 }
 
 const ThemeContext = createContext<ThemeValue | null>(null);
 
 /** The appearance in effect. Throws outside a `<Theme>`, per SPEC §3.8. */
 export function useAppearance(): Appearance {
+  return useTheme('useAppearance').appearance;
+}
+
+/** The whole theme context. Throws outside a `<Theme>`, naming what to add. */
+export function useTheme(who = 'This component'): ThemeValue {
   const ctx = useContext(ThemeContext);
-  if (!ctx) throw new Error('useAppearance must be used inside <Theme> — wrap your app in <Theme> from @krackedui/bayrust.');
-  return ctx.appearance;
+  if (!ctx) throw new Error(`${who} must be used inside <Theme> — wrap your app in <Theme> from @krackedui/bayrust.`);
+  return ctx;
 }
 
 const QUERY = '(prefers-color-scheme: light)';
@@ -50,12 +60,17 @@ export function Theme({ appearance = 'dark', className, style, id, children }: T
   }, [appearance]);
 
   const resolved: Appearance = appearance === 'system' ? systemAppearance : appearance;
-  const value = useMemo(() => ({ appearance: resolved }), [resolved]);
+  const portalRef = useRef<HTMLDivElement | null>(null);
+  // the container only exists after the first paint, so overlays mount on the client
+  const [portalContainer, setPortalContainer] = useState<HTMLElement | null>(null);
+  useEffect(() => setPortalContainer(portalRef.current), []);
+  const value = useMemo(() => ({ appearance: resolved, portalContainer }), [resolved, portalContainer]);
 
   return (
     <ThemeContext.Provider value={value}>
       <div id={id} className={cn('bay', className)} style={style} data-theme={`bayrust-${resolved}`}>
         {children}
+        <div ref={portalRef} className="bay-portal" />
       </div>
     </ThemeContext.Provider>
   );
