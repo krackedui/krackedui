@@ -127,8 +127,11 @@ Per `/standard/SPEC.md` §5, every value above is traceable; nothing here is inf
    `CommandPaletteDialog` and `ConfirmDialog`. Four of them need a date engine and the rest build on
    the popover and menu that now exist. Each needs the component, its variants, a behaviour test, a
    docs page and a registry item.
-2. **A build.** `registry/` has no build yet, so there is no `dist/`, no `styles.css`, no `tokens.json`
-   and no exports map to resolve. Checks 6, 7 and 8 cannot run until there is.
+2. **A build — this is the one blocking everything else.** `registry/` has no build yet, so there is
+   no `dist/`, no `styles.css`, no `tokens.json` and no exports map to resolve. CI on this branch
+   runs the gate and stops here: `visual (0s): check crashed: package build failed (see the build
+   check)` — `FAIL (partial): 0 pass, 1 fail, 13 skip`. Checks 6, 7 and 8 cannot run, and neither can
+   the visual baselines, until there is a build. Nothing else in this list can be scored before it.
 3. **Tests.** None. Every interactive entry needs one (check 5).
 4. **Docs and playground.** Absent; checks 9 and 12 depend on them.
 5. **Icons.** Six of roughly 192 product icons are drawn. The interface icons are complete (all 80).
