@@ -59,5 +59,5 @@ export function middleware(req: NextRequest) {
 
 export const config = {
   // Skip Next internals and root-level static files; template assets live under /<system>/<template>/.
-  matcher: ['/((?!_next/|r/|previews/|icon.svg|favicon.ico|robots.txt).*)'],
+  matcher: ['/((?!_next/|r/|icon.svg|favicon.ico|robots.txt).*)'],
 };
