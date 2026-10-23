@@ -1,0 +1,518 @@
+{
+ "name": "Motion",
+ "tagline": "A calm, content-first React design system",
+ "pages": {
+  "ai": {
+   "title": "Using with AI",
+   "description": "Give your AI assistant the rules and the full API, so what it builds looks and behaves like Motion."
+  },
+  "blocks/app-frame": {
+   "title": "App Frame",
+   "description": "The app window: a sidebar docked on desktop (collapsible, animated) that becomes a modal drawer on phones, a top bar over a scrolling page, and an overlay layer for peeks."
+  },
+  "blocks/block-action-menu": {
+   "title": "Block action menu",
+   "description": "The menu that opens from a block’s ⋮⋮ handle: search, Turn into and Color submenus, Copy link, Duplicate, Move to, Delete, Comment, Ask AI, and a “Last edited” footer."
+  },
+  "blocks/board-view": {
+   "title": "Board View",
+   "description": "Kanban columns grouped by a status or select property. Cards drag between columns and reorder within one."
+  },
+  "blocks/bookmark": {
+   "title": "Bookmark",
+   "description": "The web bookmark: a bordered card with the page title, description and URL, and an optional thumbnail on the right."
+  },
+  "blocks/calendar-view": {
+   "title": "Calendar View",
+   "description": "Month grid of rows placed on their date property. Drag an event to another day; hover a day to add a page."
+  },
+  "blocks/callout": {
+   "title": "Callout",
+   "description": "The callout: an emoji and text in a rounded, tinted box. Defaults to 💡 on gray; any block color works."
+  },
+  "blocks/chart-view": {
+   "title": "Chart View",
+   "description": "The locked (upgrade) state, or a vertical bar chart of row counts grouped by a property."
+  },
+  "blocks/code": {
+   "title": "Code",
+   "description": "The code block: monospaced text on a tinted card. Hovering shows the language button (top left) and Copy (top right)."
+  },
+  "blocks/columns": {
+   "title": "Columns",
+   "description": "The column list: 2–5 side-by-side columns separated by 46px gutters, each holding any blocks."
+  },
+  "blocks/database": {
+   "title": "Database",
+   "description": "Databases as plain data plus React views: a typed collection schema, rows, saved views with filters and sorts, a state hook and seven layouts."
+  },
+  "blocks/database-view": {
+   "title": "Database View",
+   "description": "The database block: title, view tabs (with “N more…”), toolbar (filter, sort, search, settings, New) and the active layout."
+  },
+  "blocks/date-cell-picker": {
+   "title": "Date Cell Picker",
+   "description": "The date property popover: typed date input, month calendar, end date / time switches and Clear."
+  },
+  "blocks/divider": {
+   "title": "Divider",
+   "description": "The divider block: a 1px hairline in a 13px row. Created by typing `---`."
+  },
+  "blocks/editor": {
+   "title": "Editor",
+   "description": "The full block editor over a `Block[]` document: Enter/Backspace/Tab semantics, markdown shortcuts, the `/` slash menu, the hover `+` and ⋮⋮ handle with the block menu, drag to reorder, and the selection text toolbar."
+  },
+  "blocks/equation": {
+   "title": "Equation",
+   "description": "The block equation: centered display math from a TeX expression. The renderer is a light TeX-ish approximation (superscripts, subscripts, fractions, Greek letters and common symbols), with no KaTeX dependency."
+  },
+  "blocks/filter-sort-menus": {
+   "title": "Filter & Sort Menus",
+   "description": "“Filter by…” and “Sort by…” property pickers, plus the editors behind the filter and sort rule pills."
+  },
+  "blocks/gallery-view": {
+   "title": "Gallery View",
+   "description": "Cards with a page preview area and the title, in a responsive grid."
+  },
+  "blocks/heading": {
+   "title": "Heading",
+   "description": "The Heading 1–3 blocks (plus Heading 4) at weight 600, sized in em of the 16px content. Any heading can be a toggle heading."
+  },
+  "blocks/image": {
+   "title": "Image",
+   "description": "The image block: a centered image with radius 4 and an optional caption. With no `src` it shows the “Add an image” placeholder."
+  },
+  "blocks/list": {
+   "title": "Bulleted & numbered list",
+   "description": "Bulleted and numbered list items. Markers change with nesting depth: • ◦ ▪ for bullets, 1. a. i. for numbers, cycling every three levels."
+  },
+  "blocks/list-view": {
+   "title": "List View",
+   "description": "Minimal rows: page icon and title on the left, visible properties as small pills on the right."
+  },
+  "blocks/new-view-menu": {
+   "title": "Views Menu & New View",
+   "description": "The “N more…” list of views and the “Add a new view” layout grid that opens beside it."
+  },
+  "blocks/overview": {
+   "title": "Block model",
+   "description": "Every piece of a page is a block. `@krackedui/motion` models a page as a `Block[]` tree and renders it with consistent block spacing; the same tree drives the read-only renderer and the editor."
+  },
+  "blocks/page-header": {
+   "title": "Page Header",
+   "description": "The top of a page: optional icon, the title (`h1`, editable in place), a description and right-aligned actions, plus the Add icon / cover / comment controls."
+  },
+  "blocks/page-layout": {
+   "title": "Page Layout",
+   "description": "The scrolling page frame: a 3-column grid with a 720px content column (16px gutters on phones), an optional cover, the page header and a table-of-contents rail."
+  },
+  "blocks/page-link": {
+   "title": "Page link",
+   "description": "The sub-page / link-to-page block: page icon plus an underlined 500-weight title."
+  },
+  "blocks/page-title": {
+   "title": "Page title",
+   "description": "The 40px bold page title at the top of a page, with an optional 78px emoji icon above it."
+  },
+  "blocks/peek": {
+   "title": "Peek",
+   "description": "Open a page without leaving the current one: the side peek docked at the right edge, or the center peek modal. Both share the top bar and body parts."
+  },
+  "blocks/property-list": {
+   "title": "Property List",
+   "description": "The editable property table under a database page’s title (side peek and full page), plus the per-property cell and value renderers."
+  },
+  "blocks/property-menu": {
+   "title": "Property Menu",
+   "description": "The menu behind a table column header: rename, change type, filter, sort, group, hide, wrap, insert, duplicate, delete."
+  },
+  "blocks/quote": {
+   "title": "Quote",
+   "description": "The quote block: a 3px bar in the current text color, with text starting 33px in."
+  },
+  "blocks/rich-text": {
+   "title": "Rich text",
+   "description": "Renders a `RichText` value inline: marks, links, inline code, colors, emoji and mentions. Every text block uses it; use it directly inside your own components."
+  },
+  "blocks/select-picker": {
+   "title": "Select Picker",
+   "description": "Select, multi-select and status picker: selected tokens with search, the option list, and “Create” for new options."
+  },
+  "blocks/settings-modal": {
+   "title": "Settings Modal",
+   "description": "The “Settings & members” dialog: a 240px searchable nav of groups and tabs, and a scrolling 800px content column of sections and rows."
+  },
+  "blocks/shell-menus": {
+   "title": "Shell Menus",
+   "description": "Menus opened from the sidebar bottom bar: workspace switcher, help / what’s new, and Library · Trash."
+  },
+  "blocks/sidebar": {
+   "title": "Sidebar",
+   "description": "App navigation: header, sections of links, a keyboard-navigable page tree, footer and bottom bar. Inside an AppFrame it docks, floats when collapsed, and becomes the phone drawer."
+  },
+  "blocks/simple-table": {
+   "title": "Simple table",
+   "description": "The simple table block (not a database): a grid of rich-text cells with an optional header row and header column."
+  },
+  "blocks/slash-menu": {
+   "title": "Slash menu",
+   "description": "The “/” command menu: insert or convert blocks. Shown here statically; inside the Editor it opens under the caret when you type `/`."
+  },
+  "blocks/table-of-contents": {
+   "title": "Table of contents",
+   "description": "The table of contents block: links to the page’s headings, indented 24px per level. Inside `BlockRenderer` it collects the headings automatically."
+  },
+  "blocks/table-view": {
+   "title": "Table View",
+   "description": "Spreadsheet layout: resizable columns, editable cells, row selection, an OPEN button on the title and an optional calculation footer."
+  },
+  "blocks/text": {
+   "title": "Text",
+   "description": "The paragraph block: 16/24 rich text with inline marks, colors, links and mentions. Child blocks indent under it."
+  },
+  "blocks/text-toolbar": {
+   "title": "Text toolbar",
+   "description": "The card that appears over a text selection (a vertical toolbar): block type, color, bold / italic / underline / clear, link / strike / code / equation, Comment, Skills and “Edit with AI”."
+  },
+  "blocks/timeline-view": {
+   "title": "Timeline View",
+   "description": "Gantt-style bars on a day scale with a today line. Drag a bar to move its date; off-screen items show an edge arrow."
+  },
+  "blocks/to-do": {
+   "title": "To-do",
+   "description": "The to-do list item: a 16px checkbox; checked items are struck through and faded."
+  },
+  "blocks/toggle": {
+   "title": "Toggle",
+   "description": "The toggle list: a disclosure triangle that shows or hides nested blocks. An open toggle with no children shows a clickable “Empty toggle” hint."
+  },
+  "blocks/topbar": {
+   "title": "Topbar",
+   "description": "The 44px bar above a page: breadcrumbs on the left, page actions on the right. Inside an AppFrame it adds the phone menu button that opens the sidebar drawer."
+  },
+  "blocks/turn-into-menu": {
+   "title": "Turn into menu",
+   "description": "The “Turn into” list: convert a block to another type. The current type is checked. Used as a submenu of the block menu and of the text toolbar."
+  },
+  "blocks/view-settings-panel": {
+   "title": "View Settings Panel",
+   "description": "The “View settings” panel from the toolbar: view name, layout, property visibility, filter, sort, group and data source settings."
+  },
+  "foundation/color": {
+   "title": "Color",
+   "description": "Motion color tokens. Each swatch shows the light value on the left and the dark value on the right."
+  },
+  "foundation/icons": {
+   "title": "Icons",
+   "description": "257 icons drawn from Lucide (ISC), rendered with <Icon name=\"…\" />. The 80 portable names work in every KrackedUI system."
+  },
+  "foundation/motion": {
+   "title": "Motion",
+   "description": "Durations and easings for animation. Overlays fade and slide in and out; with reduced motion, nothing slides or scales."
+  },
+  "foundation/radius": {
+   "title": "Radius",
+   "description": "Small radii keep Motion quiet: 4–6px for controls, 8px for popovers and cards. `--ds-radius-*` maps onto the same scale."
+  },
+  "foundation/shadows": {
+   "title": "Shadows",
+   "description": "Shadows combine a hairline outline with a soft drop, so surfaces read in both themes. Dark mode uses stronger values automatically."
+  },
+  "foundation/spacing": {
+   "title": "Spacing",
+   "description": "A 4px scale. Stack and Grid `gap` take the step number (`gap={4}` = 16px); `--ds-space-<n>` holds the same values."
+  },
+  "foundation/typography": {
+   "title": "Typography",
+   "description": "Text styles used across Motion, from page titles to captions and code. Utilities: `text-n-<style>` (e.g. `text-n-ui`)."
+  },
+  "installation": {
+   "title": "Installation",
+   "description": "Install @krackedui/motion from npm, import one stylesheet and wrap your UI in <Theme>. Tailwind is not required."
+  },
+  "introduction": {
+   "title": "Introduction",
+   "description": "Motion is a calm, content-first React design system: quiet surfaces, dense layouts and a full set of components, from buttons to a block editor and database views."
+  },
+  "templates": {
+   "title": "Templates",
+   "description": "Full apps built only from @krackedui/motion. Open them live, or start your own project from one."
+  },
+  "theming": {
+   "title": "Theming",
+   "description": "Light and dark appearance, design tokens, and how to use them in your own code."
+  },
+  "ui/accordion": {
+   "title": "Accordion",
+   "description": "Expandable sections separated by hairlines. The chevron turns and the content animates its height (instant under reduced motion)."
+  },
+  "ui/alert": {
+   "title": "Alert",
+   "description": "An inline message in the shape of a callout: tinted surface, tone icon, title and text, with an optional action and dismiss button."
+  },
+  "ui/avatar": {
+   "title": "Avatar",
+   "description": "Person or workspace picture with an initial fallback: rounded squares for workspaces, circles for people."
+  },
+  "ui/avatar-group": {
+   "title": "Avatar Group",
+   "description": "Overlapping facepile; extra people collapse into a “+N” chip."
+  },
+  "ui/badge": {
+   "title": "Badge",
+   "description": "Small status or count label: six tones in soft, solid and outline variants, all at 4.5:1 contrast or more."
+  },
+  "ui/bar-chart": {
+   "title": "BarChart",
+   "description": "Compares categories with grouped or stacked bars, vertical or horizontal. Bars grow in once; category labels thin or truncate on narrow screens."
+  },
+  "ui/breadcrumbs": {
+   "title": "Breadcrumbs",
+   "description": "Location in a hierarchy, as links separated by \"/\". Middle items collapse into a \"…\" menu when the row runs out of space."
+  },
+  "ui/button": {
+   "title": "Button",
+   "description": "Text button in four contract variants (plus danger ghost) and three sizes (plus xl), with icons and a loading state."
+  },
+  "ui/calendar": {
+   "title": "Calendar",
+   "description": "An inline month grid for picking one date: month caption with Today and arrows, 32px day cells, accent selection and a red today marker."
+  },
+  "ui/card": {
+   "title": "Card",
+   "description": "A quiet surface that groups related content: a hairline border, an 8px radius and no shadow. Compose a header, content and footer inside."
+  },
+  "ui/checkbox": {
+   "title": "Checkbox",
+   "description": "A 16px box that fills with the accent and a white check. Supports a label, an indeterminate state, and every form attribute."
+  },
+  "ui/color-menu": {
+   "title": "Color Menu",
+   "description": "Text and background color pickers: a compact swatch grid and a labelled list."
+  },
+  "ui/combobox": {
+   "title": "Combobox",
+   "description": "A searchable select for long lists, single or `multiple`. The trigger matches Select; the popover has a search field above a filtered list. Type to filter, arrows to move, Enter to pick."
+  },
+  "ui/command-palette": {
+   "title": "Command Palette",
+   "description": "Searchable list of commands and pages with keyboard navigation and shortcut hints, inline in a panel."
+  },
+  "ui/command-palette-dialog": {
+   "title": "Command Palette Dialog",
+   "description": "The command palette in a modal, toggled with ⌘K / Ctrl+K. Full screen on phones."
+  },
+  "ui/confirm-dialog": {
+   "title": "Confirm Dialog",
+   "description": "Small alert dialog to confirm or cancel a consequential action. Async confirms show a busy button until they finish."
+  },
+  "ui/context-menu": {
+   "title": "Context Menu",
+   "description": "Right-click menu with the same parts and look as Menu, opened at the pointer."
+  },
+  "ui/data-table": {
+   "title": "DataTable",
+   "description": "Columns + rows with sorting, row selection, row click, skeleton loading, an empty state, responsive columns and a sticky header. Built on the Table primitives."
+  },
+  "ui/date-menu": {
+   "title": "Date Menu",
+   "description": "The date property menu from database views: a typed date field, a month grid, then End date / Date format / Include time / Remind rows and Clear. For a date form field, use Date Picker."
+  },
+  "ui/date-picker": {
+   "title": "Date Picker",
+   "description": "A date form field: a TextInput-style trigger showing the date that opens a Calendar in a popover. Clearable, with min / max."
+  },
+  "ui/date-range-picker": {
+   "title": "Date Range Picker",
+   "description": "A start/end date field with quick presets. Two months side by side on wide screens, one under 640px; the range previews as you hover or move with the keyboard."
+  },
+  "ui/dialog": {
+   "title": "Dialog",
+   "description": "Modal dialog in three sizes with title, description and a footer of actions. Fills the width on phones and scrolls inside."
+  },
+  "ui/disclosure-toggle": {
+   "title": "Disclosure Toggle",
+   "description": "The ▸ triangle of toggle blocks and tree rows: rotates down when open."
+  },
+  "ui/divider": {
+   "title": "Divider",
+   "description": "Hairline separator, horizontal or vertical. `block` adds the spacing of a divider in a document."
+  },
+  "ui/donut-chart": {
+   "title": "DonutChart",
+   "description": "Parts of a whole as a ring, with content in the middle and a legend of values and shares. Slices draw in once and lift on hover."
+  },
+  "ui/drag-handle": {
+   "title": "Drag Handle",
+   "description": "The six-dot handle beside a block or row: drag to move, click to open the block menu."
+  },
+  "ui/emoji-picker": {
+   "title": "Emoji Picker",
+   "description": "Emoji and icon picker panel with search, category jumps and an upload tab. Put it in a Popover."
+  },
+  "ui/empty-state": {
+   "title": "EmptyState",
+   "description": "What to show when there is nothing yet: a quiet icon, a one-line title, a sentence of help and the next action."
+  },
+  "ui/field": {
+   "title": "Field",
+   "description": "Label, description and error around one control. It wires `id`, `aria-describedby`, `aria-invalid` and `aria-required` into the control, so every input in a form is announced correctly."
+  },
+  "ui/file-upload": {
+   "title": "File Upload",
+   "description": "A drop zone plus a \"Choose files\" button, with type, size and count validation and a removable file list."
+  },
+  "ui/form-patterns": {
+   "title": "Form Patterns",
+   "description": "A complete payment form built only from the package: Field around every control, validation on submit, errors that say how to fix the value, and a status message on success."
+  },
+  "ui/grid": {
+   "title": "Grid",
+   "description": "Equal columns (1–6 or 12) with gaps from the spacing scale, per breakpoint."
+  },
+  "ui/icon-button": {
+   "title": "Icon Button",
+   "description": "Square, icon-only button for toolbars, sidebars and row actions, with a required label and an optional tooltip."
+  },
+  "ui/kanban-board": {
+   "title": "KanbanBoard",
+   "description": "Cards in status columns that people move by dragging (mouse, pen or touch) or with the keyboard through each card’s menu. Controlled: it reports moves, you update the list."
+  },
+  "ui/kbd": {
+   "title": "Kbd",
+   "description": "Keyboard key or shortcut chip, like “⌘K” next to Search. `Shortcut` is the plain text variant used at the end of menu rows."
+  },
+  "ui/line-chart": {
+   "title": "LineChart",
+   "description": "Trends over time for one or more series: nice y ticks, a hairline grid, optional area fill and monotone curves. Fills its container and thins x labels on narrow screens."
+  },
+  "ui/link": {
+   "title": "Link",
+   "description": "Text link: inline in running text, accent for UI links, subtle for secondary links. `external` opens a new tab safely."
+  },
+  "ui/menu": {
+   "title": "Menu",
+   "description": "Dropdown menu of actions opened from a button: items with icons and shortcuts, checkbox and radio options, submenus, a search header and a metadata footer."
+  },
+  "ui/number-input": {
+   "title": "Number Input",
+   "description": "A numeric field with min / max / step, arrow-key stepping and Intl formatting (currency, percent, units) when it isn’t being edited. Accepts localized input like \"1.234,5\"."
+  },
+  "ui/page-icon": {
+   "title": "Page Icon",
+   "description": "A page’s icon: emoji, icon or image, with the default page glyph when none is set. Sized for sidebar rows, table cells, callouts and page titles."
+  },
+  "ui/pagination": {
+   "title": "Pagination",
+   "description": "Previous / next and page numbers with ellipses for long ranges. Under 640px it collapses to \"Page 3 of 10\" between the arrows."
+  },
+  "ui/placeholder": {
+   "title": "Placeholder",
+   "description": "Hint text for empty content: “Empty” values, untitled pages and blank blocks."
+  },
+  "ui/popover": {
+   "title": "Popover",
+   "description": "Floating panel anchored to a trigger, for pickers, small forms and details. Collision-aware and animated."
+  },
+  "ui/progress": {
+   "title": "Progress",
+   "description": "A determinate progress bar with a label and a value. The fill uses the tone color and grows with a short transition."
+  },
+  "ui/radio-group": {
+   "title": "Radio Group",
+   "description": "Mutually exclusive options. Each Radio is a 16px ring that fills with the accent and a white dot when selected."
+  },
+  "ui/search-input": {
+   "title": "Search Input",
+   "description": "Search field with a leading magnifier and a clear button that appears once there is text. Escape clears too."
+  },
+  "ui/segmented-control": {
+   "title": "Segmented Control",
+   "description": "A small set of exclusive options shown inline, from view settings and layout pickers. The selected surface slides between segments."
+  },
+  "ui/select": {
+   "title": "Select",
+   "description": "Pick one option from a short list. The trigger looks like a text field; the list is a Motion menu with a check on the selected row and typeahead."
+  },
+  "ui/share-popover": {
+   "title": "Share Popover",
+   "description": "Share panel: invite by email, people with access, general access and copy link. Put it in a Popover."
+  },
+  "ui/sheet": {
+   "title": "Sheet",
+   "description": "Modal panel that slides in from the left, right or bottom edge, with a pinned footer. Fills the width on phones."
+  },
+  "ui/skeleton": {
+   "title": "Skeleton",
+   "description": "A loading placeholder shaped like the content: a quiet grey block or a few text lines that pulse gently, and hold still under reduced motion."
+  },
+  "ui/slider": {
+   "title": "Slider",
+   "description": "Pick a number or a range by dragging or with the arrow keys. A 4px track, accent range and white thumbs; thumbs grow on touch screens."
+  },
+  "ui/sparkline": {
+   "title": "Sparkline",
+   "description": "A tiny inline trend line with no axes, for stat cards and table cells. Fills its container unless you give it a width."
+  },
+  "ui/spinner": {
+   "title": "Spinner",
+   "description": "Loading indicator: a thin ring with a spinning arc. Announced as a status (“Loading” by default)."
+  },
+  "ui/stack": {
+   "title": "Stack",
+   "description": "Flex row or column with gaps from the 4px spacing scale. Direction and gap can change per breakpoint."
+  },
+  "ui/stat": {
+   "title": "Stat",
+   "description": "A key metric: label, a large tabular value, a delta chip whose color follows whether the change is good, and a line of context."
+  },
+  "ui/status-pill": {
+   "title": "Status Pill",
+   "description": "A colored dot and label on a rounded tint, with shortcuts for the default groups: not started, in progress, done."
+  },
+  "ui/steps": {
+   "title": "Steps",
+   "description": "Progress through a multi-step task (checkout, a payment, onboarding): numbered markers joined by hairlines; completed steps can link back."
+  },
+  "ui/switch": {
+   "title": "Switch",
+   "description": "On/off toggle for settings that apply immediately: a 30×18 pill track with a white knob."
+  },
+  "ui/table": {
+   "title": "Table",
+   "description": "Styled table primitives in the look of Motion’s database table: 36px rows, hairline rules, a quiet header. The table scrolls inside its own container on small screens."
+  },
+  "ui/tabs": {
+   "title": "Tabs",
+   "description": "Underline tabs to switch between views of the same context. The underline slides to the active tab."
+  },
+  "ui/tag": {
+   "title": "Tag",
+   "description": "Colored label for user-defined categories in the ten palette colors, with an optional remove button."
+  },
+  "ui/text-input": {
+   "title": "Text Input",
+   "description": "Single-line field: a translucent grey box with a hairline ring that turns blue on focus and red when invalid. Optional leading icon and trailing content."
+  },
+  "ui/textarea": {
+   "title": "Textarea",
+   "description": "Multi-line field with the Text Input surface (14/20 text), resizable vertically."
+  },
+  "ui/theme": {
+   "title": "Theme",
+   "description": "The Motion root: applies fonts, tokens, base styles and the light/dark appearance to everything inside, including portalled menus and dialogs."
+  },
+  "ui/timeline": {
+   "title": "Timeline",
+   "description": "A Gantt-style chart: one bar per item from its start to its end date, on a week or month scale, with a today marker. Bars open on click or Enter and move with drag or the arrow keys."
+  },
+  "ui/toast": {
+   "title": "Toast",
+   "description": "Short, temporary message at the bottom center after an action, with an optional action like Undo. `ToastProvider` hosts them; `useToast()` shows and dismisses them."
+  },
+  "ui/tooltip": {
+   "title": "Tooltip",
+   "description": "Short hint on hover and keyboard focus, with an optional shortcut line. Dark in both themes."
+  }
+ }
+}
