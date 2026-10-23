@@ -1,6 +1,6 @@
 import { describe, expect, it, vi } from 'vitest';
 import { Steps } from '@system';
-import { renderUI, screen } from '../../../../standard/gate/tests/utils';
+import { renderUI, screen } from './utils';
 
 const steps = [{ label: 'Payee' }, { label: 'Details', description: 'Amount, account, date' }, { label: 'Review' }];
 

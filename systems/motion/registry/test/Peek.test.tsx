@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { describe, expect, it, vi } from 'vitest';
 import { CenterPeek, PageHeader, PeekBody, SidePeek } from '@system';
-import { renderUI, screen, waitFor } from '../../../../standard/gate/tests/utils';
+import { renderUI, screen, waitFor } from './utils';
 
 function SideDemo({ onClose }: { onClose?: () => void }) {
   const [open, setOpen] = useState(false);

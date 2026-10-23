@@ -1,4 +1,4 @@
-// 1. Typecheck: registry, playground, docs app (which includes systems/<name>/docs), contract tests and
+// 1. Typecheck: registry, playground, docs app (which includes systems/<name>/docs), the system's tests and
 // every template, all strict, 0 errors.
 import fs from 'node:fs/promises';
 import { existsSync } from 'node:fs';
@@ -9,12 +9,12 @@ export { runCheck as run };
 
 async function runCheck(ctx) {
   const tsc = path.join(ctx.root, 'node_modules/.bin/tsc');
-  // Contract tests are system-agnostic: point '@system' at this system.
+  // Tests import the system under test as '@system'.
   const testsTsconfig = path.join(ctx.scratch, 'tsconfig.tests.json');
   await fs.writeFile(testsTsconfig, JSON.stringify({
     extends: path.join(ctx.root, 'standard/gate/tests/tsconfig.json'),
     compilerOptions: { paths: { '@system': [path.join(ctx.srcDir, 'index.ts')] } },
-    include: [path.join(ctx.root, 'standard/gate/tests/**/*.ts'), path.join(ctx.root, 'standard/gate/tests/**/*.tsx'), path.join(ctx.registryDir, 'test/**/*.ts'), path.join(ctx.registryDir, 'test/**/*.tsx')],
+    include: [path.join(ctx.root, 'standard/gate/tests/**/*.ts'), path.join(ctx.registryDir, 'test/**/*.ts'), path.join(ctx.registryDir, 'test/**/*.tsx')],
   }, null, 1));
   const projects = [
     ['registry', path.join(ctx.registryDir, 'tsconfig.json')],

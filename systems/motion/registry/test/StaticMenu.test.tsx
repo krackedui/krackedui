@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { describe, expect, it, vi } from 'vitest';
 import { MenuList, MenuRow, MenuSearch, MenuSurface, MenuSwitch } from '@system';
-import { fireEvent, renderUI, screen } from '../../../../standard/gate/tests/utils';
+import { fireEvent, renderUI, screen } from './utils';
 
 function ToggleMenu({ onToggle }: { onToggle?: (v: boolean) => void }) {
   const [locked, setLocked] = useState(false);

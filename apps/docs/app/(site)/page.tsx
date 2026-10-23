@@ -1,30 +1,40 @@
 // krackedui.com: the landing page.
 import Link from 'next/link';
-import { catalog, contractSize, systemHref, templateHref } from '@/catalog';
+import { catalog, gateCheckCount, systemHref, templateHref } from '@/catalog';
 import { CopyCommand } from '@/components/site/CopyCommand';
 import { Preview, SystemCard } from '@/components/site/SystemCard';
 
 const pillars = [
   {
-    title: 'One contract',
-    body: `Every system ships the same ${contractSize} components with the same props. Learn Button once; it works the same in every look.`,
-    points: ['Same names and props', 'Same install steps', 'Swap systems by changing an import'],
+    title: 'Their own character',
+    body: 'Each system keeps the components, APIs and tokens it was designed with. KrackedUI never flattens them into one look.',
+    points: ['Specialties kept, not removed', 'Added exactly as designed', 'Differences flagged, not rewritten'],
   },
   {
-    title: 'The gate',
-    body: 'Nothing ships until 14 automated checks pass on the exact code being published. No overrides.',
-    points: ['WCAG 2.2 AA, keyboard, focus, touch targets', 'Responsive from 320 to 1440 px', 'Tests, types, docs, visual baselines'],
+    title: 'One quality bar',
+    body: `Nothing ships until ${gateCheckCount} automated checks pass on the exact code being published. No overrides.`,
+    points: ['WCAG 2.2 AA, focus, touch targets', 'Responsive from 320 to 1440 px', 'Typed, linted, tested, visually stable'],
   },
   {
     title: 'Real templates',
-    body: 'Each system proves itself by building two full sector apps. Gaps found get fixed in the system, not around it.',
+    body: 'Each system proves itself by building two full sector apps. Anything missing is added to the system as a new component.',
     points: ['Project management, fintech, more coming', 'Start one with a single command', 'Live previews on every system site'],
   },
 ];
 
-const swap = [
-  { file: 'motion', note: 'calm, dense' },
-  { file: 'next-system', note: 'same code, new look' },
+const checks = [
+  ['Typecheck', 'strict TypeScript, 0 errors'],
+  ['Lint', 'ESLint with accessibility rules'],
+  ['Tests', 'every behaviour test passes'],
+  ['Build', 'within the bundle budget'],
+  ['Install', 'fresh Vite and Next.js apps'],
+  ['Copy-paste', 'each component installs alone'],
+  ['Accessibility', 'axe: zero violations, light and dark'],
+  ['Responsive', '320, 375, 768, 1024, 1440 px'],
+  ['Visual', 'screenshots match approved baselines'],
+  ['Templates', 'two sector apps build and pass'],
+  ['Clean', 'nothing third-party ships'],
+  ['Tokens', 'reported, never forced'],
 ];
 
 export default function Home() {
@@ -43,11 +53,11 @@ export default function Home() {
             Motion 1.0 is live on npm
           </Link>
           <h1 id="hero-title" className="mx-auto mt-6 max-w-3xl text-balance text-center text-[40px] font-semibold leading-[1.05] tracking-[-0.035em] sm:text-[56px] md:text-[64px]">
-            Design systems that speak the same language
+            Design systems with character, held to one standard
           </h1>
           <p className="mx-auto mt-5 max-w-2xl text-balance text-center text-[17px] leading-7 text-[var(--kui-muted)] sm:text-[18px]">
-            A marketplace of production-ready React design systems built to one shared contract. Pick a look, keep your code:
-            every system has the same components, the same props and the same quality bar.
+            A marketplace of production-ready React design systems. Each one keeps its own look and specialty; every one is
+            typed, tested, accessible, responsive and proven by real templates before it ships.
           </p>
           <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
             <Link href="/marketplace" className="inline-flex h-11 items-center rounded-xl bg-[var(--kui-ink)] px-5 text-[15px] font-medium text-[var(--kui-ink-text)] transition-opacity hover:opacity-90">
@@ -84,10 +94,10 @@ export default function Home() {
       <section aria-labelledby="pillars-title" className="border-t border-[var(--kui-border)] bg-[var(--kui-surface)]">
         <div className="mx-auto max-w-6xl px-4 py-20 sm:px-6">
           <h2 id="pillars-title" className="max-w-2xl text-[30px] font-semibold leading-tight tracking-[-0.025em] sm:text-[36px]">
-            Built for people and AI to use without mistakes
+            Different looks. The same reliability.
           </h2>
           <p className="mt-3 max-w-2xl text-[16px] leading-7 text-[var(--kui-muted)]">
-            Consistency is engineered, not hoped for. The standard is code, and the gate enforces it on every release.
+            Quality is engineered, not hoped for. The standard is code, and the gate enforces it on every release.
           </p>
           <div className="mt-12 grid gap-6 md:grid-cols-3">
             {pillars.map((p, i) => (
@@ -109,42 +119,26 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Swap the look */}
-      <section aria-labelledby="swap-title" className="border-t border-[var(--kui-border)]">
-        <div className="mx-auto grid max-w-6xl items-center gap-10 px-4 py-20 sm:px-6 md:grid-cols-2">
-          <div>
-            <h2 id="swap-title" className="text-[30px] font-semibold leading-tight tracking-[-0.025em] sm:text-[36px]">Change the look, not the code</h2>
-            <p className="mt-3 text-[16px] leading-7 text-[var(--kui-muted)]">
-              Because every KrackedUI system implements the same contract, moving a product to a new look is a one-line change.
-              Your screens, your logic and your prompts keep working.
-            </p>
-            <Link href="/marketplace" className="mt-6 inline-flex text-[15px] font-medium text-[var(--kui-accent-text)] hover:underline">
-              See the systems →
-            </Link>
-          </div>
-          <div className="overflow-hidden rounded-2xl border border-[var(--kui-border)] bg-[var(--kui-code-bg)] text-[var(--kui-code-text)] shadow-[var(--kui-shadow)]">
-            <div tabIndex={0} role="region" aria-label="Code example: switching systems" className="kui-code space-y-1 overflow-x-auto whitespace-nowrap p-5 text-[13px] leading-6">
-              {swap.map((s, i) =>
-                i === 0 ? (
-                  <div key={s.file} className="text-[var(--kui-syn-comment)] line-through decoration-[var(--kui-accent)]">
-                    {`import { Theme, Button, DataTable } from '@krackedui/${s.file}';`}
-                    <span className="ml-2 no-underline">{`// ${s.note}`}</span>
-                  </div>
-                ) : (
-                  <div key={s.file}>
-                    <span className="text-[var(--kui-syn-keyword)]">import</span> {'{ Theme, Button, DataTable }'} <span className="text-[var(--kui-syn-keyword)]">from</span>{' '}
-                    <span className="text-[var(--kui-syn-string)]">&apos;@krackedui/{s.file}&apos;</span>;
-                    <span className="ml-2 text-[var(--kui-syn-comment)]">{`// ${s.note}`}</span>
-                  </div>
-                ),
-              )}
-              <div className="pt-3 text-[var(--kui-syn-comment)]">{'// everything below stays the same'}</div>
-              <div>{'<Theme appearance="system">'}</div>
-              <div className="pl-4">{'<Button variant="primary" icon="plus">New invoice</Button>'}</div>
-              <div className="pl-4">{'<DataTable columns={columns} rows={rows} pageSize={25} />'}</div>
-              <div>{'</Theme>'}</div>
-            </div>
-          </div>
+      {/* The gate */}
+      <section aria-labelledby="gate-title" className="border-t border-[var(--kui-border)]">
+        <div className="mx-auto max-w-6xl px-4 py-20 sm:px-6">
+          <h2 id="gate-title" className="max-w-2xl text-[30px] font-semibold leading-tight tracking-[-0.025em] sm:text-[36px]">
+            {gateCheckCount} checks before anything ships
+          </h2>
+          <p className="mt-3 max-w-2xl text-[16px] leading-7 text-[var(--kui-muted)]">
+            Publishing refuses to run unless the gate passed on the exact code being released. Pull requests run it too.
+          </p>
+          <ol className="mt-10 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+            {checks.map(([name, what], i) => (
+              <li key={name} className="flex gap-3 rounded-xl border border-[var(--kui-border)] bg-[var(--kui-surface)] p-4">
+                <span className="kui-code mt-0.5 text-[12px] text-[var(--kui-accent-text)]">{String(i + 1).padStart(2, '0')}</span>
+                <span>
+                  <span className="block text-[15px] font-medium">{name}</span>
+                  <span className="block text-[13px] leading-5 text-[var(--kui-muted)]">{what}</span>
+                </span>
+              </li>
+            ))}
+          </ol>
         </div>
       </section>
 

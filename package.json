@@ -6,7 +6,7 @@
     "docs": "npm run dev -w @krackedui/docs",
     "playground": "npm run dev -w @krackedui/motion-playground",
     "build:motion": "npm run build -w @krackedui/motion",
-    "docs:assets": "node tooling/pipeline/package-exports.cjs motion && node tooling/pipeline/source-registry.mjs motion && node standard/gate/checks/build-llms.mjs motion && node tooling/pipeline/build-templates.mjs motion",
+    "docs:assets": "node tooling/pipeline/package-exports.cjs motion && node tooling/pipeline/page-meta.mjs motion && node tooling/pipeline/source-registry.mjs motion && node standard/gate/checks/build-llms.mjs motion && node tooling/pipeline/build-templates.mjs motion",
     "tokens:motion": "node systems/motion/tooling/tokens.mjs",
     "icons:motion": "node systems/motion/tooling/icons.mjs",
     "check:snippets": "node standard/gate/checks/check-snippets.mjs motion",
@@ -46,7 +46,6 @@
     "vitest": "3.2.4"
   },
   "workspaces": [
-    "standard/contract",
     "systems/*/registry",
     "systems/*/playground",
     "systems/*/templates/*",

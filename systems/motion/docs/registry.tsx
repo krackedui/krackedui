@@ -96,8 +96,8 @@ const registry: DocsRegistry = {
         {
           title: 'Part of KrackedUI',
           blocks: [
-            'Motion follows the KrackedUI standard. Every KrackedUI design system exports the same components with the same props, so code written for one works in another by changing the import. Only the look differs.',
-            'Before a release, Motion passes the KrackedUI gate: strict types, lint, contract conformance, behaviour tests for every interactive component, WCAG 2.2 AA (axe, contrast, keyboard, focus, target size), responsive checks from 320 to 1440 px, install checks in fresh Vite and Next.js apps, and complete documentation.',
+            'Motion is one of the design systems on KrackedUI. Each system keeps its own components and specialty; what they share is the quality bar.',
+            'Before a release, Motion passes the KrackedUI gate: strict types, lint, behaviour tests, WCAG 2.2 AA on every example (axe, contrast, focus, touch targets), responsive checks from 320 to 1440 px, install checks in fresh Vite and Next.js apps, visual baselines and two working templates.',
           ],
         },
         {
@@ -253,8 +253,8 @@ const registry: DocsRegistry = {
           blocks: ['This site publishes `/motion/llms.txt` (an index) and `/motion/llms-full.txt` (every page and example as plain text) for assistants that read the web.'],
         },
         {
-          title: 'Why it works across systems',
-          blocks: ['Every KrackedUI system shares the same component names and props. An assistant that learned Motion can build with any other KrackedUI system by changing the import and reading that system’s SYSTEM.md for its look.'],
+          title: 'Other KrackedUI systems',
+          blocks: ['Every KrackedUI system ships its own SYSTEM.md and llms.txt. To build with another system, point your assistant at that system’s files: each one has its own components and conventions.'],
         },
       ],
     },

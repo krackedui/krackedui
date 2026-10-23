@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { describe, expect, it, vi } from 'vitest';
 import { DateMenu, formatDisplayDate } from '@system';
-import { renderUI, screen } from '../../../../standard/gate/tests/utils';
+import { renderUI, screen } from './utils';
 
 const TODAY = new Date(2026, 9, 21);
 

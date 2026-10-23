@@ -1,6 +1,7 @@
 // The KrackedUI marketplace catalog (server-safe, no React). One entry per design system, live or
 // announced. Live entries must have a systems/<id>/ folder and a passing gate; `soon` entries are
 // placeholders shown greyed out.
+import { pageMeta } from './page-meta';
 import { rootDomain, subdomainRouting } from './systems-meta';
 
 export interface CatalogTemplate {
@@ -23,7 +24,7 @@ export interface CatalogSystem {
   style: string;
   packageName?: string;
   version?: string;
-  /** Modules beyond the shared contract (editor, database…). */
+  /** Larger modules the system ships (editor, database…). */
   modules?: string[];
   templates: CatalogTemplate[];
 }
@@ -35,7 +36,7 @@ export const catalog: CatalogSystem[] = [
     status: 'live',
     tagline: 'Calm, content-first, dense.',
     description:
-      'Quiet surfaces, hairline borders and one blue accent. Built for productivity tools and dashboards, with a block editor and database views on top of the full KrackedUI contract.',
+      'Quiet surfaces, hairline borders and one blue accent. Built for productivity tools and dashboards, with a block editor and database views.',
     tags: ['Productivity', 'Dashboard', 'Finance', 'Editor', 'Light + dark'],
     style: 'Minimal · neutral · dense',
     packageName: '@krackedui/motion',
@@ -78,8 +79,13 @@ export const catalog: CatalogSystem[] = [
   },
 ];
 
-/** Number of components every KrackedUI system implements (the shared contract). */
-export const contractSize = 62;
+/** Documented components of a live system (its ui/ and blocks/ docs pages). */
+export function componentCount(id: string): number {
+  return Object.keys(pageMeta[id]?.pages ?? {}).filter((slug) => slug.startsWith('ui/') || slug.startsWith('blocks/')).length;
+}
+
+/** The gate every system passes before it is published. */
+export const gateCheckCount = 12;
 
 /** Home of a system's docs: motion.krackedui.com in production, /motion locally. */
 export function systemHref(id: string, path = ''): string {

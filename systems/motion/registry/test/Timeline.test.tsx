@@ -1,6 +1,6 @@
 import { describe, expect, it, vi } from 'vitest';
 import { Timeline, type TimelineItem } from '@system';
-import { renderUI, screen } from '../../../../standard/gate/tests/utils';
+import { renderUI, screen } from './utils';
 
 const d = (iso: string) => new Date(`${iso}T00:00:00`);
 const items: TimelineItem[] = [
