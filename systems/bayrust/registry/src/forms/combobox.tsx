@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useId, useMemo, useRef, useState, type CSSProperties } from 'react';
+import { useId, useMemo, useRef, useState, type CSSProperties } from 'react';
 import { cn } from '../lib/cn';
 import { Icon } from '../foundations/icon';
 import type { Option } from './choice';
@@ -83,11 +83,13 @@ export function Combobox({
     setActive(0);
   };
 
-  // The search field takes focus once the panel is in the document. An effect, not a rAF callback:
-  // the input does not exist until this render commits, and a frame is not a guarantee that it does.
-  useEffect(() => {
-    if (open) inputRef.current?.focus();
-  }, [open]);
+  // The search field takes focus the moment it exists, not on a timer and not on an effect keyed to
+  // `open`: the panel is portalled, so the input attaches a tick after `open` turns true. A ref
+  // callback fires exactly when the node arrives, whatever the portal does.
+  const focusOnMount = (node: HTMLInputElement | null) => {
+    inputRef.current = node;
+    node?.focus();
+  };
 
   const onInputKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
@@ -142,7 +144,7 @@ export function Combobox({
             <div className="bay-combobox__search">
               <Icon name="search" size={14} />
               <input
-                ref={inputRef}
+                ref={focusOnMount}
                 type="text"
                 role="combobox"
                 className="bay-combobox__input"

@@ -36,7 +36,9 @@
 }
 
 .bay .bay-chart { position: relative; display: block; width: 100%; }
-.bay .bay-chart svg { display: block; width: 100%; overflow: visible; }
+/* The chart renders at the width it measured, so the stylesheet must not stretch it: `width: 100%`
+   here would scale a fixed viewBox and grow the type with the container. */
+.bay .bay-chart svg { display: block; max-width: 100%; overflow: visible; }
 
 /* recessive grid and axes: they locate the data, they are not the data */
 .bay .bay-chart__grid { stroke: var(--ds-chart-grid); stroke-width: 1; }

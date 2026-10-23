@@ -24,7 +24,10 @@ interface ThemeValue {
   portalContainer: HTMLElement | null;
 }
 
-const ThemeContext = createContext<ThemeValue | null>(null);
+/* Exported for Portal, which must not throw when there is no Theme: an overlay falls back to the
+   document body rather than crashing a page that has not wrapped itself. The hooks below still
+   throw, because a hook is something the caller reached for on purpose. */
+export const ThemeContext = createContext<ThemeValue | null>(null);
 
 /** The appearance in effect. Throws outside a `<Theme>`, per SPEC §3.8. */
 export function useAppearance(): Appearance {

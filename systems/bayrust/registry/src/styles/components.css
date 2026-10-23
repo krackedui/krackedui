@@ -190,7 +190,12 @@
   .bay .bay-pagination__step,
   .bay .bay-tabs__trigger,
   .bay .bay-menu__item,
-  .bay .bay-crumbs__link { min-height: 24px; min-width: 24px; }
+  .bay .bay-crumbs__link,
+  .bay .bay-table__sort,
+  .bay .bay-combobox__trigger,
+  .bay .bay-datepicker__trigger,
+  .bay .bay-upload__label,
+  .bay .bay-segmented__option { min-height: 24px; min-width: 24px; height: auto; padding-block: 2px; }
   .bay .bay-slider { padding-block: 5px; }
   .bay .bay-slider__input { height: 24px; }
 }

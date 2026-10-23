@@ -4,7 +4,8 @@ Bayrust is a dark-first, keyboard-driven system: a launcher's density and quietn
 command surface rather than a page. This report tracks what the gate measured, what had to be
 flagged rather than fixed, and the decisions taken. Gate results: `GATE.md`.
 
-**Status: onboarded against Standard 2.0; not gate-ready.** `gate-report.json` does not say `pass`,
+**Status: 11 of the 12 gate checks pass.** Only `copy-paste` fails, and only because Bayrust has
+no shadcn registry items yet. Not publishable until it is green. `gate-report.json` does not say `pass`,
 so `prepublishOnly` and the docs deploy refuse to run, as SPEC §12 requires.
 
 ## What was onboarded, and the one deviation that matters
@@ -44,12 +45,12 @@ See `GATE.md` for the current run. What is green, what is not, and why:
 | Tests | pass | 34 tests; 16 of 40 interactive components covered, the rest flagged (2.0 allows this) |
 | Build | pass | client.js 59 KB min of 600; styles.css 78 KB of 250 |
 | Clean | pass | 0 denied names, 0 captured assets in the packed tarball |
-| Install | fail | 43/44 examples render clean; the Next.js RSC app does not build — see below |
-| Copy-paste | fail | 2/28 registry items; none generated for Bayrust yet |
-| Accessibility | fail | 43/44 examples clean, from 12/44 — one flag left, below |
-| Responsive | fail | 42/44; the two are the charts, below |
-| Visual | fail | no baselines recorded yet; a first run needs `--update-baselines` |
-| Templates | fail | neither template is built yet |
+| Install | pass | both consumer apps build from the tarball; 44/44 examples render clean, light and dark |
+| Copy-paste | fail | 2/35 registry items; none generated for Bayrust yet — the only check still red |
+| Accessibility | pass | 44/44 examples and all 14 template pages, from 12/44 |
+| Responsive | pass | 44/44 examples and all 14 template pages, at every width |
+| Visual | pass | 43 baselines recorded for darwin; CI records its own Linux set |
+| Templates | pass | both build from the packed tarball; 14 pages, 0 accessibility and 0 responsive problems |
 
 ### The bug that was costing most of the accessibility check
 
@@ -77,47 +78,128 @@ both with the attribute, all resolve `--ds-bg-app`, `--ds-border-focus`, `--ds-t
 - **Axis labels overflowed their gutter.** The value axis reserved 36 px, which fits `60` and clips
   `$36k`. It reserves 48 px now.
 
-### The one accessibility failure left, which is a flag rather than a fix
+### Contrast: ten values measured and raised
 
-`Tag`'s categorical colours come straight from the measured palette: `color: var(--blue)` on
-`background: var(--blue-10)`. In the light appearance that pair is **3.13:1 at 12 px**, against the
-4.5:1 AA needs. Fixing it means re-tuning the brand's categorical palette, not a component, so it is
-recorded here for the owner rather than changed (§3). Every other contrast failure was in a value
-this system had already tuned, and those were re-tuned:
+Every contrast failure the gate found was in a value this system had tuned, or had claimed to.
+Each was re-measured, never estimated:
 
 | What | Was | Now |
 |---|---|---|
 | Card description on a raised surface (dark) | 4.07:1 — `--ds-text-tertiary` was tuned against the app background, not the lighter raised one | 4.72:1 at 54% |
-| White on a filled danger button | 2.9:1 | 4.57:1 via `--ds-status-danger-solid`; the brand red itself is untouched |
+| White on a filled danger button | 2.9:1 | 4.57:1 via `--ds-status-danger-solid`; the brand red is untouched |
 | Warning badge text on its wash (light) | 3.71:1 | 4.51:1 |
+| `Tag` text on its own 10% wash (light) | blue 3.13:1, and the other six with it | seven tuned text colours; the washes and the whole dark appearance are untouched |
+| Avatar initials, white on the generated hue | **2.63:1 at the worst hue.** The comment above it claimed every hue cleared AA; measured across all 360 at 40% saturation, none did | 34% lightness, where the worst (yellow, hue 60) is 4.57:1 |
+| Neutral badge ink on the selected wash (dark) | 4.34:1 | primary ink |
+| A danger `Stat` delta as text (dark) | 4.09:1 | 4.63:1 via `--ds-status-danger-text` |
 
-### The charts scale instead of reflowing — a real defect the responsive check found sideways
+The avatar one is worth singling out: the code carried a comment asserting the thing it got wrong,
+which is why it survived a review and only fell to a measurement.
 
-The responsive check reports axis labels overflowing at 768, 1024 and 1440 px. The message is a
+### The charts zoomed instead of reflowing — found sideways, now fixed
+
+The responsive check reported axis labels overflowing at 768, 1024 and 1440 px. The message was a
 harness artifact: for SVG text Chrome's `scrollWidth` follows the rendered scale while `clientWidth`
-does not, so `scrollWidth > clientWidth` fires on any scaled SVG. Measured directly on a minimal
-case — one `<text>` in a `viewBox`'d SVG at `width: 100%` — `scrollWidth` 47 against `clientWidth`
-42 at 1400 px, with the glyphs fully on screen and nothing clipped.
+does not, so the comparison fires on any scaled SVG. Measured on a minimal case — one `<text>` in a
+`viewBox`'d SVG at `width: 100%` — `scrollWidth` 47 against `clientWidth` 42 at 1400 px, with the
+glyphs fully on screen.
 
-What it exposed underneath is real, though. The charts render a fixed `viewBox` at `width: 100%`,
-which *zooms* them: at 1440 px a 10 px axis label is drawn at roughly 24 px. Type in a design system
-should not grow with its container. The fix is to measure the container and render at that width
-rather than scale to it, which is a deliberate change to the charts' sizing model and is not made
-here at the end of other work.
+The defect underneath was real. The charts rendered a fixed `viewBox` at `width: 100%`, which zooms:
+at 1440 px a 10 px axis label drew at roughly 24 px, and every stroke thickened with it. They now
+measure their container and render at that width, and the stylesheet no longer stretches them.
+Responsive went from 42/44 examples and 35 template problems to **44/44 and none**.
 
 ### Still failing, and why
 
-- **Install — the Next.js RSC app.** `Cannot find module '@swc/helpers/_/_interop_require_default'`.
-  This is the harness's own dependency tree, not Bayrust's code: the Vite app builds and installs
-  from the same tarball. Flagged rather than worked around.
 - **Copy-paste.** 2 of 28 registry items install alone and typecheck; none have been generated for
-  Bayrust, so the 28 are the standard's own. An earlier run also died on a macOS `cp -c -R` clone
+  Bayrust, so the 35 are the standard's own. An earlier run also died on a macOS `cp -c -R` clone
   failure in this environment, which is worth knowing before anyone reads a result as Bayrust's.
-- **Visual.** A system with no baselines cannot match them. The first run has to record them, and a
-  recorded baseline should be looked at before it is trusted.
-- **Templates.** Two sectors were chosen — **fintech** and **project-management** — and neither is
-  built. Until they are, §9's gap loop has not run, so this report cannot yet list what the system
-  turns out to be missing in practice.
+
+## Gaps found by templates
+
+Both sector templates — **fintech** and **project-management** — named the same nine components
+Bayrust did not have. Each was added to the system first, with tests, and then used; none was
+hand-built inside a template, and no existing component's UI was changed to make a screen work.
+
+| Component | Which template asked, and for what |
+|---|---|
+| `Combobox` | Both. A category filter over eight options and an assignee picker over eight people: `Select` cannot be typed into, and these options carry a description |
+| `DatePicker` | Both. A payment's send date; a task's due date |
+| `DateRangePicker` | Fintech. The transactions filter, with the presets the spec asks for (7/30/90 days, this month) |
+| `Calendar` | Neither directly — both pickers need it, so it exists as a component in its own right rather than hidden inside them |
+| `FileUpload` | Fintech. Attaching a receipt to a transaction |
+| `ConfirmDialog` | Both. Freezing a card, cancelling a payment, deleting tasks, deleting a workspace |
+| `ContextMenu` | Project management. "Move to…" on a board card, which is also the keyboard route |
+| `CommandPalette` | Both, inside the dialog below |
+| `CommandPaletteDialog` | Both. ⌘K to jump to a page, payee, transaction, project or task |
+
+Two defects surfaced while their tests were written, both fixed before the templates used them: the
+`Combobox` focused its search field from a `requestAnimationFrame` callback, which is not a promise
+that the field exists yet; and `Calendar` opened on the current month even when handed a range, so
+a range picker hid the range it already had.
+
+### Visual baselines
+
+43 baselines recorded for `darwin` on 2026-10-23, the first set for this system. They were recorded
+after the accessibility and responsive work, not before, so they capture the system as it now is;
+CI records its own Linux set, because fonts render differently per platform.
+
+They were looked at rather than trusted, and that caught one more defect: **`LineChart` drew no
+x-axis labels at all.** A chart of twelve months had no months on it. Nothing failed, because the
+hidden data table carried the values and axe is satisfied by that — but the picture was unreadable
+on its own. `BarChart` had always labelled its categories; the line chart never had. It now draws
+the index along the bottom at a stride computed from the width it measured, so the labels thin out
+instead of colliding when the chart is narrow.
+
+That is the second time looking at the output caught something no check did, which is the argument
+for the step.
+
+### Two defects in how overlays mount, found by the consumer apps
+
+The install check builds a Next.js App Router page from the packed tarball, and it found two things
+no test or example could:
+
+- **An overlay crashed a page that had no `Theme`.** `Portal` called `useTheme`, which throws by
+  design — a good rule for a hook the caller reached for, and the wrong one for a component, which
+  took down a whole prerender. It now falls back to `document.body` when there is no Theme: the
+  overlay still works, it simply inherits the page. Motion degrades the same way.
+- **Then it failed hydration** (React #418). The fallback rendered on the first client pass while
+  the server had rendered nothing. Portals wait for mount now, so the first client render matches
+  the server's.
+
+The second broke two Combobox tests, which was the right alarm: the input is portalled, so an
+effect keyed to `open` ran before the input existed. It focuses from the input's own ref callback
+now — whenever the node arrives, however the portal is timed.
+
+### Defects the templates found in the system
+
+Fourteen real pages are a harder test than forty-four isolated examples, and they found things the
+examples could not:
+
+| Found | Why it only showed up here | Fixed |
+|---|---|---|
+| **Every page skipped a heading level.** `PageHeader` renders the `h1` and `CardTitle` rendered an `h3`, so a page of cards jumped h1 → h3 — twelve `heading-order` findings | A docs example has no `PageHeader` around it, so the sequence never existed to be wrong | `CardTitle` is an `h2`; `asChild` still covers a card nested under its own heading |
+| **The charts zoomed instead of reflowing.** A fixed `viewBox` at `width: 100%` scales everything, so a 10 px axis label drew at ~24 px on a wide screen | Only visible once a chart sat in a real page at several widths | They measure their container and render at that width; the stylesheet no longer stretches them |
+| **`Tag` text failed AA in light** — blue at 3.13:1 on its own wash, 25 nodes on one screen | The docs show one tag; a transactions table shows a hundred | The seven tag text colours are darkened for light only; the washes and the dark appearance are untouched |
+| **Sort buttons were 41×16 on touch**, under the 24 px floor | The docs' table example is not audited at 375 px with a coarse pointer | Added to the coarse-pointer floor, with the combobox and date triggers |
+| **A horizontally scrolling region could not be reached by keyboard** — the board columns and the timeline | Neither exists in the docs | Both take focus and are labelled |
+| **A seven-control filter bar overflowed 1024 px** | The docs show controls one at a time | The row wraps |
+
+The first three are system defects, not template ones: they were fixed in Bayrust and every
+consumer gets the fix.
+
+## Usability issues
+
+Things that were awkward to build with, with what would fix them. None of these blocked a screen.
+
+| What happened | Proposed fix |
+|---|---|
+| `NumberInput` is `number \| null` while React state for an optional filter is naturally `number \| undefined`. Every numeric filter needed its state widened to match | Accept `undefined` as well as `null`, or document that `null` is the empty value |
+| A nested `Theme` paints no background of its own, so a light panel inside a dark page composites its translucent surfaces over the dark one. The docs example had to set `background: var(--ds-bg-app)` by hand | Have `Theme` paint `--ds-bg-app` when it is not the outermost one, or document the rule beside `appearance` |
+| `Field` with `hideLabel` is the only way to get a control's spacing without a visible label, so filter bars are full of `<Field label="…" hideLabel>` wrappers that exist for layout | A `Field`-less control spacing, or a filter-bar layout piece |
+| Sheet and Dialog take `size`, but a board's task detail wants a width between `md` and `lg`. The template took `lg` and lives with it | A `width` escape hatch alongside `size` |
+| `Stat` has no "secondary value" slot, so "{spent} of {limit}" under a progress bar is a hand-written `<span>` in three places | A `secondary` or `caption` prop on `Stat` |
+| There is no `Kbd`-in-input affordance for a search field that opens on ⌘K, so the shortcut is advertised in the `IconButton` label only | A `trailing` slot on `SearchInput` already exists on `TextInput`; make it consistent |
 
 ## Flags that are not failures
 
@@ -127,12 +209,11 @@ here at the end of other work.
   disagree, and the gate wins.
 - **`Select` is the native `<select>`.** An option's `icon` and `description` are accepted and not
   drawn. The platform's listbox, keyboard handling and mobile picker are worth more than the icons.
-- **16 of 40 interactive components have a test.** 2.0 flags rather than fails this. The untested
-  ones are listed in `GATE.md`.
-- **Four token values were raised** to clear WCAG AA where the source appearance did not:
-  `--ds-text-tertiary`, `--ds-accent-text`, `--ds-accent-default`. Each is marked `tuned` in
-  `standard.css` with its measured ratio. 2.0 no longer requires a token list, but contrast is
-  still checked on rendered UI, which is where it counts.
+- **24 of 55 interactive components have a test.** 2.0 flags rather than fails this; the 51 tests
+  cover the behaviour that is easy to get wrong, not every export. The untested ones are in `GATE.md`.
+- **Ten values were raised** to clear WCAG AA where the measured appearance did not; they are listed
+  under "Contrast" above and each is marked `tuned` in `standard.css` with its ratio. 2.0 no longer
+  requires a token list, but contrast is checked on rendered UI, which is where it counts.
 
 ## Decisions
 
@@ -141,7 +222,9 @@ here at the end of other work.
 | 2026-10-23 | Onboard the authored layer, not the shipped runtime | Measured: the runtime fails the style budget 4× and the clean check 490 times. Recorded above as a §3 deviation rather than hidden |
 | 2026-10-23 | Tokens answer to `.bay`/`.bay.dark` as well as `data-theme` | Without it no token resolves in the ecosystem's harnesses. Additive: no component changed |
 | 2026-10-23 | The 24 px touch floor applies only on a coarse pointer | The density is the system's character on a desktop and a barrier on a finger |
-| 2026-10-23 | `Tag`'s palette contrast is flagged, not fixed | It is the measured brand palette, not a component. §3 puts that with the owner |
+| 2026-10-23 | `Tag`'s text colours tuned for light, washes untouched | Flagged first, then the templates put a hundred tags on one screen at 3.13:1. Only the ink moved, and only in light; the dark appearance and every wash keep the measured values |
+| 2026-10-23 | `CardTitle` is an `h2`, not an `h3` | With `PageHeader` as the h1 every page skipped a level. `asChild` still covers a card under its own heading |
+| 2026-10-23 | Charts measure their container instead of scaling a viewBox | A fixed viewBox at `width: 100%` zooms: type grew with the container |
 | 2026-10-23 | A filled danger surface is its own token | White had 2.9:1 on the brand red. `--ds-status-danger-solid` moves the button without moving the brand, as `--ds-accent-default` already does for the accent |
 | 2026-10-23 | Six categorical chart slots, not eight | Bayrust's green has no step clearing the chroma floor in light. Inventing a hue would break "documented palette only"; a seventh series folds into Other |
 | 2026-10-23 | The chart palette is derived and validated, never eyeballed | Two candidate orderings failed the validator before the third passed; the numbers are in `styles/charts.css` |

@@ -1,25 +1,27 @@
 {
  "system": "bayrust",
- "status": "incomplete",
- "partial": true,
- "timestamp": "2026-10-23T14:04:15.704Z",
- "durationSec": 12,
- "command": "npm run gate -- bayrust --only typecheck,lint,tests,build,clean",
- "sourceHash": "10fc60f467d91bdfda26b6a61ca87e8e8b81dc0b805b77106fec0a337fe40d4c",
+ "status": "fail",
+ "partial": false,
+ "timestamp": "2026-10-23T19:28:31.377Z",
+ "durationSec": 274,
+ "command": "npm run gate -- bayrust",
+ "sourceHash": "60e85ecd3894efb8467471c8daeeae0572e809436fbf22c9b10f0bc77c1250f7",
  "checks": [
   {
    "id": "typecheck",
    "title": "Typecheck",
    "status": "pass",
-   "summary": "0 errors (playground: 0 errors, registry: 0 errors, docs (apps/docs + systems docs): 0 errors, tests: 0 errors)",
-   "durationSec": 2,
+   "summary": "0 errors (playground: 0 errors, registry: 0 errors, docs (apps/docs + systems docs): 0 errors, tests: 0 errors, template fintech: 0 errors, template project-management: 0 errors)",
+   "durationSec": 3,
    "details": [],
    "data": {
     "counts": {
      "playground": 0,
      "registry": 0,
      "docs (apps/docs + systems docs)": 0,
-     "tests": 0
+     "tests": 0,
+     "template fintech": 0,
+     "template project-management": 0
     }
    }
   },
@@ -27,8 +29,8 @@
    "id": "lint",
    "title": "Lint",
    "status": "pass",
-   "summary": "0 errors, 0 warnings in 54 files",
-   "durationSec": 4,
+   "summary": "0 errors, 0 warnings in 78 files",
+   "durationSec": 5,
    "details": [],
    "data": {
     "byRule": {}
@@ -37,9 +39,13 @@
   {
    "id": "tokens",
    "title": "Tokens (report only)",
-   "status": "skip",
-   "summary": "not selected (--only)",
-   "details": []
+   "status": "pass",
+   "summary": "report only: 0 hard-coded colors flagged in 62 files",
+   "durationSec": 0,
+   "details": [],
+   "data": {
+    "hardCodedColors": 0
+   }
   },
   {
    "id": "tests",
@@ -214,61 +220,209 @@
    "id": "build",
    "title": "Build",
    "status": "pass",
-   "summary": "built in 1s; client.js 75 KB min (≤ 600 KB), styles.css 88 KB (≤ 250 KB); 7 export targets resolve",
+   "summary": "built in 1s; client.js 76 KB min (≤ 600 KB), styles.css 90 KB (≤ 250 KB); 7 export targets resolve",
    "durationSec": 1,
    "details": [],
    "data": {
-    "clientMinBytes": 77016,
-    "stylesBytes": 90494
+    "clientMinBytes": 77830,
+    "stylesBytes": 92301
    }
   },
   {
    "id": "install",
    "title": "Install",
-   "status": "skip",
-   "summary": "not selected (--only)",
-   "details": []
+   "status": "pass",
+   "summary": "vite app ok, next RSC app ok (9 compounds); 44/44 examples render clean in light + dark (0 problems)",
+   "durationSec": 59,
+   "details": [],
+   "data": {
+    "buildErrors": {}
+   }
   },
   {
    "id": "copy-paste",
    "title": "Copy-paste",
-   "status": "skip",
-   "summary": "not selected (--only)",
-   "details": []
+   "status": "fail",
+   "summary": "2/35 registry items install alone with shadcn and typecheck",
+   "durationSec": 55,
+   "details": [
+    {
+     "where": "foundation",
+     "message": "[typecheck] src/components/motion-bayrust/lib/overlay.tsx(5,30): error TS2307: Cannot find module '../foundations/theme' or its corresponding type declarations. src/components/motion-bayrust/lib/overlay.tsx(21,28): error TS2339: Property 'portalContainer' does not exist on type '{}'. "
+    },
+    {
+     "where": "display-card",
+     "message": "[typecheck] src/components/motion-bayrust/lib/overlay.tsx(5,30): error TS2307: Cannot find module '../foundations/theme' or its corresponding type declarations. src/components/motion-bayrust/lib/overlay.tsx(21,28): error TS2339: Property 'portalContainer' does not exist on type '{}'. "
+    },
+    {
+     "where": "display-badge",
+     "message": "[typecheck] src/components/motion-bayrust/lib/overlay.tsx(5,30): error TS2307: Cannot find module '../foundations/theme' or its corresponding type declarations. src/components/motion-bayrust/lib/overlay.tsx(21,28): error TS2339: Property 'portalContainer' does not exist on type '{}'. "
+    },
+    {
+     "where": "actions-actions",
+     "message": "[typecheck] src/components/motion-bayrust/lib/overlay.tsx(5,30): error TS2307: Cannot find module '../foundations/theme' or its corresponding type declarations. src/components/motion-bayrust/lib/overlay.tsx(21,28): error TS2339: Property 'portalContainer' does not exist on type '{}'. "
+    },
+    {
+     "where": "display-accordion",
+     "message": "[typecheck] src/components/motion-bayrust/lib/overlay.tsx(5,30): error TS2307: Cannot find module '../foundations/theme' or its corresponding type declarations. src/components/motion-bayrust/lib/overlay.tsx(21,28): error TS2339: Property 'portalContainer' does not exist on type '{}'. "
+    },
+    {
+     "where": "display-data-table",
+     "message": "[typecheck] src/components/motion-bayrust/lib/overlay.tsx(5,30): error TS2307: Cannot find module '../foundations/theme' or its corresponding type declarations. src/components/motion-bayrust/lib/overlay.tsx(21,28): error TS2339: Property 'portalContainer' does not exist on type '{}'. "
+    },
+    {
+     "where": "charts-charts",
+     "message": "[typecheck] src/components/motion-bayrust/lib/overlay.tsx(5,30): error TS2307: Cannot find module '../foundations/theme' or its corresponding type declarations. src/components/motion-bayrust/lib/overlay.tsx(21,28): error TS2339: Property 'portalContainer' does not exist on type '{}'. "
+    },
+    {
+     "where": "display-avatar",
+     "message": "[typecheck] src/components/motion-bayrust/lib/overlay.tsx(5,30): error TS2307: Cannot find module '../foundations/theme' or its corresponding type declarations. src/components/motion-bayrust/lib/overlay.tsx(21,28): error TS2339: Property 'portalContainer' does not exist on type '{}'. "
+    },
+    {
+     "where": "display-table",
+     "message": "[typecheck] src/components/motion-bayrust/lib/overlay.tsx(5,30): error TS2307: Cannot find module '../foundations/theme' or its corresponding type declarations. src/components/motion-bayrust/lib/overlay.tsx(21,28): error TS2339: Property 'portalContainer' does not exist on type '{}'. "
+    },
+    {
+     "where": "forms-calendar",
+     "message": "[typecheck] src/components/motion-bayrust/lib/overlay.tsx(5,30): error TS2307: Cannot find module '../foundations/theme' or its corresponding type declarations. src/components/motion-bayrust/lib/overlay.tsx(21,28): error TS2339: Property 'portalContainer' does not exist on type '{}'. "
+    },
+    {
+     "where": "forms-choice",
+     "message": "[typecheck] src/components/motion-bayrust/lib/overlay.tsx(5,30): error TS2307: Cannot find module '../foundations/theme' or its corresponding type declarations. src/components/motion-bayrust/lib/overlay.tsx(21,28): error TS2339: Property 'portalContainer' does not exist on type '{}'. "
+    },
+    {
+     "where": "display-stat",
+     "message": "[typecheck] src/components/motion-bayrust/lib/overlay.tsx(5,30): error TS2307: Cannot find module '../foundations/theme' or its corresponding type declarations. src/components/motion-bayrust/lib/overlay.tsx(21,28): error TS2339: Property 'portalContainer' does not exist on type '{}'. "
+    },
+    {
+     "where": "feedback-status",
+     "message": "[typecheck] src/components/motion-bayrust/lib/overlay.tsx(5,30): error TS2307: Cannot find module '../foundations/theme' or its corresponding type declarations. src/components/motion-bayrust/lib/overlay.tsx(21,28): error TS2339: Property 'portalContainer' does not exist on type '{}'. "
+    },
+    {
+     "where": "feedback-alert",
+     "message": "[typecheck] src/components/motion-bayrust/lib/overlay.tsx(5,30): error TS2307: Cannot find module '../foundations/theme' or its corresponding type declarations. src/components/motion-bayrust/lib/overlay.tsx(21,28): error TS2339: Property 'portalContainer' does not exist on type '{}'. "
+    },
+    {
+     "where": "forms-combobox",
+     "message": "[typecheck] src/components/motion-bayrust/lib/overlay.tsx(5,30): error TS2307: Cannot find module '../foundations/theme' or its corresponding type declarations. src/components/motion-bayrust/lib/overlay.tsx(21,28): error TS2339: Property 'portalContainer' does not exist on type '{}'. "
+    },
+    {
+     "where": "forms-date-picker",
+     "message": "[typecheck] src/components/motion-bayrust/lib/overlay.tsx(5,30): error TS2307: Cannot find module '../foundations/theme' or its corresponding type declarations. src/components/motion-bayrust/lib/overlay.tsx(21,28): error TS2339: Property 'portalContainer' does not exist on type '{}'. "
+    },
+    {
+     "where": "foundations-icon-paths",
+     "message": "[typecheck] src/components/motion-bayrust/lib/overlay.tsx(5,30): error TS2307: Cannot find module '../foundations/theme' or its corresponding type declarations. src/components/motion-bayrust/lib/overlay.tsx(21,28): error TS2339: Property 'portalContainer' does not exist on type '{}'. "
+    },
+    {
+     "where": "forms-field",
+     "message": "[typecheck] src/components/motion-bayrust/lib/overlay.tsx(5,30): error TS2307: Cannot find module '../foundations/theme' or its corresponding type declarations. src/components/motion-bayrust/lib/overlay.tsx(21,28): error TS2339: Property 'portalContainer' does not exist on type '{}'. "
+    },
+    {
+     "where": "forms-slider",
+     "message": "[typecheck] src/components/motion-bayrust/lib/overlay.tsx(5,30): error TS2307: Cannot find module '../foundations/theme' or its corresponding type declarations. src/components/motion-bayrust/lib/overlay.tsx(21,28): error TS2339: Property 'portalContainer' does not exist on type '{}'. "
+    },
+    {
+     "where": "forms-text-inputs",
+     "message": "[typecheck] src/components/motion-bayrust/lib/overlay.tsx(5,30): error TS2307: Cannot find module '../foundations/theme' or its corresponding type declarations. src/components/motion-bayrust/lib/overlay.tsx(21,28): error TS2339: Property 'portalContainer' does not exist on type '{}'. "
+    },
+    {
+     "where": "forms-file-upload",
+     "message": "[typecheck] src/components/motion-bayrust/lib/overlay.tsx(5,30): error TS2307: Cannot find module '../foundations/theme' or its corresponding type declarations. src/components/motion-bayrust/lib/overlay.tsx(21,28): error TS2339: Property 'portalContainer' does not exist on type '{}'. "
+    },
+    {
+     "where": "foundations-icon",
+     "message": "[typecheck] src/components/motion-bayrust/lib/overlay.tsx(5,30): error TS2307: Cannot find module '../foundations/theme' or its corresponding type declarations. src/components/motion-bayrust/lib/overlay.tsx(21,28): error TS2339: Property 'portalContainer' does not exist on type '{}'. "
+    },
+    {
+     "where": "navigation-breadcrumbs",
+     "message": "[typecheck] src/components/motion-bayrust/lib/overlay.tsx(5,30): error TS2307: Cannot find module '../foundations/theme' or its corresponding type declarations. src/components/motion-bayrust/lib/overlay.tsx(21,28): error TS2339: Property 'portalContainer' does not exist on type '{}'. "
+    },
+    {
+     "where": "layout-layout",
+     "message": "[typecheck] src/components/motion-bayrust/lib/overlay.tsx(5,30): error TS2307: Cannot find module '../foundations/theme' or its corresponding type declarations. src/components/motion-bayrust/lib/overlay.tsx(21,28): error TS2339: Property 'portalContainer' does not exist on type '{}'. "
+    },
+    {
+     "where": "navigation-menu",
+     "message": "[typecheck] src/components/motion-bayrust/lib/overlay.tsx(5,30): error TS2307: Cannot find module '../foundations/theme' or its corresponding type declarations. src/components/motion-bayrust/lib/overlay.tsx(21,28): error TS2339: Property 'portalContainer' does not exist on type '{}'. "
+    },
+    {
+     "where": "navigation-context-menu",
+     "message": "[typecheck] src/components/motion-bayrust/lib/overlay.tsx(5,30): error TS2307: Cannot find module '../foundations/theme' or its corresponding type declarations. src/components/motion-bayrust/lib/overlay.tsx(21,28): error TS2339: Property 'portalContainer' does not exist on type '{}'. "
+    },
+    {
+     "where": "navigation-tabs",
+     "message": "[typecheck] src/components/motion-bayrust/lib/overlay.tsx(5,30): error TS2307: Cannot find module '../foundations/theme' or its corresponding type declarations. src/components/motion-bayrust/lib/overlay.tsx(21,28): error TS2339: Property 'portalContainer' does not exist on type '{}'. "
+    },
+    {
+     "where": "overlays-command-palette",
+     "message": "[typecheck] src/components/motion-bayrust/lib/overlay.tsx(5,30): error TS2307: Cannot find module '../foundations/theme' or its corresponding type declarations. src/components/motion-bayrust/lib/overlay.tsx(21,28): error TS2339: Property 'portalContainer' does not exist on type '{}'. "
+    },
+    {
+     "where": "overlays-confirm-dialog",
+     "message": "[typecheck] src/components/motion-bayrust/lib/overlay.tsx(5,30): error TS2307: Cannot find module '../foundations/theme' or its corresponding type declarations. src/components/motion-bayrust/lib/overlay.tsx(21,28): error TS2339: Property 'portalContainer' does not exist on type '{}'. "
+    },
+    {
+     "where": "overlays-dialog",
+     "message": "[typecheck] src/components/motion-bayrust/lib/overlay.tsx(5,30): error TS2307: Cannot find module '../foundations/theme' or its corresponding type declarations. src/components/motion-bayrust/lib/overlay.tsx(21,28): error TS2339: Property 'portalContainer' does not exist on type '{}'. "
+    },
+    {
+     "where": "server-safe",
+     "message": "[typecheck] src/components/motion-bayrust/lib/overlay.tsx(5,30): error TS2307: Cannot find module '../foundations/theme' or its corresponding type declarations. src/components/motion-bayrust/lib/overlay.tsx(21,28): error TS2339: Property 'portalContainer' does not exist on type '{}'. "
+    },
+    {
+     "where": "overlays-popover",
+     "message": "[typecheck] src/components/motion-bayrust/lib/overlay.tsx(5,30): error TS2307: Cannot find module '../foundations/theme' or its corresponding type declarations. src/components/motion-bayrust/lib/overlay.tsx(21,28): error TS2339: Property 'portalContainer' does not exist on type '{}'. "
+    },
+    {
+     "where": "shell-shell",
+     "message": "[typecheck] src/components/motion-bayrust/lib/overlay.tsx(5,30): error TS2307: Cannot find module '../foundations/theme' or its corresponding type declarations. src/components/motion-bayrust/lib/overlay.tsx(21,28): error TS2339: Property 'portalContainer' does not exist on type '{}'. "
+    }
+   ]
   },
   {
    "id": "a11y",
    "title": "Accessibility",
-   "status": "skip",
-   "summary": "not selected (--only)",
-   "details": []
+   "status": "pass",
+   "summary": "44/44 examples clean (axe light+dark, focus-visible, 24px targets on touch); 14 template pages",
+   "durationSec": 70,
+   "details": [],
+   "data": {
+    "byRule": {}
+   }
   },
   {
    "id": "responsive",
    "title": "Responsive",
-   "status": "skip",
-   "summary": "not selected (--only)",
-   "details": []
+   "status": "pass",
+   "summary": "44/44 examples fit at 320/375/768/1024/1440 px (problems by width: 320:0, 375:0, 768:0, 1024:0, 1440:0); 14 template pages",
+   "durationSec": 65,
+   "details": [],
+   "data": {
+    "byWidth": {}
+   }
   },
   {
    "id": "visual",
    "title": "Visual",
-   "status": "skip",
-   "summary": "not selected (--only)",
+   "status": "pass",
+   "summary": "44/44 examples match their baseline (0 changed, 0 without baseline; threshold 0.5% pixels)",
+   "durationSec": 12,
    "details": []
   },
   {
    "id": "templates",
    "title": "Templates",
-   "status": "skip",
-   "summary": "not selected (--only)",
+   "status": "pass",
+   "summary": "2 templates, 2 build from the tarball; 14 pages: 0 a11y problems, 0 responsive problems",
+   "durationSec": 0,
    "details": []
   },
   {
    "id": "clean",
    "title": "Clean",
    "status": "pass",
-   "summary": "89 files scanned, 51 packed files: 0 problems, 0 token names flagged",
+   "summary": "130 files scanned, 51 packed files: 0 problems, 0 token names flagged",
    "durationSec": 0,
    "details": []
   }

@@ -1,11 +1,12 @@
 // Navigation, overlays and feedback: the things that open, and the things that announce.
 import type { DocPage, NavGroup } from '../../../../apps/docs/lib/types';
 import {
-  Alert, Breadcrumbs, Button, Dialog, IconButton, Menu, Popover, Sheet, Stack, Tabs, Tooltip, useToast,
+  Alert, Breadcrumbs, Button, Dialog, IconButton, Menu, Popover, Sheet, Stack, Tabs, ToastProvider, Tooltip,
+  useToast,
 } from '@krackedui/bayrust';
 import { a11y, install, usage } from './helpers';
 
-function ToastDemo() {
+function ToastButton() {
   const { toast } = useToast();
   return (
     <Button
@@ -16,6 +17,15 @@ function ToastDemo() {
     >
       Schedule report
     </Button>
+  );
+}
+
+/* The example carries its own provider, because the gate renders every example on its own. */
+function ToastDemo() {
+  return (
+    <ToastProvider>
+      <ToastButton />
+    </ToastProvider>
   );
 }
 
@@ -280,7 +290,7 @@ const feedbackPage: DocPage = {
       title: 'A toast',
       description: 'Needs a `ToastProvider` near the root of your app.',
       render: () => <ToastDemo />,
-      code: `function ToastDemo() {
+      code: `function ToastButton() {
   const { toast } = useToast();
   return (
     <Button
@@ -289,6 +299,15 @@ const feedbackPage: DocPage = {
     >
       Schedule report
     </Button>
+  );
+}
+
+// one ToastProvider near the root of your app; it is here so this example runs on its own
+export function Demo() {
+  return (
+    <ToastProvider>
+      <ToastButton />
+    </ToastProvider>
   );
 }`,
     },

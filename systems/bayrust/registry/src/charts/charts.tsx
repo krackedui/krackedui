@@ -1,6 +1,6 @@
 'use client';
 
-import { useId, useMemo, useState, type ReactNode } from 'react';
+import { useId, useLayoutEffect, useMemo, useRef, useState, type ReactNode } from 'react';
 import { cn } from '../lib/cn';
 import type { Color } from '../display/badge';
 import type { Tone } from '../display/badge';
@@ -50,7 +50,33 @@ interface ChartBase<Datum> {
   label: string;
 }
 
+/**
+ * The container's width in CSS pixels.
+ *
+ * A fixed `viewBox` at `width: 100%` does not make a chart responsive, it zooms it: at 1440 px a
+ * 10 px axis label is drawn at about 24 px, and every stroke thickens with it. Type in a design
+ * system does not grow with its container, so the chart is rendered at the width it actually has
+ * and re-rendered when that changes.
+ */
+function useElementWidth(fallback: number): [React.RefObject<HTMLDivElement | null>, number] {
+  const ref = useRef<HTMLDivElement | null>(null);
+  const [width, setWidth] = useState(fallback);
+  useLayoutEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const measure = () => setWidth(Math.max(240, Math.round(el.getBoundingClientRect().width)));
+    measure();
+    if (typeof ResizeObserver === 'undefined') return;
+    const ro = new ResizeObserver(measure);
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
+  return [ref, width];
+}
+
 const num = (v: unknown): number => (typeof v === 'number' ? v : Number(v) || 0);
+/** An index value as a label. Only text is a label; anything else draws nothing rather than "[object Object]". */
+const axisLabel = (v: unknown): string => (typeof v === 'string' || typeof v === 'number' ? String(v) : '');
 // `left` has to hold the widest formatted tick, not a bare number: 36 px fits "60" and clips
 // "$36k". 48 holds a five-character label at 10 px, which is what valueFormat usually produces.
 const PAD = { top: 8, right: 8, bottom: 20, left: 48 };
@@ -121,7 +147,7 @@ export interface LineChartProps<Datum = Record<string, unknown>> extends ChartBa
 
 /** A trend over time. One axis only — two measures of different scale want two charts. */
 export function LineChart<Datum>({ className, style, id, data, index, series, height = 180, valueFormat, label, area, curved }: LineChartProps<Datum>) {
-  const w = 480;
+  const [box, w] = useElementWidth(480);
   const { max, y } = useScale(data, series, height);
   const [hover, setHover] = useState<number | null>(null);
   const fmt = valueFormat ?? ((v: number) => String(v));
@@ -141,14 +167,30 @@ export function LineChart<Datum>({ className, style, id, data, index, series, he
       .join(' ');
 
   return (
-    <div className={cn('bay-chart', className)} style={style} id={id}>
-      <svg viewBox={`0 0 ${w} ${height}`} role="img" aria-label={label} onPointerLeave={() => setHover(null)}>
+    <div ref={box} className={cn('bay-chart', className)} style={style} id={id}>
+      <svg width={w} height={height} viewBox={`0 0 ${w} ${height}`} role="img" aria-label={label} onPointerLeave={() => setHover(null)}>
         {[0, 0.5, 1].map((f) => (
           <line key={f} className="bay-chart__grid" x1={PAD.left} x2={w - PAD.right} y1={y(max * f)} y2={y(max * f)} />
         ))}
         {[0, 0.5, 1].map((f) => (
           <text key={f} className="bay-chart__axis" x={0} y={y(max * f) + 3}>{fmt(Math.round(max * f))}</text>
         ))}
+        {/*
+          The index along the bottom. Only every nth label is drawn — enough that they never collide
+          at the width the chart actually has, and the stride is recomputed when that width changes.
+          Without this a line chart over twelve months had no months on it: the hidden data table
+          carried them, so nothing failed, and the picture was still unreadable.
+        */}
+        {data.map((d, i) => {
+          const stride = Math.max(1, Math.ceil(data.length / Math.max(2, Math.floor((w - PAD.left - PAD.right) / 56))));
+          if (i % stride !== 0 && i !== data.length - 1) return null;
+          const anchor = i === 0 ? 'start' : i === data.length - 1 ? 'end' : 'middle';
+          return (
+            <text key={`x-${i}`} className="bay-chart__axis" x={x(i)} y={height - 6} textAnchor={anchor}>
+              {axisLabel((d as Record<string, unknown>)[index])}
+            </text>
+          );
+        })}
         {series.map((s, si) => (
           <g key={s.key}>
             {area && <path className="bay-chart__area" d={`${path(s.key)} L${x(data.length - 1)},${y(0)} L${x(0)},${y(0)} Z`} fill={seriesColor(si, s.color)} />}
@@ -194,7 +236,7 @@ export interface BarChartProps<Datum = Record<string, unknown>> extends ChartBas
 
 /** Compare categories. Bars are anchored to the baseline, with a 4px rounded data end. */
 export function BarChart<Datum>({ className, style, id, data, index, series, height = 180, valueFormat, label, stacked }: BarChartProps<Datum>) {
-  const w = 480;
+  const [box, w] = useElementWidth(480);
   const { max, y } = useScale(data, series, height, stacked);
   const [hover, setHover] = useState<number | null>(null);
   const fmt = valueFormat ?? ((v: number) => String(v));
@@ -203,8 +245,8 @@ export function BarChart<Datum>({ className, style, id, data, index, series, hei
   const barW = stacked ? groupW : groupW / Math.max(1, series.length);
 
   return (
-    <div className={cn('bay-chart', className)} style={style} id={id}>
-      <svg viewBox={`0 0 ${w} ${height}`} role="img" aria-label={label} onPointerLeave={() => setHover(null)}>
+    <div ref={box} className={cn('bay-chart', className)} style={style} id={id}>
+      <svg width={w} height={height} viewBox={`0 0 ${w} ${height}`} role="img" aria-label={label} onPointerLeave={() => setHover(null)}>
         {[0, 0.5, 1].map((f) => (
           <line key={f} className="bay-chart__grid" x1={PAD.left} x2={w - PAD.right} y1={y(max * f)} y2={y(max * f)} />
         ))}

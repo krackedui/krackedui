@@ -1,14 +1,26 @@
 'use client';
 
 import { createPortal } from 'react-dom';
-import { useCallback, useEffect, useLayoutEffect, useRef, useState, type ReactNode, type RefObject } from 'react';
-import { useTheme } from '../foundations/theme';
+import { useCallback, useContext, useEffect, useLayoutEffect, useRef, useState, type ReactNode, type RefObject } from 'react';
+import { ThemeContext } from '../foundations/theme';
 
 /** Mounts children into the nearest `<Theme>`, so an overlay keeps that theme's appearance. */
 export function Portal({ children }: { children: ReactNode }) {
-  const { portalContainer } = useTheme('An overlay');
-  if (!portalContainer) return null; // first paint: the container does not exist yet
-  return createPortal(children, portalContainer);
+  // A Theme is where an overlay wants to land, so it follows that theme's appearance — but a
+  // component must not bring an app down for want of one. Outside a Theme it falls back to the
+  // document body: the overlay still works, it simply inherits whatever is on the page. Throwing
+  // here crashed a Next.js prerender of a page that had not wrapped itself yet.
+  const theme = useContext(ThemeContext);
+  // Nothing is portalled until after mount. The server renders no overlay, so the first client
+  // render must not either — portalling into document.body during hydration is a mismatch, and
+  // React fails the whole tree over it (#418). The Theme's own container only exists after its
+  // effect anyway, so this is the same timing either way.
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
+  if (!mounted) return null;
+  const container = theme?.portalContainer ?? (typeof document === 'undefined' ? null : document.body);
+  if (!container) return null;
+  return createPortal(children, container);
 }
 
 /** Escape, and a pointer press outside the panel, both close it. */

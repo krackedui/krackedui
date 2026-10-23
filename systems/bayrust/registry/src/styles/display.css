@@ -13,11 +13,12 @@
   font-weight: 500;
   white-space: nowrap;
 }
-.bay .bay-badge--neutral { --bay-badge-c: var(--ds-text-secondary); --bay-badge-bg: var(--ds-bg-surface-selected); }
+/* primary ink, not secondary: on the selected wash the secondary grey is 4.34:1, just under AA */
+.bay .bay-badge--neutral { --bay-badge-c: var(--ds-text-primary); --bay-badge-bg: var(--ds-bg-surface-selected); }
 .bay .bay-badge--accent { --bay-badge-c: var(--ds-accent-text); --bay-badge-bg: var(--ds-accent-subtle); }
-.bay .bay-badge--success { --bay-badge-c: var(--ds-status-success); --bay-badge-bg: var(--ds-status-success-subtle); }
+.bay .bay-badge--success { --bay-badge-c: var(--ds-status-success-text, var(--ds-status-success)); --bay-badge-bg: var(--ds-status-success-subtle); }
 .bay .bay-badge--warning { --bay-badge-c: var(--ds-status-warning); --bay-badge-bg: var(--ds-status-warning-subtle); }
-.bay .bay-badge--danger { --bay-badge-c: var(--ds-status-danger); --bay-badge-bg: var(--ds-status-danger-subtle); }
+.bay .bay-badge--danger { --bay-badge-c: var(--ds-status-danger-text, var(--ds-status-danger)); --bay-badge-bg: var(--ds-status-danger-subtle); }
 .bay .bay-badge--info { --bay-badge-c: var(--ds-status-info); --bay-badge-bg: var(--ds-status-info-subtle); }
 .bay .bay-badge--soft { background: var(--bay-badge-bg); color: var(--bay-badge-c); }
 .bay .bay-badge--outline { border-color: var(--ds-border-default); color: var(--bay-badge-c); }
@@ -37,15 +38,15 @@
 .bay .bay-tag--sm { height: 18px; padding: 0 8px; font-size: 11px; }
 .bay .bay-tag--md { height: 22px; padding: 0 10px; font-size: 12px; }
 /* categorical colours come from the palette the tokens already define */
-.bay .bay-tag[data-color='red'] { background: var(--red-10); color: var(--red); }
-.bay .bay-tag[data-color='orange'] { background: var(--orange-10); color: var(--orange); }
-.bay .bay-tag[data-color='brown'] { background: var(--orange-10); color: var(--orange); }
-.bay .bay-tag[data-color='yellow'] { background: var(--yellow-10); color: var(--yellow); }
-.bay .bay-tag[data-color='green'] { background: var(--green-10); color: var(--green); }
-.bay .bay-tag[data-color='teal'] { background: var(--green-10); color: var(--green); }
-.bay .bay-tag[data-color='blue'] { background: var(--blue-10); color: var(--blue); }
-.bay .bay-tag[data-color='purple'] { background: var(--purple-10); color: var(--purple); }
-.bay .bay-tag[data-color='pink'] { background: var(--magenta-10); color: var(--magenta); }
+.bay .bay-tag[data-color='red'] { background: var(--red-10); color: var(--bay-tag-red, var(--red)); }
+.bay .bay-tag[data-color='orange'] { background: var(--orange-10); color: var(--bay-tag-orange, var(--orange)); }
+.bay .bay-tag[data-color='brown'] { background: var(--orange-10); color: var(--bay-tag-orange, var(--orange)); }
+.bay .bay-tag[data-color='yellow'] { background: var(--yellow-10); color: var(--bay-tag-yellow, var(--yellow)); }
+.bay .bay-tag[data-color='green'] { background: var(--green-10); color: var(--bay-tag-green, var(--green)); }
+.bay .bay-tag[data-color='teal'] { background: var(--green-10); color: var(--bay-tag-green, var(--green)); }
+.bay .bay-tag[data-color='blue'] { background: var(--blue-10); color: var(--bay-tag-blue, var(--blue)); }
+.bay .bay-tag[data-color='purple'] { background: var(--purple-10); color: var(--bay-tag-purple, var(--purple)); }
+.bay .bay-tag[data-color='pink'] { background: var(--magenta-10); color: var(--bay-tag-magenta, var(--magenta)); }
 .bay .bay-tag__remove {
   display: grid;
   place-items: center;
@@ -87,8 +88,9 @@
   border-radius: var(--ds-radius-full);
   /* token-exempt: the hue is derived from the name so the same person keeps the same colour; a token
      cannot hold a per-name value. Saturation and lightness are fixed so every one of them clears AA
-     against the white initials. */
-  background: hsl(var(--bay-avatar-hue, 0) 40% 45%);
+     against the white initials — measured across all 360 hues at 40% saturation, 34% is the first
+     lightness where the worst of them (yellow, hue 60) reaches 4.57:1. It was 45%, which gave 2.63. */
+  background: hsl(var(--bay-avatar-hue, 0) 40% 34%);
   color: var(--ds-text-on-accent);
   font-weight: 500;
   user-select: none;
@@ -129,7 +131,7 @@
 .bay .bay-stat__foot { display: flex; align-items: center; gap: 6px; font-size: 11px; }
 .bay .bay-stat__delta { display: inline-flex; align-items: center; gap: 2px; font-weight: 500; }
 .bay .bay-stat__delta[data-tone='success'] { color: var(--ds-status-success); }
-.bay .bay-stat__delta[data-tone='danger'] { color: var(--ds-status-danger); }
+.bay .bay-stat__delta[data-tone='danger'] { color: var(--ds-status-danger-text, var(--ds-status-danger)); }
 .bay .bay-stat__delta[data-tone='neutral'] { color: var(--ds-text-tertiary); }
 .bay .bay-stat__description { color: var(--ds-text-tertiary); }
 

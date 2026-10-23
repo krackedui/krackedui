@@ -175,6 +175,8 @@ export function Board({ store, project, openTaskId }: Props) {
             />
           </>
         ) : (
+          // The columns hold focusable cards and buttons, which is what makes this scroll region
+          // reachable without a pointer; a tabIndex on the container would be the wrong tool.
           <div style={{ display: 'flex', gap: 10, overflowX: 'auto', paddingBottom: 4 }}>
             {STATUSES.map((status) => {
               const column = tasks.filter((t) => t.status === status);

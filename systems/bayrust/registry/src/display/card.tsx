@@ -46,15 +46,22 @@ export interface CardTitleProps extends HTMLAttributes<HTMLHeadingElement> {
   asChild?: boolean;
 }
 
-/** The card's name. Renders an h3 by default, so a page of cards keeps a sensible outline. */
+/**
+ * The card's name. An h2 by default.
+ *
+ * It was an h3, which skipped a level on any page with a `PageHeader`: that renders the h1, and a
+ * page of cards under it then jumped h1 → h3. Templates made it visible — twelve heading-order
+ * findings across the two of them. `asChild` is still there for a card nested under its own
+ * heading.
+ */
 export const CardTitle = forwardRef<HTMLHeadingElement, CardTitleProps>(
   function CardTitle({ children, asChild, className, ...rest }, ref) {
     const props = { className: cn('bay-card__title', className), ...rest };
     if (asChild) return mergeIntoChild(children, props);
     return (
-      <h3 ref={ref} {...props}>
+      <h2 ref={ref} {...props}>
         {children}
-      </h3>
+      </h2>
     );
   },
 );

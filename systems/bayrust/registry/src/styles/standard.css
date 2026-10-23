@@ -105,6 +105,12 @@
   /* the reference's "overlay" is a light wash for a native panel, not a scrim behind a modal */
   --ds-bg-overlay: color-mix(in srgb, var(--bg) 60%, transparent);
 
+  /* Status text on a status wash, in dark. The washes are translucent, so the same badge reads
+     differently on the app background and on a card: measured on a card, danger was 3.63:1 and
+     success 3.95:1. These are the text forms only — the brand hues, the washes and the filled
+     surfaces all keep their own values. */
+  --ds-status-danger-text: #ff8989;
+  --ds-status-success-text: #60e5a5;
   --ds-text-tertiary: rgb(from var(--fg) r g b / 54%); /* tuned: measured 3.67:1. 48% cleared the app background at 4.63:1 but only reached 4.07:1 on --ds-bg-surface-raised, where card descriptions sit; 54% is 4.72:1 there */
   --ds-accent-text: #288fff; /* tuned: measured accent is 3.77:1 on the app background, this is 4.67:1 */
   --ds-accent-default: #0071ed; /* tuned: white on the measured accent is 4.02:1, on this 4.56:1 */
@@ -130,6 +136,16 @@
   --ds-text-tertiary: rgb(from var(--fg) r g b / 56%); /* tuned: measured 2.85:1, this is 4.94:1 */
   /* tuned: the measured orange on its own subtle wash is 3.71:1 at 11 px; this is 4.51:1 */
   --ds-status-warning: #b15306;
+  /* Tag text on its own 10% wash. The measured hues clear AA in dark and do not in light, where the
+     wash is near-white: blue was 3.13:1 at 12 px. These are the same hues darkened until they pass,
+     and only the text colour moves — the washes behind them are untouched. */
+  --bay-tag-blue: #0a6ebd;
+  --bay-tag-green: #0f6b45;
+  --bay-tag-red: #b12424;
+  --bay-tag-orange: #9a4a06;
+  --bay-tag-yellow: #7a5a05;
+  --bay-tag-purple: #5b35c4;
+  --bay-tag-magenta: #96216b;
   /* tuned: white on the measured red is 2.9:1; on this it is 4.57:1. The brand red is unchanged. */
   --ds-status-danger-solid: #c74d4d;
   --ds-accent-text: #0070ea; /* tuned: measured accent is 4.02:1 on the app background, this is 4.64:1 */

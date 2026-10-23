@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Badge, CardContent, CardRoot, PageHeader, SegmentedControl, Stack, Tooltip } from '@krackedui/bayrust';
 import { parseDay, projects, today } from '../data';
+import { go } from '../router';
 import { day } from '../format';
 
 const DAY_MS = 86_400_000;
@@ -46,13 +47,18 @@ export function Timeline() {
                 {projects.map((p) => (
                   <div key={p.id} style={{ position: 'relative', height: 44 }}>
                     <Tooltip content={`${p.name}: ${day(p.start)} → ${day(p.target)}`}>
-                      <div
+                      <button
+                        type="button"
+                        onClick={() => go(`/projects/${p.id}`)}
                         style={{
                           position: 'absolute',
                           left: left(p.start),
                           width: width(p.start, p.target),
                           top: 6,
                           height: 32,
+                          font: 'inherit',
+                          color: 'var(--ds-text-primary)',
+                          cursor: 'pointer',
                           borderRadius: 'var(--ds-radius-md)',
                           background: 'var(--ds-bg-surface-selected)',
                           border: '1px solid var(--ds-border-default)',
@@ -68,7 +74,7 @@ export function Timeline() {
                         <Badge tone={p.status === 'On track' ? 'success' : p.status === 'At risk' ? 'warning' : 'neutral'}>
                           {p.progress}%
                         </Badge>
-                      </div>
+                      </button>
                     </Tooltip>
                   </div>
                 ))}

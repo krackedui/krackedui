@@ -130,7 +130,7 @@ export function Transactions() {
       <Stack gap={10}>
         <CardRoot>
           <CardContent>
-            <Stack direction={{ base: 'column', lg: 'row' }} gap={8} align="start">
+            <Stack direction={{ base: 'column', lg: 'row' }} gap={8} align="start" wrap>
               <Field label="Period" hideLabel>
                 <DateRangePicker label="Period" value={range} onValueChange={(r) => { setRange(r); setPage(1); }} presets={presets} placeholder="Any date" />
               </Field>
