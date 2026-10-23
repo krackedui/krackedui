@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Button, IconButton, Icon, iconNames } from '@krackedui/motion';
-import { coreIconNames } from '../../../../../../standard/contract/src/vocab';
+import { semanticIconNames } from '../../../../docs/semantic-icons';
 
 function Row({ label, children }: { label: string; children: React.ReactNode }) {
   return (
@@ -49,7 +49,7 @@ export default function Basics() {
         <IconButton disabled icon="trash" label="Delete" />
       </Row>
       <Row label="core icons">
-        <div className="flex flex-wrap gap-2 text-n-icon-primary">{coreIconNames.map((n) => <span key={n} title={n}><Icon name={n} /></span>)}</div>
+        <div className="flex flex-wrap gap-2 text-n-icon-primary">{semanticIconNames.map((n) => <span key={n} title={n}><Icon name={n} /></span>)}</div>
       </Row>
       <Row label="all icons">
         <div className="flex flex-wrap gap-2 text-n-icon-secondary">{iconNames.map((n) => <span key={n} title={n}><Icon name={n} /></span>)}</div>

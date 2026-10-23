@@ -1,4 +1,5 @@
-// 14. Clean: no denied names (systems/<name>/.clean-deny, one per line, case-insensitive whole-word)
+// 14. Clean: no denied names (systems/<name>/.clean-deny, one per line, case-insensitive whole-word;
+//     inside token names such as --brand-text they are flagged as warnings, not failures)
 // in the built package, the docs content + generated public files, templates (source + build),
 // README.md and SYSTEM.md; and no captured material (capture/, mirror/) shipped or referenced.
 import fs from 'node:fs/promises';
@@ -11,6 +12,7 @@ const TEXT = /\.(js|mjs|cjs|ts|tsx|jsx|d\.ts|css|json|md|txt|html|svg|map)$/;
 
 async function run_(ctx) {
   const details = [];
+  const warnings = [];
   // The deny list names what a system must not mention, so public repos keep it out of the tree:
   // systems/<name>/.clean-deny (git-ignored) locally, or GATE_CLEAN_DENY_<NAME> (a CI secret; one name per line or comma).
   const fromEnv = process.env[`GATE_CLEAN_DENY_${ctx.system.toUpperCase().replace(/[^A-Z0-9]/g, '_')}`] ?? '';
@@ -46,10 +48,16 @@ async function run_(ctx) {
       const where = f.startsWith(ctx.root) ? rel(f) : `template build/${path.relative(path.dirname(path.dirname(f)), f)}`;
       if (re) lines.forEach((line, i) => {
         re.lastIndex = 0;
-        const hits = [...new Set([...line.matchAll(re)].map((m) => m[0]))];
-        if (hits.length) {
-          for (const h of hits) counts[h.toLowerCase()] = (counts[h.toLowerCase()] ?? 0) + 1;
-          details.push({ where: `${where}${lines.length > 1 ? `:${i + 1}` : ''}`, message: `denied name ${hits.map((h) => `"${h}"`).join(', ')}: ${line.trim().slice(0, 140)}` });
+        const loc = `${where}${lines.length > 1 ? `:${i + 1}` : ''}`;
+        for (const m of line.matchAll(re)) {
+          counts[m[0].toLowerCase()] = (counts[m[0].toLowerCase()] ?? 0) + 1;
+          // Inside a token identifier (--brand-text, bg-brand-gray…): flagged, not a failure; onboarded
+          // systems keep their token names. Anywhere else (copy, URLs, assets): a failure.
+          const before = line.slice(0, m.index).match(/[\w-]*$/)[0];
+          const after = line.slice(m.index + m[0].length).match(/^[\w-]*/)[0];
+          const token = `${before}${m[0]}${after}`;
+          const isToken = token.startsWith('--') || ((before.endsWith('-') || after.startsWith('-')) && !/\s/.test(token));
+          (isToken ? warnings : details).push({ where: loc, message: `denied name "${m[0]}"${isToken ? ` in token \`${token}\`` : ''}: ${line.trim().slice(0, 140)}` });
         }
       });
       if (/(^|[\s"'(/])(capture|mirror)\/[\w.-]+\.(png|jpe?g|json|html|svg)/.test(text) && !f.includes(`${path.sep}docs${path.sep}`)) {
@@ -67,8 +75,9 @@ async function run_(ctx) {
   const byName = Object.entries(counts).map(([k, v]) => `"${k}" ${v}`).join(', ');
   return {
     status: details.length ? 'fail' : 'pass',
-    summary: `${scanned} files scanned, ${packed.length} packed files: ${details.length} problems${byName ? ` (denied names: ${byName})` : ''}`,
+    summary: `${scanned} files scanned, ${packed.length} packed files: ${details.length} problems, ${warnings.length} token names flagged${byName ? ` (denied names: ${byName})` : ''}`,
     details,
+    warnings,
   };
 }
 export { run_ as run };

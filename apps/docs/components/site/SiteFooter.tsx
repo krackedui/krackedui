@@ -13,7 +13,7 @@ export function SiteFooter() {
       <div className="mx-auto grid max-w-6xl gap-10 px-4 py-12 sm:px-6 md:grid-cols-[1.5fr_1fr_1fr]">
         <div className="max-w-xs">
           <Logo />
-          <p className="mt-3 text-[14px] leading-6 text-[var(--kui-muted)]">Design systems that speak the same language.</p>
+          <p className="mt-3 text-[14px] leading-6 text-[var(--kui-muted)]">Design systems with character, held to one standard.</p>
         </div>
         {columns.map((c) => (
           <nav key={c.title} aria-label={c.title}>

@@ -2091,7 +2091,7 @@ export default function Nav() {
   examples: [
     {
       title: 'Sections, links and footer',
-      description: 'The contract parts: `Header`, `Section`, `Item` (`href`, `active`, `trailing`) and `Footer`.',
+      description: 'The basic parts: `Header`, `Section`, `Item` (`href`, `active`, `trailing`) and `Footer`.',
       render: () => (
         <div className="h-[360px]">
           <Sidebar.Root width={240} label="Workspace navigation">

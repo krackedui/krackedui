@@ -149,9 +149,9 @@ Motion names below are extras. Drawn at 20 (small variants at 16). Common: `plus
 Full list: `iconNames` / docs Foundations → Icons. Icons in menus are 20px in `icon-primary`;
 sidebar icons 20px `icon-secondary`; affordances 16px `icon-tertiary`.
 
-### 3.6 Contract vocabulary (same in every KrackedUI system)
+### 3.6 Shared value names
 
-Code written against these values works unchanged in any `@krackedui/*` system:
+Motion uses the same small vocabulary across its components:
 - `size`: `'sm' | 'md' | 'lg'` (Motion adds `xs`/`xl` on some components). Default `md`.
 - `tone` (Badge, Alert, Progress, Stat delta, toasts, Sparkline): `'neutral' | 'accent' | 'success' | 'warning' | 'danger' | 'info'`.
   In Motion: neutral = gray, accent/info = blue, success = green, warning = orange, danger = red.

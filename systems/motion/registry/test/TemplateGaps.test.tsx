@@ -1,7 +1,7 @@
 // Fixes found while building the project-management template.
 import { describe, expect, it, vi } from 'vitest';
 import { Avatar, CommandPaletteDialog } from '@system';
-import { renderUI, screen } from '../../../../standard/gate/tests/utils';
+import { renderUI, screen } from './utils';
 
 describe('CommandPaletteDialog', () => {
   it('closes before running the selected command, so the command can open another dialog', async () => {

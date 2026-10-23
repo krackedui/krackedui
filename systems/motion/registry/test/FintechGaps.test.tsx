@@ -1,6 +1,6 @@
 import { describe, expect, it, vi } from 'vitest';
 import { AppFrame, LineChart, NumberInput, PageHeader, PageLayout, SegmentedControl, Sheet, ToastProvider, Topbar, useToast } from '@system';
-import { renderUI, screen, waitFor } from '../../../../standard/gate/tests/utils';
+import { renderUI, screen, waitFor } from './utils';
 
 describe('PageLayout variant="app"', () => {
   it('renders a main landmark with a compact PageHeader (title, description, actions)', () => {

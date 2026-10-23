@@ -1,6 +1,6 @@
 import { describe, expect, it, vi } from 'vitest';
 import { DatabaseView, SAMPLE_TODAY, createTasksSample, type Row } from '@system';
-import { renderUI, screen, waitFor, within } from '../../../../standard/gate/tests/utils';
+import { renderUI, screen, waitFor, within } from './utils';
 
 const tab = (name: string) => screen.getByRole('tab', { name });
 

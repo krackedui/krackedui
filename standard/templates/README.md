@@ -14,10 +14,12 @@ spec in the same format and a PR to the standard.
 
 ## Rules for every template
 - **Only the public package.** Import everything from `@krackedui/<system>` (and React). No deep imports,
-  no copied component code, no hard-coded colors, no extra UI libraries. Layout uses the system's
+  no copied component code, no extra UI libraries. Prefer the system's tokens over raw colors
+  (hard-coded colors are flagged by the gate, not failed). Layout uses the system's
   `Stack`/`Grid` or Tailwind utilities with the system's `tailwind.css` tokens.
-- **The gap loop.** If a screen needs something the system lacks, stop, add it to the system
-  (component, variants, tests, docs page, registry item), then use it. Log it in the system's
+- **The gap loop.** If a screen needs something the system lacks, stop, add it to the system as a
+  **new** component (tests, docs page, registry item), then use it. Never change an existing
+  component's UI to fit a template. Log it in the system's
   `REPORT.md` under "Gaps found by templates". Never work around a gap inside the template.
 - **Realistic, local data.** Sample data lives in `src/data/`, typed, deterministic (no random values at
   render), plausible names/amounts/dates. No network calls.

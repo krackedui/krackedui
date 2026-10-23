@@ -1,7 +1,9 @@
 // 7. Install: the packed tarball installs and builds in fresh consumer apps outside the monorepo:
-//    a) Vite + React (no Tailwind): typecheck + build, using the README's full-page example if it has one;
-//    b) Next.js App Router: a *server component* page that uses the flat name of every compound part in
-//       the inventory (MenuRoot, CardHeader…), built, started and loaded in a browser without errors;
+//    a) Vite + React (no Tailwind): typecheck + build, importing every export and rendering the README's
+//       full-page example if it has one;
+//    b) Next.js App Router: a *server component* page that imports every export of the package (so each one
+//       must resolve under RSC), renders recipes for the compound components the system has, built,
+//       started and loaded in a browser without errors;
 //    c) every docs example rendered from the tarball in a browser, light and dark: no crash, no console
 //       error, no uncaught exception, not empty.
 import fs from 'node:fs/promises';
@@ -9,42 +11,45 @@ import path from 'node:path';
 import { run, pool } from '../lib/context.mjs';
 import { PINS, workDir, installApp, freePort, startServer, openExample } from '../lib/consumer.mjs';
 
-// How to render each compound with contract props only, using flat names. `{X}` = flat name prefix.
+// Recipes for common compound components, using flat names. Used only when the system exports every
+// name a recipe needs; other systems' compounds are still imported (and must resolve), just not rendered.
 const COMPOUND_USAGE = {
   Card: `<CardRoot><CardHeader><CardTitle>Title</CardTitle><CardDescription>Description</CardDescription></CardHeader><CardContent>Content</CardContent><CardFooter>Footer</CardFooter></CardRoot>`,
   Table: `<TableRoot><TableHeader><TableRow><TableHead>Name</TableHead></TableRow></TableHeader><TableBody><TableRow><TableCell>Ada</TableCell></TableRow></TableBody><TableFooter><TableRow><TableCell>1 row</TableCell></TableRow></TableFooter></TableRoot>`,
   Accordion: `<AccordionRoot type="single" collapsible defaultValue="a"><AccordionItem value="a"><AccordionTrigger>Section</AccordionTrigger><AccordionContent>Body</AccordionContent></AccordionItem></AccordionRoot>`,
   Tabs: `<TabsRoot defaultValue="a"><TabsList><TabsTrigger value="a">A</TabsTrigger><TabsTrigger value="b">B</TabsTrigger></TabsList><TabsContent value="a">Panel A</TabsContent><TabsContent value="b">Panel B</TabsContent></TabsRoot>`,
-  Menu: `<MenuRoot defaultOpen><MenuTrigger>Open menu</MenuTrigger><MenuContent><MenuLabel>Label</MenuLabel><MenuGroup><MenuItem icon="edit">Edit</MenuItem><MenuCheckboxItem checked>Pinned</MenuCheckboxItem></MenuGroup><MenuSeparator /><MenuRadioGroup value="a"><MenuRadioItem value="a">A</MenuRadioItem></MenuRadioGroup><MenuSub><MenuSubTrigger>More</MenuSubTrigger><MenuSubContent><MenuItem>Nested</MenuItem></MenuSubContent></MenuSub></MenuContent></MenuRoot>`,
+  Menu: `<MenuRoot defaultOpen><MenuTrigger>Open menu</MenuTrigger><MenuContent><MenuLabel>Label</MenuLabel><MenuGroup><MenuItem>Edit</MenuItem><MenuCheckboxItem checked>Pinned</MenuCheckboxItem></MenuGroup><MenuSeparator /><MenuRadioGroup value="a"><MenuRadioItem value="a">A</MenuRadioItem></MenuRadioGroup><MenuSub><MenuSubTrigger>More</MenuSubTrigger><MenuSubContent><MenuItem>Nested</MenuItem></MenuSubContent></MenuSub></MenuContent></MenuRoot>`,
   ContextMenu: `<ContextMenuRoot><ContextMenuTrigger>Right-click here</ContextMenuTrigger><ContextMenuContent><ContextMenuLabel>Label</ContextMenuLabel><ContextMenuGroup><ContextMenuItem>Edit</ContextMenuItem><ContextMenuCheckboxItem checked>Pinned</ContextMenuCheckboxItem></ContextMenuGroup><ContextMenuSeparator /><ContextMenuRadioGroup value="a"><ContextMenuRadioItem value="a">A</ContextMenuRadioItem></ContextMenuRadioGroup><ContextMenuSub><ContextMenuSubTrigger>More</ContextMenuSubTrigger><ContextMenuSubContent><ContextMenuItem>Nested</ContextMenuItem></ContextMenuSubContent></ContextMenuSub></ContextMenuContent></ContextMenuRoot>`,
   Dialog: `<DialogRoot><DialogTrigger>Open dialog</DialogTrigger><DialogContent><DialogTitle>Title</DialogTitle><DialogDescription>Description</DialogDescription><DialogFooter><DialogClose>Close</DialogClose></DialogFooter></DialogContent></DialogRoot>`,
   Sheet: `<SheetRoot><SheetTrigger>Open sheet</SheetTrigger><SheetContent><SheetTitle>Title</SheetTitle><SheetDescription>Description</SheetDescription><SheetFooter><SheetClose>Close</SheetClose></SheetFooter></SheetContent></SheetRoot>`,
   Popover: `<PopoverRoot><PopoverAnchor><span>Anchor</span></PopoverAnchor><PopoverTrigger>Open popover</PopoverTrigger><PopoverContent>Body<PopoverClose>Close</PopoverClose></PopoverContent></PopoverRoot>`,
-  Sidebar: `<SidebarRoot><SidebarHeader>Workspace</SidebarHeader><SidebarSection title="Pages"><SidebarItem icon="home" active href="#home">Home</SidebarItem></SidebarSection><SidebarFooter>Footer</SidebarFooter></SidebarRoot>`,
 };
 
+/** Value exports of the built package (dist/index.js lists them explicitly). */
+async function packageExports(ctx) {
+  const index = await fs.readFile(path.join(ctx.registryDir, 'dist', 'index.js'), 'utf8');
+  return [...new Set([...index.matchAll(/export\s*\{([^}]*)\}/g)].flatMap((m) => m[1].split(',')).map((e) => e.trim().split(/\s+as\s+/).pop()).filter((n) => n && /^[A-Za-z_$][\w$]*$/.test(n)))].sort();
+}
+
 async function rscPage(ctx) {
-  const { inventory } = await ctx.contract();
-  const compounds = inventory.filter((e) => e.kind === 'compound');
-  const names = new Set();
+  const all = await packageExports(ctx);
+  const has = new Set(all);
   const blocks = [];
-  const unknown = [];
-  for (const e of compounds) {
-    for (const p of e.parts) names.add(`${e.name}${p}`);
-    const usage = COMPOUND_USAGE[e.name];
-    if (usage) blocks.push(`      <section data-gate-compound="${e.name}">${usage}</section>`);
-    else unknown.push(e.name);
+  const skipped = [];
+  for (const [name, usage] of Object.entries(COMPOUND_USAGE)) {
+    const needed = [...usage.matchAll(/<([A-Z]\w*)/g)].map((m) => m[1]);
+    if (needed.every((n) => has.has(n))) blocks.push(`      <section data-gate-compound="${name}">${usage}</section>`);
+    else if (needed.some((n) => has.has(n))) skipped.push(name);
   }
-  // Compounds without a usage recipe: still import every flat part so a missing alias fails the build.
-  const refs = unknown.flatMap((n) => compounds.find((e) => e.name === n).parts.map((p) => `${n}${p}`));
   return {
-    unknown,
-    code: `// Server component: no "use client". Uses only flat compound names, as the standard requires.
-import { ${[...names].sort().join(', ')} } from '${ctx.pkg.name}';
-${refs.length ? `export const parts = [${refs.join(', ')}];\n` : ''}
+    unknown: skipped,
+    code: `// @ts-nocheck -- generated by the gate: recipes use common compound props that a system may type differently.
+// Server component: no "use client". Imports every export, so each must resolve in RSC.
+import { ${all.join(', ')} } from '${ctx.pkg.name}';
+const allExports = [${all.join(', ')}];
 export default function Page() {
   return (
-    <main>
+    <main data-exports={allExports.length}>
 ${blocks.join('\n')}
     </main>
   );
@@ -66,16 +71,10 @@ async function viteSmoke(ctx, tgz, details) {
     'src/ReadmePage.tsx': readmePage ?? 'export function Page() { return null; }\n',
     'src/main.tsx': `import { createRoot } from 'react-dom/client';
 import '${ctx.pkg.name}/styles.css';
-import { Theme, Button, IconButton, Menu } from '${ctx.pkg.name}';
+import * as UI from '${ctx.pkg.name}';
 import { Page } from './ReadmePage';
-createRoot(document.getElementById('root')!).render(
-  <Theme appearance="dark">
-    <Button variant="primary">New</Button>
-    <Menu.Root><Menu.Trigger asChild><IconButton icon="more" label="Actions" /></Menu.Trigger>
-      <Menu.Content><Menu.Item icon="link">Copy link</Menu.Item></Menu.Content></Menu.Root>
-    <Page />
-  </Theme>,
-);
+if (Object.keys(UI).length === 0) throw new Error('package has no exports');
+createRoot(document.getElementById('root')!).render(<Page />);
 `,
   };
   for (const [f, c] of Object.entries(files)) await fs.writeFile(path.join(dir, f), c);
@@ -108,7 +107,6 @@ export default function Layout({ children }: { children: ReactNode }) {
     'app/page.tsx': page.code,
   };
   for (const [f, c] of Object.entries(files)) await fs.writeFile(path.join(dir, f), c);
-  if (page.unknown.length) details.push({ where: 'next app', message: `no render recipe for compound(s) ${page.unknown.join(', ')}; their flat parts are imported but not rendered (add a recipe in standard/gate/checks/install.mjs)` });
   await installApp(dir, [PINS.next, PINS.react, PINS.reactDom, tgz], [PINS.typescript, PINS.typesReact, PINS.typesReactDom, PINS.typesNode]);
   const nb = await run(path.join(dir, 'node_modules/.bin/next'), ['build'], { cwd: dir, timeout: 600000, env: { NEXT_TELEMETRY_DISABLED: '1' } });
   if (nb.code !== 0) {

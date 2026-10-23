@@ -1,7 +1,7 @@
 # Motion: system rules
 
-Motion is the **reference system** of KrackedUI: calm, content-first, dense. It implements the full
-contract plus two modules (block **editor**, **database** views). Root rules: `/AGENTS.md`;
+Motion is the **reference system** of KrackedUI: calm, content-first, dense, with two modules (block
+**editor**, **database** views) on top of its components. Root rules: `/AGENTS.md`;
 the standard: `/standard/SPEC.md`. These rules add Motion's specifics.
 
 ## Where things go
@@ -19,7 +19,7 @@ registry/src/
   database/      module: database views
   lib/           cn, tv, shared hooks (no components)
   styles/        tokens.css (generated), theme.css, standard.css (--ds-* mapping), motion.css (animations)
-registry/test/   behaviour tests for Motion extras and modules (contract tests live in /standard/gate/tests)
+registry/test/   Motion's behaviour tests (components/ per component, plus module and integration tests; utils.tsx = renderUI)
 docs/            registry.tsx (nav + pages), pages/<group>.tsx, foundations.tsx, theme.css, chrome.tsx
 templates/       project-management/, fintech/
 playground/      lab pages at #/lab/<group> (internal)
@@ -53,7 +53,7 @@ under `(pointer: coarse)`. When adding a component, match the closest existing o
 ## Verifying a change (before you call it done)
 1. Lab: add/adjust the component on `playground/src/lab/pages/<group>.tsx`; check light, `?dark`,
    and a 375 px wide window.
-2. `npm run gate -- motion --only typecheck,lint,tokens,contract,tests`
+2. `npm run gate -- motion --only typecheck,lint,tokens,tests`
 3. Docs page updated (examples, API table, accessibility, usage); `npm run gate -- motion --only docs`.
 4. For visual or layout changes: `--only a11y,responsive`.
 

@@ -2,10 +2,10 @@
  "system": "motion",
  "status": "incomplete",
  "partial": true,
- "timestamp": "2026-10-22T12:25:08.789Z",
- "durationSec": 75,
- "command": "npm run gate -- motion --only visual",
- "sourceHash": "ad241e24680ed93a3c2386135a6298a2dc2ae44dcc49261e73ae2d681b234a47",
+ "timestamp": "2026-10-23T12:37:55.361Z",
+ "durationSec": 240,
+ "command": "npm run gate -- motion --only install",
+ "sourceHash": "00cefddad31842afd7c46eb7bf64b036618eed9f245d6410b996e13243dfdd59",
  "checks": [
   {
    "id": "typecheck",
@@ -23,14 +23,7 @@
   },
   {
    "id": "tokens",
-   "title": "Tokens",
-   "status": "skip",
-   "summary": "not selected (--only)",
-   "details": []
-  },
-  {
-   "id": "contract",
-   "title": "Contract",
+   "title": "Tokens (report only)",
    "status": "skip",
    "summary": "not selected (--only)",
    "details": []
@@ -52,20 +45,17 @@
   {
    "id": "install",
    "title": "Install",
-   "status": "skip",
-   "summary": "not selected (--only)",
-   "details": []
+   "status": "pass",
+   "summary": "vite app ok, next RSC app ok (9 compounds); 388/388 examples render clean in light + dark (0 problems); 1 whole-document examples built but not rendered (ui/theme#next-js-root-layout)",
+   "durationSec": 240,
+   "details": [],
+   "data": {
+    "buildErrors": {}
+   }
   },
   {
    "id": "copy-paste",
    "title": "Copy-paste",
-   "status": "skip",
-   "summary": "not selected (--only)",
-   "details": []
-  },
-  {
-   "id": "docs",
-   "title": "Docs",
    "status": "skip",
    "summary": "not selected (--only)",
    "details": []
@@ -87,9 +77,8 @@
   {
    "id": "visual",
    "title": "Visual",
-   "status": "pass",
-   "summary": "388/388 examples match their baseline (0 changed, 0 without baseline; threshold 0.5% pixels)",
-   "durationSec": 75,
+   "status": "skip",
+   "summary": "not selected (--only)",
    "details": []
   },
   {

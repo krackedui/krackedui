@@ -5,5 +5,5 @@
     "lib": ["ES2022", "DOM", "DOM.Iterable"], "types": ["@testing-library/jest-dom/vitest"],
     "paths": { "@system": ["../../../systems/motion/registry/src/index.ts"] }
   },
-  "include": ["./**/*.ts", "./**/*.tsx", "../../../systems/*/registry/test/**/*.ts", "../../../systems/*/registry/test/**/*.tsx"]
+  "include": ["./**/*.ts", "../../../systems/*/registry/test/**/*.ts", "../../../systems/*/registry/test/**/*.tsx"]
 }

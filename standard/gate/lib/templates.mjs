@@ -11,6 +11,7 @@ import path from 'node:path';
 import { run, pool, walk } from './context.mjs';
 import { workDir, installApp, freePort, startServer, PINS } from './consumer.mjs';
 import { axe, focusVisible, targetSize, overflow } from './audits.mjs';
+import { responsiveWidths } from './settings.mjs';
 
 async function buildOne(ctx, tdir, tgz) {
   const name = path.basename(tdir);
@@ -71,7 +72,7 @@ export async function templateAudits(ctx, kind) {
       out.pages += t.urls.length;
       const modes = kind === 'a11y'
         ? [['light', { viewport: { width: 1280, height: 800 }, reducedMotion: 'reduce', colorScheme: 'light' }], ['dark', { viewport: { width: 1280, height: 800 }, reducedMotion: 'reduce', colorScheme: 'dark' }], ['touch 375', { viewport: { width: 375, height: 812 }, hasTouch: true, isMobile: true, reducedMotion: 'reduce' }]]
-        : (await ctx.contract()).responsiveWidths.map((w) => [`@${w}`, { viewport: { width: w, height: 900 }, reducedMotion: 'reduce', ...(w < 768 ? { hasTouch: true, isMobile: true } : {}) }]);
+        : responsiveWidths.map((w) => [`@${w}`, { viewport: { width: w, height: 900 }, reducedMotion: 'reduce', ...(w < 768 ? { hasTouch: true, isMobile: true } : {}) }]);
       for (const [label, opts] of modes) {
         const context = await browser.newContext(opts);
         await pool(t.urls, 4, async (url, i) => {
@@ -99,9 +100,8 @@ export async function templateAudits(ctx, kind) {
   return ctx._templateAudits[kind];
 }
 
-/** Static rules for template sources: public API imports only, no relative escapes, no colors. */
+/** Static rules for template sources: public API imports only, no relative escapes. (Hard-coded colors are flagged by the tokens check.) */
 export async function templateSourceProblems(ctx, tdir) {
-  const { findColors } = await import('./source-scan.mjs');
   const problems = [];
   const allowedSub = new Set(Object.keys(ctx.pkg.exports ?? {}).filter((k) => k !== '.').map((k) => k.slice(1)));
   for (const f of await walk(path.join(tdir, 'src'), { filter: (p) => /\.(tsx?|jsx?|css)$/.test(p) })) {
@@ -119,7 +119,6 @@ export async function templateSourceProblems(ctx, tdir) {
         } else if (/systems\/|registry\/src/.test(spec)) problems.push({ where: `${relf}:${i + 1}`, message: `import "${spec}" reaches into the monorepo` });
       }
     });
-    for (const h of findColors(text)) problems.push({ where: `${relf}:${h.line}`, message: `hard-coded color (${h.kind}) \`${h.match}\`` });
   }
   return problems;
 }

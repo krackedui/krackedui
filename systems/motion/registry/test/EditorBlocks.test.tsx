@@ -4,7 +4,7 @@ import {
   RichTextView, SlashMenu, TableOfContents, TextToolbar, ToDo, Toggle, TurnIntoMenu, rt, slashItems, turnIntoItems,
   type Block, type SlashItem,
 } from '@system';
-import { renderUI, screen, waitFor, within } from '../../../../standard/gate/tests/utils';
+import { renderUI, screen, waitFor, within } from './utils';
 
 const textBlock: Block = { id: 'a', type: 'text', text: rt('A paragraph with six words here') };
 

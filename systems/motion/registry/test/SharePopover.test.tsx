@@ -1,6 +1,6 @@
 import { describe, expect, it, vi } from 'vitest';
 import { SharePopover } from '@system';
-import { renderUI, screen } from '../../../../standard/gate/tests/utils';
+import { renderUI, screen } from './utils';
 
 const people = [
   { name: 'Ada Lovelace', email: 'ada@example.com', you: true },
