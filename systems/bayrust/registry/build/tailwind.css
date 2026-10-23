@@ -1,0 +1,12 @@
+/*
+ * Entry for dist/tailwind.css — for apps that already run Tailwind v4 and want Bayrust's tokens as
+ * utilities in their own markup (`bg-ds-bg-surface`, `text-ds-text-secondary`, `rounded-ds-md`):
+ *
+ *   @import "tailwindcss";
+ *   @import "@krackedui/bayrust/tailwind.css";
+ *
+ * It is styles.css plus a generated `@theme inline` block. `inline` matters: the block points at the
+ * live `--ds-*` custom properties rather than copying their values, so a utility follows whichever
+ * appearance the enclosing <Theme> is in. The build appends the block; this file is only its head.
+ */
+@import './styles.css';

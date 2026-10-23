@@ -59,7 +59,10 @@ export function TabsList({ children, className, ...rest }: HTMLAttributes<HTMLDi
     tabs[next].click();
   };
   return (
-    <div ref={list} role="tablist" className={cn('bay-tabs__list', className)} onKeyDown={onKeyDown} {...rest}>
+    // The keys are handled here and arrive by bubbling from whichever tab has focus; the list itself
+    // is never a tab stop. tabIndex={-1} says that explicitly — it keeps the list out of the tab order
+    // while giving the interactive role the focusability the pattern expects.
+    <div ref={list} role="tablist" tabIndex={-1} className={cn('bay-tabs__list', className)} onKeyDown={onKeyDown} {...rest}>
       {children}
     </div>
   );

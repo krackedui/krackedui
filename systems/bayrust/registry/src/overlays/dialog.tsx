@@ -198,6 +198,18 @@ export function SheetContent({ children, side = 'right', size = 'md', className,
   );
 }
 
+/*
+ * A sheet is a dialog that enters from an edge, so every part but the content is the dialog's own.
+ * The flat names exist for the same reason the dialog's do: a React Server Component cannot dot
+ * into `Sheet`, so `SheetTitle` has to be an export in its own right (SPEC §2).
+ */
+export const SheetRoot = DialogRoot;
+export const SheetTrigger = DialogTrigger;
+export const SheetTitle = DialogTitle;
+export const SheetDescription = DialogDescription;
+export const SheetFooter = DialogFooter;
+export const SheetClose = DialogClose;
+
 export const Sheet = {
   Root: DialogRoot,
   Trigger: DialogTrigger,

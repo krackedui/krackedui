@@ -4,18 +4,29 @@ Bayrust is a dark-first, keyboard-driven system: the density and quietness of a 
 a command surface rather than a page. Root rules: `/AGENTS.md`; the standard: `/standard/SPEC.md`.
 These rules add Bayrust's specifics.
 
-**Read `REPORT.md` first.** This system is early: 8 of the 61 contract entries are implemented, there
-is no build, no tests and no docs, and the gate has never run. Do not treat anything here as finished.
+**Read `REPORT.md` first.** This system is in progress: 53 of the 62 contract inventory entries are
+implemented and the package builds, but there are no tests, docs, templates or visual baselines, so
+the gate fails — `GATE.md` has the current run. Do not treat anything here as finished.
 
 ## Where things go
 ```
+registry/build/     build.mjs (writes dist/), styles.css and tailwind.css (the two stylesheet entries)
 registry/src/
-  styles/        tokens.css (generated, do not hand-edit), standard.css (--ds-* mapping), components.css, index.css
+  index.ts       the public API: groups own their exports, this file only re-exports them
+  server-safe.ts the pure, React-free exports, for React Server Components
+  styles/        tokens.css (generated, do not hand-edit), standard.css (--ds-* mapping), then one per group
   icons/         product icons as SVG, drawn (tooling/build-icons.py regenerates)
   foundations/   Theme, Icon, icon-paths.ts (the 80 interface icons)
   layout/        Stack, Grid, Divider
   actions/       Button, IconButton, Link
-  lib/           cn, the variant helper, the asChild merge (no components)
+  forms/         Field, the text inputs, the choice controls, Slider
+  display/       Badge, Avatar, Card, Table, DataTable, Accordion, Stat
+  feedback/      Skeleton/Progress/Spinner, Alert and the toasts
+  navigation/    Tabs, Breadcrumbs, Menu
+  overlays/      Dialog, Sheet, Popover, Tooltip
+  charts/        LineChart, BarChart, DonutChart, Sparkline
+  shell/         AppFrame, Sidebar, Topbar, PageHeader
+  lib/           cn, the variant helper, the asChild merge, the overlay primitives (no components)
 tooling/         tokens.json (tokens as data, with the rule each came from), build-icons.py
 docs/            registry.tsx (nav + pages), pages/<group>.tsx
 templates/       fintech/, project-management/
@@ -51,7 +62,9 @@ product's own name and assets into a public package — which `/standard/SPEC.md
 check 14 greps for.
 
 ## Verifying a change (before you call it done)
-1. `npm run gate -- bayrust --only typecheck,lint,tokens,contract` — the subset that runs today.
+1. `npm run gate -- bayrust --only typecheck,lint,contract,build` — the subset that runs today.
+   `tokens`, `docs`, `a11y`, `responsive` and `visual` all load `docs/registry.tsx` and crash until
+   the docs exist, so running them now tells you nothing.
 2. Add the component to the lab and check it dark, light and at 375 px.
 3. Docs page updated; `npm run gate -- bayrust --only docs`.
 4. Log every gap and usability issue in `REPORT.md`, per root rule 4.

@@ -13,7 +13,11 @@ type Align = 'start' | 'center' | 'end';
 export interface DataTableColumn<Row> {
   key: string;
   header: ReactNode;
-  cell?: (row: Row) => ReactNode;
+  // Method syntax, not a property: a method's parameters are compared bivariantly, so a column list
+  // written for a concrete row type still satisfies `DataTableColumn<Row>` for a wider `Row`. As a
+  // property under `strictFunctionTypes` it would not, and the component would be unusable through
+  // the contract's own type.
+  cell?(this: void, row: Row): ReactNode;
   align?: Align;
   sortable?: boolean;
   width?: number | string;
@@ -27,15 +31,27 @@ export interface DataTableProps<Row = Record<string, unknown>> {
   id?: string;
   columns: DataTableColumn<Row>[];
   rows: Row[];
-  getRowId?: (row: Row) => string;
+  getRowId?(this: void, row: Row): string;
   sort?: { key: string; direction: 'asc' | 'desc' } | null;
   onSortChange?: (sort: { key: string; direction: 'asc' | 'desc' } | null) => void;
   selectedIds?: string[];
   onSelectedIdsChange?: (ids: string[]) => void;
-  onRowClick?: (row: Row) => void;
+  onRowClick?(this: void, row: Row): void;
   loading?: boolean;
   empty?: ReactNode;
   density?: 'compact' | 'comfortable';
+}
+
+/**
+ * A cell's content when the column has no `cell`. Anything that is not a primitive is left blank
+ * rather than stringified: `[object Object]` in a table is a bug the reader has to decode, and a
+ * column holding objects wants a `cell` of its own.
+ */
+function text(value: unknown): ReactNode {
+  if (value == null) return '';
+  if (value instanceof Date) return value.toLocaleDateString();
+  if (typeof value === 'string' || typeof value === 'number' || typeof value === 'boolean' || typeof value === 'bigint') return String(value);
+  return '';
 }
 
 /**
@@ -131,7 +147,7 @@ export function DataTable<Row>({
                     )}
                     {columns.map((c) => (
                       <TableCell key={c.key} align={c.align} data-hide-below={c.hideBelow}>
-                        {c.cell ? c.cell(row) : String((row as Record<string, unknown>)[c.key] ?? '')}
+                        {c.cell ? c.cell(row) : text((row as Record<string, unknown>)[c.key])}
                       </TableCell>
                     ))}
                   </TableRow>

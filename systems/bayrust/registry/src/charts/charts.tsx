@@ -26,13 +26,23 @@ export interface ChartSeries {
   color?: Color;
 }
 
+/**
+ * The field a chart is indexed by.
+ *
+ * `keyof Datum & string` alone collapses to `never` the moment `Datum` is not known — which is what
+ * happens to anyone reading `ComponentProps<typeof LineChart>`, the gate's contract check included,
+ * because TypeScript erases an uninstantiated type parameter to its constraint rather than to its
+ * default. Falling back to `string` there keeps the prop usable instead of impossible.
+ */
+type IndexKey<Datum> = unknown extends Datum ? string : keyof Datum & string;
+
 interface ChartBase<Datum> {
   className?: string;
   style?: React.CSSProperties;
   id?: string;
   data: Datum[];
   /** The field each datum is placed by. */
-  index: keyof Datum & string;
+  index: IndexKey<Datum>;
   series: ChartSeries[];
   height?: number;
   valueFormat?: (value: number) => string;

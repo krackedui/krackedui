@@ -97,7 +97,7 @@ export function PopoverContent({ children, align = 'start', side = 'bottom', cla
   const pos = useAnchored(ctx.open, anchor, ctx.contentRef, side, align);
   useDismiss(ctx.open, () => {
     ctx.setOpen(false);
-    (ctx.triggerRef.current as HTMLElement | null)?.focus?.();
+    ctx.triggerRef.current?.focus();
   }, [ctx.contentRef, ctx.triggerRef, ctx.anchorRef]);
   if (!ctx.open) return null;
   return (

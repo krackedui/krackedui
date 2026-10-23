@@ -49,7 +49,7 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(function Che
   const inputId = id ?? (label ? auto : field?.controlId) ?? auto;
   const indeterminate = checked === 'indeterminate';
   const [on, setOn] = useControllable<boolean>(
-    indeterminate ? undefined : (checked as boolean | undefined),
+    indeterminate ? undefined : checked,
     defaultChecked ?? false,
     onCheckedChange,
   );

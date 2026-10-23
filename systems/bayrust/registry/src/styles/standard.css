@@ -2,9 +2,10 @@
  * The standard vocabulary (--ds-*) expressed in Bayrust's own tokens.
  *
  * Most entries are a straight alias: the measured token already says the right thing. Four are not,
- * and they are marked `tuned` with the measurement and the ratio. SPEC §4 requires every --ds-* token
- * in both appearances; gate check 3 requires the pairs in standard/contract/src/tokens.ts to clear
- * WCAG AA (4.5:1). The reference is a low-contrast dark surface and four of its values do not clear it.
+ * and they are marked `tuned` with the measurement and the ratio. Standard 2.0 dropped the required
+ * token list and made the tokens check report-only, but contrast is still enforced on rendered UI by
+ * the accessibility check (SPEC §6), and the reference is a low-contrast dark surface: four of its
+ * values do not clear WCAG AA 4.5:1.
  * Per AGENTS.md they are raised, not lowered back:
  *
  *   text-tertiary   measured 3.67:1 dark / 2.85:1 light  ->  --fg at 48% / 56%   = 4.63 / 4.94

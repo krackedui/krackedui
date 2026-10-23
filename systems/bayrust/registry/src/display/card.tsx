@@ -34,11 +34,25 @@ export const CardHeader = forwardRef<HTMLDivElement, PartProps>(function CardHea
   );
 });
 
-/** The card's name. Renders an h3, so a page of cards keeps a sensible outline. */
-export const CardTitle = forwardRef<HTMLHeadingElement, HTMLAttributes<HTMLHeadingElement> & { children?: ReactNode }>(
-  function CardTitle({ children, className, ...rest }, ref) {
+export interface CardTitleProps extends HTMLAttributes<HTMLHeadingElement> {
+  children?: ReactNode;
+  /**
+   * Render the child element instead of the h3, keeping the styling.
+   *
+   * An h3 is right for a card inside a page of them, and wrong for a card that is the page's own
+   * heading level. Rather than a `level` prop that only moves the problem, the caller passes the
+   * heading it needs: `<CardTitle asChild><h2>Revenue</h2></CardTitle>`.
+   */
+  asChild?: boolean;
+}
+
+/** The card's name. Renders an h3 by default, so a page of cards keeps a sensible outline. */
+export const CardTitle = forwardRef<HTMLHeadingElement, CardTitleProps>(
+  function CardTitle({ children, asChild, className, ...rest }, ref) {
+    const props = { className: cn('bay-card__title', className), ...rest };
+    if (asChild) return mergeIntoChild(children, props);
     return (
-      <h3 ref={ref} className={cn('bay-card__title', className)} {...rest}>
+      <h3 ref={ref} {...props}>
         {children}
       </h3>
     );

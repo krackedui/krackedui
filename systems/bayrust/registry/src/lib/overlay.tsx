@@ -17,6 +17,14 @@ export function useDismiss(
   onClose: () => void,
   refs: Array<RefObject<HTMLElement | null>>,
 ) {
+  // Callers build `refs` inline, so it is a new array every render and cannot go in the dependency
+  // list without tearing the listeners down and putting them back each time. The handler reads the
+  // current one through a ref, which keeps the dependencies honest.
+  const latest = useRef(refs);
+  useEffect(() => {
+    latest.current = refs;
+  });
+
   useEffect(() => {
     if (!open) return;
     const onKey = (e: KeyboardEvent) => {
@@ -27,7 +35,7 @@ export function useDismiss(
     };
     const onPointer = (e: PointerEvent) => {
       const target = e.target as Node;
-      if (refs.some((r) => r.current?.contains(target))) return;
+      if (latest.current.some((r) => r.current?.contains(target))) return;
       onClose();
     };
     document.addEventListener('keydown', onKey, true);
@@ -37,7 +45,6 @@ export function useDismiss(
       document.removeEventListener('keydown', onKey, true);
       document.removeEventListener('pointerdown', onPointer, true);
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [open, onClose]);
 }
 

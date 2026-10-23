@@ -22,16 +22,20 @@
       "default": "./dist/index.js"
     },
     "./styles.css": "./dist/styles.css",
+    "./tailwind.css": "./dist/tailwind.css",
     "./tokens.json": "./dist/tokens.json",
     "./package.json": "./package.json"
   },
   "files": [
     "dist",
     "README.md",
-    "SYSTEM.md"
+    "SYSTEM.md",
+    "LICENSES"
   ],
   "scripts": {
+    "build": "node build/build.mjs",
     "typecheck": "tsc -p tsconfig.json",
+    "prepack": "npm run build",
     "prepublishOnly": "node ../../../standard/gate/verify.mjs bayrust"
   },
   "peerDependencies": {
@@ -48,6 +52,7 @@
   "devDependencies": {
     "@types/react": "19.1.8",
     "@types/react-dom": "19.1.6",
+    "esbuild": "0.25.5",
     "typescript": "5.8.3"
   }
 }

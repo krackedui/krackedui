@@ -1,0 +1,11 @@
+/*
+ * Entry for dist/styles.css — the stylesheet a consumer imports:
+ *
+ *   import '@krackedui/bayrust/styles.css';
+ *
+ * Bayrust's components are plain CSS, so there is nothing to compile: the build inlines these
+ * imports in order and ships the result. No Tailwind, no PostCSS, no build dependency for the
+ * consumer. Every rule is scoped under `.bay`, the element <Theme> renders, so installing the
+ * package never restyles the host app (SPEC §2).
+ */
+@import '../src/styles/index.css';

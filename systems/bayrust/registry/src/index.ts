@@ -46,7 +46,7 @@ export { Badge, Tag, Kbd, badgeVariants, type BadgeProps, type TagProps, type Kb
 export { Avatar, AvatarGroup, type AvatarProps, type AvatarGroupProps, type AvatarSize } from './display/avatar';
 export {
   Card, CardRoot, CardHeader, CardTitle, CardDescription, CardContent, CardFooter,
-  type CardRootProps,
+  type CardRootProps, type CardTitleProps,
 } from './display/card';
 export {
   Table, TableRoot, TableHeader, TableBody, TableFooter, TableRow, TableHead, TableCell,
@@ -68,7 +68,7 @@ export {
 } from './navigation/menu';
 export {
   Dialog, DialogRoot, DialogTrigger, DialogContent, DialogTitle, DialogDescription, DialogFooter, DialogClose,
-  Sheet, SheetContent,
+  Sheet, SheetRoot, SheetTrigger, SheetContent, SheetTitle, SheetDescription, SheetFooter, SheetClose,
   type DialogRootProps, type DialogTriggerProps, type DialogContentProps, type DialogCloseProps, type SheetContentProps,
 } from './overlays/dialog';
 export {

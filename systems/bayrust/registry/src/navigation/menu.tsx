@@ -89,7 +89,7 @@ export function MenuContent({ children, align = 'start', side = 'bottom', classN
   const pos = useAnchored(ctx.open, ctx.triggerRef, ctx.contentRef, side, align);
   useDismiss(ctx.open, () => {
     ctx.setOpen(false);
-    (ctx.triggerRef.current as HTMLElement | null)?.focus?.();
+    ctx.triggerRef.current?.focus();
   }, [ctx.contentRef, ctx.triggerRef]);
 
   if (!ctx.open) return null;
@@ -136,7 +136,7 @@ function useSelect(disabled: boolean | undefined, onSelect: ((e: Event) => void)
     onSelect?.(e.nativeEvent);
     if (close) {
       ctx.setOpen(false);
-      (ctx.triggerRef.current as HTMLElement | null)?.focus?.();
+      ctx.triggerRef.current?.focus();
     }
   };
 }
