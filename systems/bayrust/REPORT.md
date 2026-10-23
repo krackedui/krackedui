@@ -140,7 +140,7 @@ a range picker hid the range it already had.
 
 ### Visual baselines
 
-43 baselines recorded for `darwin` on 2026-10-23, the first set for this system. They were recorded
+44 baselines recorded for `darwin` on 2026-10-23, the first set for this system. They were recorded
 after the accessibility and responsive work, not before, so they capture the system as it now is;
 CI records its own Linux set, because fonts render differently per platform.
 
@@ -184,6 +184,7 @@ examples could not:
 | **Sort buttons were 41×16 on touch**, under the 24 px floor | The docs' table example is not audited at 375 px with a coarse pointer | Added to the coarse-pointer floor, with the combobox and date triggers |
 | **A horizontally scrolling region could not be reached by keyboard** — the board columns and the timeline | Neither exists in the docs | Both take focus and are labelled |
 | **A seven-control filter bar overflowed 1024 px** | The docs show controls one at a time | The row wraps |
+| **A `Badge` in a `CardHeader` stretched to the full width** — 379 px for the text "1", and the same to any button or control put there | Found by looking at the running template, not by a check: nothing overlaps, nothing overflows, so every check was happy. The docs' card example has only a title and a description in its header | The header no longer stretches its children; the title and description still fill the row |
 
 The first three are system defects, not template ones: they were fixed in Bayrust and every
 consumer gets the fix.

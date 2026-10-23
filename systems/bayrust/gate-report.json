@@ -1,429 +1,95 @@
 {
  "system": "bayrust",
- "status": "fail",
- "partial": false,
- "timestamp": "2026-10-23T19:28:31.377Z",
- "durationSec": 274,
- "command": "npm run gate -- bayrust",
- "sourceHash": "60e85ecd3894efb8467471c8daeeae0572e809436fbf22c9b10f0bc77c1250f7",
+ "status": "incomplete",
+ "partial": true,
+ "timestamp": "2026-10-23T19:38:49.251Z",
+ "durationSec": 24,
+ "command": "npm run gate -- bayrust --only visual --update-baselines",
+ "sourceHash": "changed-during-run:4d65efeaf58c0735c98642661eae0ed30395af2a71329c4c123cb984f86f90bb",
  "checks": [
   {
    "id": "typecheck",
    "title": "Typecheck",
-   "status": "pass",
-   "summary": "0 errors (playground: 0 errors, registry: 0 errors, docs (apps/docs + systems docs): 0 errors, tests: 0 errors, template fintech: 0 errors, template project-management: 0 errors)",
-   "durationSec": 3,
-   "details": [],
-   "data": {
-    "counts": {
-     "playground": 0,
-     "registry": 0,
-     "docs (apps/docs + systems docs)": 0,
-     "tests": 0,
-     "template fintech": 0,
-     "template project-management": 0
-    }
-   }
+   "status": "skip",
+   "summary": "not selected (--only)",
+   "details": []
   },
   {
    "id": "lint",
    "title": "Lint",
-   "status": "pass",
-   "summary": "0 errors, 0 warnings in 78 files",
-   "durationSec": 5,
-   "details": [],
-   "data": {
-    "byRule": {}
-   }
+   "status": "skip",
+   "summary": "not selected (--only)",
+   "details": []
   },
   {
    "id": "tokens",
    "title": "Tokens (report only)",
-   "status": "pass",
-   "summary": "report only: 0 hard-coded colors flagged in 62 files",
-   "durationSec": 0,
-   "details": [],
-   "data": {
-    "hardCodedColors": 0
-   }
+   "status": "skip",
+   "summary": "not selected (--only)",
+   "details": []
   },
   {
    "id": "tests",
    "title": "Behaviour tests",
-   "status": "pass",
-   "summary": "51/51 tests passed in 37 files; 24/55 interactive components have a test (untested ones are flagged)",
-   "durationSec": 4,
-   "details": [],
-   "warnings": [
-    {
-     "where": "AccordionItem",
-     "message": "interactive component (display/accordion.tsx) has no test in systems/bayrust/registry/test"
-    },
-    {
-     "where": "AccordionRoot",
-     "message": "interactive component (display/accordion.tsx) has no test in systems/bayrust/registry/test"
-    },
-    {
-     "where": "CommandPaletteDialog",
-     "message": "interactive component (overlays/command-palette.tsx) has no test in systems/bayrust/registry/test"
-    },
-    {
-     "where": "ContextMenuCheckboxItem",
-     "message": "interactive component (navigation/menu.tsx) has no test in systems/bayrust/registry/test"
-    },
-    {
-     "where": "ContextMenuItem",
-     "message": "interactive component (navigation/menu.tsx) has no test in systems/bayrust/registry/test"
-    },
-    {
-     "where": "ContextMenuRadioGroup",
-     "message": "interactive component (navigation/menu.tsx) has no test in systems/bayrust/registry/test"
-    },
-    {
-     "where": "ContextMenuRadioItem",
-     "message": "interactive component (navigation/menu.tsx) has no test in systems/bayrust/registry/test"
-    },
-    {
-     "where": "ContextMenuRoot",
-     "message": "interactive component (navigation/context-menu.tsx) has no test in systems/bayrust/registry/test"
-    },
-    {
-     "where": "ContextMenuSub",
-     "message": "interactive component (navigation/menu.tsx) has no test in systems/bayrust/registry/test"
-    },
-    {
-     "where": "DialogRoot",
-     "message": "interactive component (overlays/dialog.tsx) has no test in systems/bayrust/registry/test"
-    },
-    {
-     "where": "MenuCheckboxItem",
-     "message": "interactive component (navigation/menu.tsx) has no test in systems/bayrust/registry/test"
-    },
-    {
-     "where": "MenuItem",
-     "message": "interactive component (navigation/menu.tsx) has no test in systems/bayrust/registry/test"
-    },
-    {
-     "where": "MenuRadioGroup",
-     "message": "interactive component (navigation/menu.tsx) has no test in systems/bayrust/registry/test"
-    },
-    {
-     "where": "MenuRadioItem",
-     "message": "interactive component (navigation/menu.tsx) has no test in systems/bayrust/registry/test"
-    },
-    {
-     "where": "MenuRoot",
-     "message": "interactive component (navigation/menu.tsx) has no test in systems/bayrust/registry/test"
-    },
-    {
-     "where": "MenuSub",
-     "message": "interactive component (navigation/menu.tsx) has no test in systems/bayrust/registry/test"
-    },
-    {
-     "where": "PopoverRoot",
-     "message": "interactive component (overlays/popover.tsx) has no test in systems/bayrust/registry/test"
-    },
-    {
-     "where": "Progress",
-     "message": "interactive component (feedback/status.tsx) has no test in systems/bayrust/registry/test"
-    },
-    {
-     "where": "Radio",
-     "message": "interactive component (forms/choice.tsx) has no test in systems/bayrust/registry/test"
-    },
-    {
-     "where": "SegmentedControl",
-     "message": "interactive component (forms/choice.tsx) has no test in systems/bayrust/registry/test"
-    },
-    {
-     "where": "Select",
-     "message": "interactive component (forms/choice.tsx) has no test in systems/bayrust/registry/test"
-    },
-    {
-     "where": "Sheet",
-     "message": "interactive component (overlays/dialog.tsx) has no test in systems/bayrust/registry/test"
-    },
-    {
-     "where": "SheetRoot",
-     "message": "interactive component (overlays/dialog.tsx) has no test in systems/bayrust/registry/test"
-    },
-    {
-     "where": "Sidebar",
-     "message": "interactive component (shell/shell.tsx) has no test in systems/bayrust/registry/test"
-    },
-    {
-     "where": "SidebarItem",
-     "message": "interactive component (shell/shell.tsx) has no test in systems/bayrust/registry/test"
-    },
-    {
-     "where": "Stat",
-     "message": "interactive component (display/stat.tsx) has no test in systems/bayrust/registry/test"
-    },
-    {
-     "where": "TableHead",
-     "message": "interactive component (display/table.tsx) has no test in systems/bayrust/registry/test"
-    },
-    {
-     "where": "TabsContent",
-     "message": "interactive component (navigation/tabs.tsx) has no test in systems/bayrust/registry/test"
-    },
-    {
-     "where": "TabsRoot",
-     "message": "interactive component (navigation/tabs.tsx) has no test in systems/bayrust/registry/test"
-    },
-    {
-     "where": "TabsTrigger",
-     "message": "interactive component (navigation/tabs.tsx) has no test in systems/bayrust/registry/test"
-    },
-    {
-     "where": "Tag",
-     "message": "interactive component (display/badge.tsx) has no test in systems/bayrust/registry/test"
-    }
-   ],
-   "data": {
-    "untested": [
-     "AccordionItem",
-     "AccordionRoot",
-     "CommandPaletteDialog",
-     "ContextMenuCheckboxItem",
-     "ContextMenuItem",
-     "ContextMenuRadioGroup",
-     "ContextMenuRadioItem",
-     "ContextMenuRoot",
-     "ContextMenuSub",
-     "DialogRoot",
-     "MenuCheckboxItem",
-     "MenuItem",
-     "MenuRadioGroup",
-     "MenuRadioItem",
-     "MenuRoot",
-     "MenuSub",
-     "PopoverRoot",
-     "Progress",
-     "Radio",
-     "SegmentedControl",
-     "Select",
-     "Sheet",
-     "SheetRoot",
-     "Sidebar",
-     "SidebarItem",
-     "Stat",
-     "TableHead",
-     "TabsContent",
-     "TabsRoot",
-     "TabsTrigger",
-     "Tag"
-    ]
-   }
+   "status": "skip",
+   "summary": "not selected (--only)",
+   "details": []
   },
   {
    "id": "build",
    "title": "Build",
-   "status": "pass",
-   "summary": "built in 1s; client.js 76 KB min (≤ 600 KB), styles.css 90 KB (≤ 250 KB); 7 export targets resolve",
-   "durationSec": 1,
-   "details": [],
-   "data": {
-    "clientMinBytes": 77830,
-    "stylesBytes": 92301
-   }
+   "status": "skip",
+   "summary": "not selected (--only)",
+   "details": []
   },
   {
    "id": "install",
    "title": "Install",
-   "status": "pass",
-   "summary": "vite app ok, next RSC app ok (9 compounds); 44/44 examples render clean in light + dark (0 problems)",
-   "durationSec": 59,
-   "details": [],
-   "data": {
-    "buildErrors": {}
-   }
+   "status": "skip",
+   "summary": "not selected (--only)",
+   "details": []
   },
   {
    "id": "copy-paste",
    "title": "Copy-paste",
-   "status": "fail",
-   "summary": "2/35 registry items install alone with shadcn and typecheck",
-   "durationSec": 55,
-   "details": [
-    {
-     "where": "foundation",
-     "message": "[typecheck] src/components/motion-bayrust/lib/overlay.tsx(5,30): error TS2307: Cannot find module '../foundations/theme' or its corresponding type declarations. src/components/motion-bayrust/lib/overlay.tsx(21,28): error TS2339: Property 'portalContainer' does not exist on type '{}'. "
-    },
-    {
-     "where": "display-card",
-     "message": "[typecheck] src/components/motion-bayrust/lib/overlay.tsx(5,30): error TS2307: Cannot find module '../foundations/theme' or its corresponding type declarations. src/components/motion-bayrust/lib/overlay.tsx(21,28): error TS2339: Property 'portalContainer' does not exist on type '{}'. "
-    },
-    {
-     "where": "display-badge",
-     "message": "[typecheck] src/components/motion-bayrust/lib/overlay.tsx(5,30): error TS2307: Cannot find module '../foundations/theme' or its corresponding type declarations. src/components/motion-bayrust/lib/overlay.tsx(21,28): error TS2339: Property 'portalContainer' does not exist on type '{}'. "
-    },
-    {
-     "where": "actions-actions",
-     "message": "[typecheck] src/components/motion-bayrust/lib/overlay.tsx(5,30): error TS2307: Cannot find module '../foundations/theme' or its corresponding type declarations. src/components/motion-bayrust/lib/overlay.tsx(21,28): error TS2339: Property 'portalContainer' does not exist on type '{}'. "
-    },
-    {
-     "where": "display-accordion",
-     "message": "[typecheck] src/components/motion-bayrust/lib/overlay.tsx(5,30): error TS2307: Cannot find module '../foundations/theme' or its corresponding type declarations. src/components/motion-bayrust/lib/overlay.tsx(21,28): error TS2339: Property 'portalContainer' does not exist on type '{}'. "
-    },
-    {
-     "where": "display-data-table",
-     "message": "[typecheck] src/components/motion-bayrust/lib/overlay.tsx(5,30): error TS2307: Cannot find module '../foundations/theme' or its corresponding type declarations. src/components/motion-bayrust/lib/overlay.tsx(21,28): error TS2339: Property 'portalContainer' does not exist on type '{}'. "
-    },
-    {
-     "where": "charts-charts",
-     "message": "[typecheck] src/components/motion-bayrust/lib/overlay.tsx(5,30): error TS2307: Cannot find module '../foundations/theme' or its corresponding type declarations. src/components/motion-bayrust/lib/overlay.tsx(21,28): error TS2339: Property 'portalContainer' does not exist on type '{}'. "
-    },
-    {
-     "where": "display-avatar",
-     "message": "[typecheck] src/components/motion-bayrust/lib/overlay.tsx(5,30): error TS2307: Cannot find module '../foundations/theme' or its corresponding type declarations. src/components/motion-bayrust/lib/overlay.tsx(21,28): error TS2339: Property 'portalContainer' does not exist on type '{}'. "
-    },
-    {
-     "where": "display-table",
-     "message": "[typecheck] src/components/motion-bayrust/lib/overlay.tsx(5,30): error TS2307: Cannot find module '../foundations/theme' or its corresponding type declarations. src/components/motion-bayrust/lib/overlay.tsx(21,28): error TS2339: Property 'portalContainer' does not exist on type '{}'. "
-    },
-    {
-     "where": "forms-calendar",
-     "message": "[typecheck] src/components/motion-bayrust/lib/overlay.tsx(5,30): error TS2307: Cannot find module '../foundations/theme' or its corresponding type declarations. src/components/motion-bayrust/lib/overlay.tsx(21,28): error TS2339: Property 'portalContainer' does not exist on type '{}'. "
-    },
-    {
-     "where": "forms-choice",
-     "message": "[typecheck] src/components/motion-bayrust/lib/overlay.tsx(5,30): error TS2307: Cannot find module '../foundations/theme' or its corresponding type declarations. src/components/motion-bayrust/lib/overlay.tsx(21,28): error TS2339: Property 'portalContainer' does not exist on type '{}'. "
-    },
-    {
-     "where": "display-stat",
-     "message": "[typecheck] src/components/motion-bayrust/lib/overlay.tsx(5,30): error TS2307: Cannot find module '../foundations/theme' or its corresponding type declarations. src/components/motion-bayrust/lib/overlay.tsx(21,28): error TS2339: Property 'portalContainer' does not exist on type '{}'. "
-    },
-    {
-     "where": "feedback-status",
-     "message": "[typecheck] src/components/motion-bayrust/lib/overlay.tsx(5,30): error TS2307: Cannot find module '../foundations/theme' or its corresponding type declarations. src/components/motion-bayrust/lib/overlay.tsx(21,28): error TS2339: Property 'portalContainer' does not exist on type '{}'. "
-    },
-    {
-     "where": "feedback-alert",
-     "message": "[typecheck] src/components/motion-bayrust/lib/overlay.tsx(5,30): error TS2307: Cannot find module '../foundations/theme' or its corresponding type declarations. src/components/motion-bayrust/lib/overlay.tsx(21,28): error TS2339: Property 'portalContainer' does not exist on type '{}'. "
-    },
-    {
-     "where": "forms-combobox",
-     "message": "[typecheck] src/components/motion-bayrust/lib/overlay.tsx(5,30): error TS2307: Cannot find module '../foundations/theme' or its corresponding type declarations. src/components/motion-bayrust/lib/overlay.tsx(21,28): error TS2339: Property 'portalContainer' does not exist on type '{}'. "
-    },
-    {
-     "where": "forms-date-picker",
-     "message": "[typecheck] src/components/motion-bayrust/lib/overlay.tsx(5,30): error TS2307: Cannot find module '../foundations/theme' or its corresponding type declarations. src/components/motion-bayrust/lib/overlay.tsx(21,28): error TS2339: Property 'portalContainer' does not exist on type '{}'. "
-    },
-    {
-     "where": "foundations-icon-paths",
-     "message": "[typecheck] src/components/motion-bayrust/lib/overlay.tsx(5,30): error TS2307: Cannot find module '../foundations/theme' or its corresponding type declarations. src/components/motion-bayrust/lib/overlay.tsx(21,28): error TS2339: Property 'portalContainer' does not exist on type '{}'. "
-    },
-    {
-     "where": "forms-field",
-     "message": "[typecheck] src/components/motion-bayrust/lib/overlay.tsx(5,30): error TS2307: Cannot find module '../foundations/theme' or its corresponding type declarations. src/components/motion-bayrust/lib/overlay.tsx(21,28): error TS2339: Property 'portalContainer' does not exist on type '{}'. "
-    },
-    {
-     "where": "forms-slider",
-     "message": "[typecheck] src/components/motion-bayrust/lib/overlay.tsx(5,30): error TS2307: Cannot find module '../foundations/theme' or its corresponding type declarations. src/components/motion-bayrust/lib/overlay.tsx(21,28): error TS2339: Property 'portalContainer' does not exist on type '{}'. "
-    },
-    {
-     "where": "forms-text-inputs",
-     "message": "[typecheck] src/components/motion-bayrust/lib/overlay.tsx(5,30): error TS2307: Cannot find module '../foundations/theme' or its corresponding type declarations. src/components/motion-bayrust/lib/overlay.tsx(21,28): error TS2339: Property 'portalContainer' does not exist on type '{}'. "
-    },
-    {
-     "where": "forms-file-upload",
-     "message": "[typecheck] src/components/motion-bayrust/lib/overlay.tsx(5,30): error TS2307: Cannot find module '../foundations/theme' or its corresponding type declarations. src/components/motion-bayrust/lib/overlay.tsx(21,28): error TS2339: Property 'portalContainer' does not exist on type '{}'. "
-    },
-    {
-     "where": "foundations-icon",
-     "message": "[typecheck] src/components/motion-bayrust/lib/overlay.tsx(5,30): error TS2307: Cannot find module '../foundations/theme' or its corresponding type declarations. src/components/motion-bayrust/lib/overlay.tsx(21,28): error TS2339: Property 'portalContainer' does not exist on type '{}'. "
-    },
-    {
-     "where": "navigation-breadcrumbs",
-     "message": "[typecheck] src/components/motion-bayrust/lib/overlay.tsx(5,30): error TS2307: Cannot find module '../foundations/theme' or its corresponding type declarations. src/components/motion-bayrust/lib/overlay.tsx(21,28): error TS2339: Property 'portalContainer' does not exist on type '{}'. "
-    },
-    {
-     "where": "layout-layout",
-     "message": "[typecheck] src/components/motion-bayrust/lib/overlay.tsx(5,30): error TS2307: Cannot find module '../foundations/theme' or its corresponding type declarations. src/components/motion-bayrust/lib/overlay.tsx(21,28): error TS2339: Property 'portalContainer' does not exist on type '{}'. "
-    },
-    {
-     "where": "navigation-menu",
-     "message": "[typecheck] src/components/motion-bayrust/lib/overlay.tsx(5,30): error TS2307: Cannot find module '../foundations/theme' or its corresponding type declarations. src/components/motion-bayrust/lib/overlay.tsx(21,28): error TS2339: Property 'portalContainer' does not exist on type '{}'. "
-    },
-    {
-     "where": "navigation-context-menu",
-     "message": "[typecheck] src/components/motion-bayrust/lib/overlay.tsx(5,30): error TS2307: Cannot find module '../foundations/theme' or its corresponding type declarations. src/components/motion-bayrust/lib/overlay.tsx(21,28): error TS2339: Property 'portalContainer' does not exist on type '{}'. "
-    },
-    {
-     "where": "navigation-tabs",
-     "message": "[typecheck] src/components/motion-bayrust/lib/overlay.tsx(5,30): error TS2307: Cannot find module '../foundations/theme' or its corresponding type declarations. src/components/motion-bayrust/lib/overlay.tsx(21,28): error TS2339: Property 'portalContainer' does not exist on type '{}'. "
-    },
-    {
-     "where": "overlays-command-palette",
-     "message": "[typecheck] src/components/motion-bayrust/lib/overlay.tsx(5,30): error TS2307: Cannot find module '../foundations/theme' or its corresponding type declarations. src/components/motion-bayrust/lib/overlay.tsx(21,28): error TS2339: Property 'portalContainer' does not exist on type '{}'. "
-    },
-    {
-     "where": "overlays-confirm-dialog",
-     "message": "[typecheck] src/components/motion-bayrust/lib/overlay.tsx(5,30): error TS2307: Cannot find module '../foundations/theme' or its corresponding type declarations. src/components/motion-bayrust/lib/overlay.tsx(21,28): error TS2339: Property 'portalContainer' does not exist on type '{}'. "
-    },
-    {
-     "where": "overlays-dialog",
-     "message": "[typecheck] src/components/motion-bayrust/lib/overlay.tsx(5,30): error TS2307: Cannot find module '../foundations/theme' or its corresponding type declarations. src/components/motion-bayrust/lib/overlay.tsx(21,28): error TS2339: Property 'portalContainer' does not exist on type '{}'. "
-    },
-    {
-     "where": "server-safe",
-     "message": "[typecheck] src/components/motion-bayrust/lib/overlay.tsx(5,30): error TS2307: Cannot find module '../foundations/theme' or its corresponding type declarations. src/components/motion-bayrust/lib/overlay.tsx(21,28): error TS2339: Property 'portalContainer' does not exist on type '{}'. "
-    },
-    {
-     "where": "overlays-popover",
-     "message": "[typecheck] src/components/motion-bayrust/lib/overlay.tsx(5,30): error TS2307: Cannot find module '../foundations/theme' or its corresponding type declarations. src/components/motion-bayrust/lib/overlay.tsx(21,28): error TS2339: Property 'portalContainer' does not exist on type '{}'. "
-    },
-    {
-     "where": "shell-shell",
-     "message": "[typecheck] src/components/motion-bayrust/lib/overlay.tsx(5,30): error TS2307: Cannot find module '../foundations/theme' or its corresponding type declarations. src/components/motion-bayrust/lib/overlay.tsx(21,28): error TS2339: Property 'portalContainer' does not exist on type '{}'. "
-    }
-   ]
+   "status": "skip",
+   "summary": "not selected (--only)",
+   "details": []
   },
   {
    "id": "a11y",
    "title": "Accessibility",
-   "status": "pass",
-   "summary": "44/44 examples clean (axe light+dark, focus-visible, 24px targets on touch); 14 template pages",
-   "durationSec": 70,
-   "details": [],
-   "data": {
-    "byRule": {}
-   }
+   "status": "skip",
+   "summary": "not selected (--only)",
+   "details": []
   },
   {
    "id": "responsive",
    "title": "Responsive",
-   "status": "pass",
-   "summary": "44/44 examples fit at 320/375/768/1024/1440 px (problems by width: 320:0, 375:0, 768:0, 1024:0, 1440:0); 14 template pages",
-   "durationSec": 65,
-   "details": [],
-   "data": {
-    "byWidth": {}
-   }
+   "status": "skip",
+   "summary": "not selected (--only)",
+   "details": []
   },
   {
    "id": "visual",
    "title": "Visual",
    "status": "pass",
-   "summary": "44/44 examples match their baseline (0 changed, 0 without baseline; threshold 0.5% pixels)",
-   "durationSec": 12,
+   "summary": "wrote 44 baselines to systems/bayrust/gate/baselines/darwin (record the reason in REPORT.md)",
+   "durationSec": 24,
    "details": []
   },
   {
    "id": "templates",
    "title": "Templates",
-   "status": "pass",
-   "summary": "2 templates, 2 build from the tarball; 14 pages: 0 a11y problems, 0 responsive problems",
-   "durationSec": 0,
+   "status": "skip",
+   "summary": "not selected (--only)",
    "details": []
   },
   {
    "id": "clean",
    "title": "Clean",
-   "status": "pass",
-   "summary": "130 files scanned, 51 packed files: 0 problems, 0 token names flagged",
-   "durationSec": 0,
+   "status": "skip",
+   "summary": "not selected (--only)",
    "details": []
   }
  ]
