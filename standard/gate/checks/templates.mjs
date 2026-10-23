@@ -1,5 +1,5 @@
 // 13. Templates: each systems/<name>/templates/* builds from the packed tarball, imports only the
-// public API, has no hard-coded colors, declares its pages in routes.json, and those pages pass the
+// public API, declares its pages in routes.json, and those pages pass the
 // a11y and responsive audits. A system needs two templates.
 import fs from 'node:fs/promises';
 import { existsSync } from 'node:fs';

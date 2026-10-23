@@ -1,5 +1,5 @@
-// Behaviour tests. Contract tests in standard/gate/tests run against every system (imported as
-// '@system'); a system's own tests (modules, extras) live in systems/<name>/registry/test.
+// Behaviour tests: each system's own tests in systems/<name>/registry/test, importing the system as
+// '@system'. standard/gate/tests/setup.ts holds the shared jsdom polyfills.
 // Run: SYSTEM=motion npx vitest run -c standard/gate/vitest.config.ts
 import { defineConfig } from 'vitest/config';
 import react from '@vitejs/plugin-react';
@@ -17,7 +17,7 @@ export default defineConfig({
     environment: 'jsdom',
     globals: false,
     setupFiles: [path.join(root, 'standard/gate/tests/setup.ts')],
-    include: ['standard/gate/tests/**/*.test.tsx', `systems/${system}/registry/test/**/*.test.tsx`],
+    include: [`systems/${system}/registry/test/**/*.test.tsx`],
     css: false,
     testTimeout: 10000,
     // Same cap as the gate's browser pools (GATE_CONCURRENCY, default a quarter of the cores).

@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { describe, expect, it, vi } from 'vitest';
 import { Card, DataTable, NumberInput, Select, Stat, toneText } from '@system';
-import { renderUI, screen, within } from '../../../../standard/gate/tests/utils';
+import { renderUI, screen, within } from './utils';
 
 describe('Select empty option', () => {
   const options = [{ value: '', label: 'All categories' }, { value: 'food', label: 'Food' }, { value: 'travel', label: 'Travel' }];

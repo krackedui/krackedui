@@ -1,4 +1,4 @@
-// Gate context: paths, loaders (contract, docs registry, examples) and shared resources
+// Gate context: paths, loaders (docs registry, examples) and shared resources
 // (one packed tarball, one consumer app, one browser, one docs server) reused by every check of a run.
 import { spawn } from 'node:child_process';
 import fs from 'node:fs/promises';
@@ -84,13 +84,6 @@ export async function createContext(system, flags = {}) {
     built: false,
   };
 
-  // The contract (inventory, tokens, vocab), bundled from TypeScript.
-  ctx.contract = memo(async () => {
-    const outfile = path.join(scratch, '_contract.mjs');
-    await build({ entryPoints: [path.join(ROOT, 'standard/contract/src/index.ts')], bundle: true, format: 'esm', platform: 'node', outfile, logLevel: 'error' });
-    return import(`${outfile}?t=${Date.now()}`);
-  });
-
   // The docs registry + snippet completer, exactly as the docs site uses them.
   ctx.docs = memo(async () => {
     const tmp = path.join(scratch, '_docs');
@@ -143,7 +136,7 @@ export async function createContext(system, flags = {}) {
     return dirs.filter((d) => existsSync(path.join(d, 'package.json')));
   });
 
-  // Build the package once per run (tokens, contract, build, install and clean all read dist/).
+  // Build the package once per run (build, install and clean read dist/).
   ctx.build = memo(async () => {
     const r = await run('npm', ['run', 'build', '-w', pkg.name], { timeout: 600000 });
     if (r.code === 0) ctx.built = true;

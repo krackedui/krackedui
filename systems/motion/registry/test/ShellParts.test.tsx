@@ -3,7 +3,7 @@ import {
   AppsMenu, BreadcrumbTrail, Button, HelpMenu, PageCover, PageLayout, PageTocRail, PeekComments, PeekProperties,
   PeekProperty, PeekTopBar, Sidebar, Topbar, TopbarActions, TrashMenu, WorkspaceMenu,
 } from '@system';
-import { renderUI, screen, waitFor, within } from '../../../../standard/gate/tests/utils';
+import { renderUI, screen, waitFor, within } from './utils';
 
 const trash = [
   { id: 'a', title: 'Old roadmap', path: 'Team wiki' },

@@ -4,7 +4,7 @@ import {
   Calendar, Checkbox, Combobox, DatePicker, DateRangePicker, Field, FileUpload, Menu, NumberInput, Radio, RadioGroup, SearchInput,
   SegmentedControl, Select, Slider, Switch, Textarea, TextInput,
 } from '@system';
-import { renderUI, screen } from '../../../../standard/gate/tests/utils';
+import { renderUI, screen } from './utils';
 
 afterEach(() => vi.restoreAllMocks());
 

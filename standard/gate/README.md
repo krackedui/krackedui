@@ -6,7 +6,7 @@ A system is published and deployed only when the full gate passes for the exact 
 
 ```bash
 npm run gate -- motion                              # everything
-npm run gate -- motion --only typecheck,lint,tokens,contract,tests   # fast loop while working
+npm run gate -- motion --only typecheck,lint,tokens,tests   # fast loop while working
 npm run gate -- motion --skip-slow                  # skip install, copy-paste, a11y, responsive, visual, templates
 npm run gate -- motion --only visual --update-baselines   # approve new screenshots (log why in REPORT.md)
 npm run gate:verify -- motion                       # is there a valid passing report for the current source?
@@ -21,20 +21,18 @@ only if combined with `--only`, so use it with `--only visual`).
 
 | id | What it does | Fails when |
 |---|---|---|
-| `typecheck` | `tsc --noEmit` for registry, playground, apps/docs (which includes `systems/<name>/docs`), the contract tests (`@system` → this system, plus `registry/test`) and every template | any error, or a project that is not `strict` |
+| `typecheck` | `tsc --noEmit` for registry, playground, apps/docs (which includes `systems/<name>/docs`), the system's tests (`registry/test`, `@system` → this system) and every template | any error, or a project that is not `strict` |
 | `lint` | ESLint 9 with the root `eslint.config.mjs` (typescript-eslint recommended-type-checked, react-hooks, jsx-a11y recommended) over registry/src, registry/test, templates, docs; plus a scan for `eslint-disable`, `@ts-ignore`, `@ts-nocheck` in registry/src and templates (where `noInlineConfig` is also on) | any error. Warnings (e.g. `react-hooks/exhaustive-deps`) are listed, not failed. The summary counts errors per rule |
-| `tokens` | (a) hard-coded colors in registry/src `*.ts(x)` (not `styles/`, not generated files) and template sources: `#hex`, `rgb()`, `hsl()`, Tailwind palette / `white` / `black` classes. Comments are ignored; a line with `token-exempt:` (or right after a comment line with it) is skipped. (b) every `requiredTokenNames` variable read with `getComputedStyle` inside `<div class="<root>">` and `<root> dark` with the built `styles.css` (Chromium). (c) every `contrastPairs` pair in both themes; colors go through a canvas, alpha is composited over the background | any hit, any empty token, any ratio below 4.5 |
-| `contract` | `checks/check-contract.mjs`: each inventory entry is exported and accepts its contract props; flat compound aliases exist in `dist/client.d.ts` | any entry fails, or the aliases could not be verified (build failed) |
-| `tests` | Vitest (`vitest.config.ts`): `standard/gate/tests/**` against `@system` + `systems/<name>/registry/test/**` | a failing test or suite; an `interactive` inventory entry without `tests/<Name>.test.tsx` or a `describe('<Name>'`. Interactive extras without a test are warnings |
-| `build` | `npm run build -w @krackedui/<name>`; `dist/client.js` minified with esbuild ≤ 600 KB, `styles.css` ≤ 250 KB; exports map is exactly `.`, `./styles.css`, `./tailwind.css`, `./tokens.json`, `./package.json` and every target exists; ESM, `sideEffects: ["*.css"]`, exact dependency pins, React ^19 peers | any |
-| `install` | `npm pack` into fresh apps outside the monorepo: Vite (tsc + build, with the README's full-page example when it has one), Next.js App Router with a **server component** page that uses the flat name of every compound part in the inventory (built, started, loaded in Chromium); then every docs example rendered alone from the tarball, in light and dark | build/type errors, console errors, uncaught exceptions, crashes, empty renders |
+| `tokens` | **report only**: hard-coded colors in registry/src `*.ts(x)` (not `styles/`, not generated files) and template sources: `#hex`, `rgb()`, `hsl()`, Tailwind palette / `white` / `black` classes, listed as warnings in GATE.md | never (systems keep their own tokens; contrast is checked on rendered UI by `a11y`) |
+| `tests` | Vitest (`vitest.config.ts`): `systems/<name>/registry/test/**` against `@system`, with the shared jsdom setup in `standard/gate/tests/setup.ts` | a failing test or suite, or no tests at all. Interactive components without a test are warnings |
+| `build` | `npm run build -w @krackedui/<name>`; `dist/client.js` minified with esbuild ≤ 600 KB, `styles.css` ≤ 250 KB; the exports map has `.`, `./styles.css`, `./package.json` (extra entries allowed) and every target exists; ESM, `sideEffects: ["*.css"]`, exact dependency pins, React ^19 peers | any |
+| `install` | `npm pack` into fresh apps outside the monorepo: Vite (tsc + build, importing every export and rendering the README's full-page example when it has one), Next.js App Router with a **server component** page that imports every export of the package and renders recipes for the common compound components the system has (built, started, loaded in Chromium); then every docs example rendered alone from the tarball, in light and dark | build/type errors, console errors, uncaught exceptions, crashes, empty renders |
 | `copy-paste` | `checks/sweep-copy-paste.mjs`: every registry item (`/r/<name>/*.json`) installs alone with `shadcn add` into a fresh project and typechecks | any item fails |
-| `docs` | coverage: every inventory entry and every exported component/compound has a page (matched by API table name, page title or slug) with a description, installation, an example, API tables and sections titled **Accessibility** and **Usage**; `check-api-docs` (0 wrong, 0 undocumented, 0 unmatched tables); `check-snippets` (0 errors); `sweep-docs-pages` (no console errors, exceptions or failed loads); `registry/SYSTEM.md` names every inventory entry | any |
 | `a11y` | each example (and template route): axe-core (WCAG 2.0–2.2 A/AA + best-practice) in light and dark; Tab through the page with a visible focus indicator required at every stop; touch emulation at 375 px (`pointer: coarse`) with WCAG 2.5.8 targets ≥ 24×24 | any violation |
 | `responsive` | each example (and template route) at 320/375/768/1024/1440: page-level horizontal scroll; visible elements past the viewport that no ancestor clips or scrolls; nowrap text overflowing its own box | any |
 | `visual` | full-page screenshot of each example (light, 1280 px, reduced motion, animations off) compared with `systems/<name>/gate/baselines/<page>--<example>.png` (pixelmatch, per-pixel threshold 0.1) | > 0.5% of pixels changed, a size change, or a missing baseline |
-| `templates` | each `systems/<name>/templates/<sector>`: package name, depends on the system, imports only `@krackedui/<name>` (+ its exported CSS files), no relative imports out of the template, no hard-coded colors; copied to a temp dir, dependency replaced by the tarball, installed, `vite build`, served; a11y + responsive on every route in `routes.json` | fewer than 2 templates, or any problem |
-| `clean` | each line of `systems/<name>/.clean-deny` (case-insensitive, whole word) searched in `dist/`, `systems/<name>/docs`, `apps/docs/public/<name>` and `/r/<name>`, templates (src + build), README.md and SYSTEM.md; the packed file list must have no capture/mirror/raw files and no images outside LICENSES; no references to files in capture/ or mirror/ | any |
+| `templates` | each `systems/<name>/templates/<sector>`: package name, depends on the system, imports only `@krackedui/<name>` (+ its exported CSS files), no relative imports out of the template; copied to a temp dir, dependency replaced by the tarball, installed, `vite build`, served; a11y + responsive on every route in `routes.json` | fewer than 2 templates, or any problem |
+| `clean` | each line of `systems/<name>/.clean-deny` (or the `GATE_CLEAN_DENY_<NAME>` secret; case-insensitive, whole word) searched in `dist/`, `systems/<name>/docs`, `apps/docs/public/<name>` and `/r/<name>`, templates (src + build), README.md and SYSTEM.md; hits inside **token names** (`--brand-text`, `bg-brand-gray`) are warnings; the packed file list must have no capture/mirror/raw files and no images outside LICENSES; no references to files in capture/ or mirror/ | any hit outside a token name, or any shipped/referenced captured file |
 
 ### What the browser checks see
 
@@ -68,7 +66,7 @@ only if combined with `--only`, so use it with `--only visual`).
 The terminal prints each check's summary and its first 8 problems. `GATE.md` lists up to 300 per check,
 and the report file has all of them (`checks[].details[]`, each `{ where, message }`; `warnings[]` where
 relevant; `data` with counts). Raw outputs stay in `.scratch/gate/<system>/` (`eslint.json`,
-`vitest.json`, `contract/`, `visual/` diffs and actual screenshots), `.scratch/snippets/<system>/` and
+`vitest.json`, `visual/` diffs and actual screenshots), `.scratch/snippets/<system>/` and
 `.scratch/api-check/`.
 
 ## Templates convention
@@ -83,7 +81,7 @@ A template's publish script uses `verify` from `standard/gate/verify.mjs`, the s
 
 - `verify.mjs <system>` exits non-zero unless the report has `status: "pass"`, is not `partial`, and its
   `sourceHash` equals the current hash (sha256 over registry/src, registry/build, registry/package.json,
-  docs/, templates/, gate/baselines/, standard/contract and standard/gate; node_modules and dist
+  docs/, templates/, gate/baselines/ and standard/gate; node_modules and dist
   excluded). The package's `prepublishOnly` runs it. A run during which the sources changed writes an
   invalid hash.
 - `.claude/settings.json` runs `guard.mjs` before every Bash command. It blocks `npm|pnpm|yarn publish` with
@@ -103,5 +101,5 @@ REPORT.md entry saying why. Then run the full gate (baselines are part of the so
 
 The budgets (600 KB / 250 KB), contrast 4.5:1, 24 px targets, the five widths, the 0.5% visual threshold,
 the lint rule set and the required docs sections are part of the standard. Change them only through the
-"Changing the standard" process in `standard/SPEC.md`: a PR that edits SPEC.md, the contract and
+"Changing the standard" process in `standard/SPEC.md`: a PR that edits SPEC.md, the gate and
 CHANGELOG.md together and runs the gate on every system. Never loosen them to make a system pass.

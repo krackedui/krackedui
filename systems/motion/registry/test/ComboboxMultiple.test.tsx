@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { describe, expect, it, vi } from 'vitest';
 import { Combobox, Field } from '@system';
-import { renderUI, screen, within } from '../../../../standard/gate/tests/utils';
+import { renderUI, screen, within } from './utils';
 
 const labels = [
   { value: 'bug', label: 'Bug' },

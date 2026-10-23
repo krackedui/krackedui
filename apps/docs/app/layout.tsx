@@ -7,7 +7,7 @@ import './globals.css';
 export const metadata: Metadata = {
   metadataBase: new URL(`https://${rootDomain}`),
   title: 'KrackedUI',
-  description: 'React design systems that speak the same language.',
+  description: 'Production-ready React design systems, each with its own character, held to one standard.',
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {

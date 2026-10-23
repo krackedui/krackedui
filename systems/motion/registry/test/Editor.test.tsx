@@ -1,6 +1,6 @@
 import { describe, expect, it, vi } from 'vitest';
 import { Editor, rt, type Block } from '@system';
-import { renderUI, screen, waitFor } from '../../../../standard/gate/tests/utils';
+import { renderUI, screen, waitFor } from './utils';
 
 // jsdom has no layout: Range rects (used to place the slash menu) need a stub.
 if (!('getBoundingClientRect' in Range.prototype)) {

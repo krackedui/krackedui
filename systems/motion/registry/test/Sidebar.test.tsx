@@ -1,6 +1,6 @@
 import { describe, expect, it, vi } from 'vitest';
 import { Sidebar } from '@system';
-import { renderUI, screen, waitFor } from '../../../../standard/gate/tests/utils';
+import { renderUI, screen, waitFor } from './utils';
 
 function PageTree({ onSelect }: { onSelect?: (id: string) => void }) {
   return (

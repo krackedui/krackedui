@@ -6,9 +6,9 @@
 import { pool } from '../lib/context.mjs';
 import { openExample } from '../lib/consumer.mjs';
 import { overflow } from '../lib/audits.mjs';
+import { responsiveWidths } from '../lib/settings.mjs';
 
 async function run_(ctx) {
-  const { responsiveWidths } = await ctx.contract();
   const app = await ctx.examplesApp();
   const browser = await ctx.browser();
   const details = [];

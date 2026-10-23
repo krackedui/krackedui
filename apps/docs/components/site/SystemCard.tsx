@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { contractSize, systemHref, templateHref, type CatalogSystem } from '@/catalog';
+import { componentCount, systemHref, templateHref, type CatalogSystem } from '@/catalog';
 
 /** Light/dark screenshot pair; the page theme decides which one shows. */
 export function Preview({ light, dark, alt, className }: { light: string; dark: string; alt: string; className?: string }) {
@@ -55,7 +55,7 @@ export function SystemCard({ system, headingLevel = 3 }: { system: CatalogSystem
         </ul>
         {live && (
           <dl className="mt-auto grid grid-cols-3 gap-2 border-t border-[var(--kui-border)] pt-4 text-[12px]">
-            <div><dt className="text-[var(--kui-faint)]">Components</dt><dd className="mt-0.5 font-medium">{contractSize}+</dd></div>
+            <div><dt className="text-[var(--kui-faint)]">Components</dt><dd className="mt-0.5 font-medium">{componentCount(system.id)}</dd></div>
             <div><dt className="text-[var(--kui-faint)]">Templates</dt><dd className="mt-0.5 font-medium">{system.templates.length}</dd></div>
             <div><dt className="text-[var(--kui-faint)]">Modules</dt><dd className="mt-0.5 font-medium">{system.modules?.length ?? 0}</dd></div>
           </dl>

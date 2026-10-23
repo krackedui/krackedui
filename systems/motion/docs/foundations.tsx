@@ -1,7 +1,7 @@
 // Foundation pages generated from Motion's token file (light/dark values per token).
 import tokens from '../registry/tokens/motion.tokens.json';
 import { Icon, iconNames } from '@krackedui/motion';
-import { coreIconNames } from '../../../standard/contract/src/vocab';
+import { semanticIconNames } from './semantic-icons';
 import type { Block, ColorToken, DocPage, Section, TypeStyle } from '../../../apps/docs/lib/types';
 
 type Tok = { $type: string; $value: unknown; $extensions?: { modes?: { light?: string; dark?: string } } };
@@ -82,7 +82,7 @@ export const colorPage: DocPage = {
       title: 'Tone text',
       id: 'tone-text',
       blocks: [
-        'Money and status text by contract tone: `text-n-text-success` ("+$1,240.00"), `text-n-text-danger` ("Overdue", "−$80.00"), `text-n-text-warning`, `text-n-text-info`. They are aliases of the tuned `green` / `red` / `orange` / `blue` `-text-secondary` colors and pass 4.5:1 on `bg-primary`, `bg-secondary`, `bg-elevated` and the popover background in both themes. From code that takes a `tone`, use the `toneText` map: `<span className={toneText[tone]}>…</span>`.',
+        'Money and status text by tone: `text-n-text-success` ("+$1,240.00"), `text-n-text-danger` ("Overdue", "−$80.00"), `text-n-text-warning`, `text-n-text-info`. They are aliases of the tuned `green` / `red` / `orange` / `blue` `-text-secondary` colors and pass 4.5:1 on `bg-primary`, `bg-secondary`, `bg-elevated` and the popover background in both themes. From code that takes a `tone`, use the `toneText` map: `<span className={toneText[tone]}>…</span>`.',
         { colors: colorTokens(T.tone ?? {}, '') },
       ],
     },
@@ -118,12 +118,12 @@ export const typographyPage: DocPage = {
   ],
 };
 
-const core = new Set<string>(coreIconNames);
+const core = new Set<string>(semanticIconNames);
 
 export const iconsPage: DocPage = {
   eyebrow: 'Foundations',
   title: 'Icons',
-  description: `${iconNames.length} icons drawn from Lucide (ISC), rendered with <Icon name="…" />. The ${coreIconNames.length} portable names work in every KrackedUI system.`,
+  description: `${iconNames.length} icons drawn from Lucide (ISC), rendered with <Icon name="…" />. The ${semanticIconNames.length} portable names work in every KrackedUI system.`,
   install: [
     { title: 'Install the design system package:', packages: ['@krackedui/motion'] },
     {
@@ -160,8 +160,8 @@ export const iconsPage: DocPage = {
       title: 'Portable names',
       id: 'portable',
       blocks: [
-        'These names are part of the KrackedUI contract: code that uses them works with any system.',
-        { icons: coreIconNames.map((name) => ({ name, render: () => <Icon name={name} size={20} /> })) },
+        'Use the simple names when you can: they read better in code and in prompts.',
+        { icons: semanticIconNames.map((name) => ({ name, render: () => <Icon name={name} size={20} /> })) },
       ],
     },
     {

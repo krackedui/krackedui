@@ -55,7 +55,7 @@ function decode(name) {
 
 const light = raw.light, dark = raw.dark;
 
-// WCAG AA adjustments (standard/contract tokens.ts contrastPairs). Each captured text color below
+// WCAG AA adjustments (text on Motion's backgrounds must reach 4.5:1). Each captured text color below
 // failed 4.5:1 on the surface it is used on; it is darkened (light) or lightened (dark) along the
 // same hue just enough to pass. Recorded in tokens.json as evidence level "adjusted".
 const PALETTE_WHY = '4.5:1 on bg-primary, bg-secondary and the matching tinted backgrounds (palette text)';
@@ -96,7 +96,7 @@ const SOLID = {
   'green-bg-solid': '#39825c', 'orange-bg-solid': '#a7642e', 'gray-bg-solid': '#777571',
   'text-on-solid': '#fff',
 };
-// Tone text: semantic aliases by contract tone for money and status text ("+$1,240" in green, overdue in red):
+// Tone text: semantic aliases by tone for money and status text ("+$1,240" in green, overdue in red):
 // the tuned <hue>-text-secondary values (see ADJUST), so `text-n-text-success` and `text-n-green-text-secondary`
 // are the same color, AA on every Motion surface in both themes.
 const toneFrom = (hue) => ({ ...ADJUST[`--n-${hue}-text-secondary`], hue });

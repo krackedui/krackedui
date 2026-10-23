@@ -7,7 +7,7 @@ import {
   SortEditor, SortMenu, SubmenuRow, TableView, TimelineView, ViewSettingsPanel, ViewsMenu, createTasksSample, useDatabase,
   useMenuKeys, type View, type DatabaseApi, type Filter, type Property, type Row,
 } from '@system';
-import { act, renderUI, screen, waitFor, within } from '../../../../standard/gate/tests/utils';
+import { act, renderUI, screen, waitFor, within } from './utils';
 
 const sample = createTasksSample();
 const prop = (id: string) => sample.collection.properties.find((p) => p.id === id)!;

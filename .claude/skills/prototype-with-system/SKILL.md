@@ -7,8 +7,8 @@ description: Prototype a screen with one of the KrackedUI design systems (e.g. "
 
 1. Identify the system (folders under `systems/`, e.g. `motion`). If unclear, ask which one.
 2. Read `systems/<name>/registry/SYSTEM.md` fully before writing any UI. It is the source of truth for
-   tokens, components, recipes and do/don't rules. All systems share the contract in
-   `standard/contract/src/components.ts`, so prop names are the same everywhere.
+   tokens, components, recipes and do/don't rules. Each system has its own components and props, so
+   never assume another system's API.
 3. Build the prototype as a page in `systems/<name>/playground/src/prototypes/<slug>.tsx` (default export)
    using only `@krackedui/<name>` components and tokens (`--ds-*` for portable code, the system's own
    tokens for its look). Open it at `http://localhost:3001/#/proto/<slug>` (start the lab with

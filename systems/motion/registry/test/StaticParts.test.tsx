@@ -2,7 +2,7 @@
 import { useState } from 'react';
 import { describe, expect, it, vi } from 'vitest';
 import { ConfirmDialogBody, DisclosureToggle, ToastPill } from '@system';
-import { renderUI, screen } from '../../../../standard/gate/tests/utils';
+import { renderUI, screen } from './utils';
 
 describe('DisclosureToggle', () => {
   function Demo({ onOpenChange }: { onOpenChange?: (open: boolean) => void }) {

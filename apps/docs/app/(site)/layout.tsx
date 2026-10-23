@@ -6,9 +6,9 @@ import { SiteHeader } from '@/components/site/SiteHeader';
 import './site.css';
 
 export const metadata: Metadata = {
-  title: { default: 'KrackedUI: design systems that speak the same language', template: '%s · KrackedUI' },
+  title: { default: 'KrackedUI: design systems with character, held to one standard', template: '%s · KrackedUI' },
   description:
-    'A marketplace of React design systems built to one shared component contract. Learn one, use them all: swap the look by changing an import.',
+    'A marketplace of production-ready React design systems: each with its own character, all held to one standard.',
 };
 
 export default function SiteLayout({ children }: { children: ReactNode }) {

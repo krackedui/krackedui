@@ -1,5 +1,5 @@
 // Source hash: what a gate report vouches for. Any change to the package source, its build pipeline,
-// docs, templates, the contract, the gate itself or the approved baselines invalidates the report.
+// docs, templates, the gate itself or the approved baselines invalidates the report.
 import crypto from 'node:crypto';
 import fs from 'node:fs/promises';
 import path from 'node:path';
@@ -14,7 +14,6 @@ export function hashInputs(system) {
     path.join(sys, 'docs'),
     path.join(sys, 'templates'),
     path.join(sys, 'gate', 'baselines'),
-    path.join(ROOT, 'standard', 'contract'),
     path.join(ROOT, 'standard', 'gate'),
   ];
 }

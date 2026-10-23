@@ -1,6 +1,6 @@
 import { describe, expect, it, vi } from 'vitest';
 import { KanbanBoard, type KanbanMove } from '@system';
-import { act, fireEvent, renderUI, screen, waitFor, within } from '../../../../standard/gate/tests/utils';
+import { act, fireEvent, renderUI, screen, waitFor, within } from './utils';
 
 // jsdom has no PointerEvent: a MouseEvent with pointer fields is enough for the board.
 if (typeof window.PointerEvent === 'undefined') {

@@ -1,12 +1,14 @@
 # KrackedUI
 
-A marketplace of React design systems that all speak the same language. Every system is:
+A marketplace of production-ready React design systems. Each system keeps its own components and
+specialty; all of them meet the same quality bar. Every system is:
 
-- an npm package, **`@krackedui/<name>`**, built to one shared component contract (same names, same props);
+- an npm package, **`@krackedui/<name>`**, that passes the KrackedUI gate;
 - a docs site at **`<name>.krackedui.com`**;
 - two sector templates at **`<name>.krackedui.com/<sector>`**, pulled with `npm create @krackedui`.
 
-Learn one system and you can use them all: switching systems is changing the import. Only the look differs.
+Every system is typed, linted, tested, accessible (WCAG 2.2 AA), responsive from 320 px, installable in
+Vite and Next.js, and proven by two working templates.
 
 | System | Package | Look | Templates |
 |---|---|---|---|
@@ -56,7 +58,6 @@ npm create @krackedui my-app -- --system motion --template fintech
 ```
 standard/           THE STANDARD
   SPEC.md           what every system must do, and why
-  contract/         the contract in code: inventory, prop types, shared vocabularies, required tokens
   templates/        sector template specs (project management, fintech, …)
   gate/             the gate: one command that checks a system against the standard
 systems/<name>/     ONE DESIGN SYSTEM
@@ -75,13 +76,13 @@ tooling/pipeline/   generators (export list, copy-paste registry, template build
 
 ```bash
 npm run gate -- motion                      # everything; writes systems/motion/GATE.md
-npm run gate -- motion --only contract,tests
+npm run gate -- motion --only typecheck,tests
 ```
 
-The gate checks types, lint, tokens and contrast, the contract, behaviour tests, the build and bundle
-size, installing the packed package in fresh Vite and Next.js apps, copy-paste installs, docs
-completeness and accuracy, accessibility (axe, focus, target size), responsiveness (320–1440 px),
-visual baselines, both templates, and that nothing third-party ships. Publishing refuses to run
+The gate checks types, lint, behaviour tests, the build and bundle size, installing the packed package
+in fresh Vite and Next.js apps, copy-paste installs, accessibility (axe, focus, target size),
+responsiveness (320–1440 px), visual baselines, both templates, and that nothing third-party ships.
+Hard-coded colors and source-system token names are flagged, not failed. Publishing refuses to run
 unless the gate passed on the exact current source. See [standard/gate/README.md](standard/gate/README.md).
 
 ### Everyday commands
@@ -96,8 +97,9 @@ unless the gate passed on the exact current source. See [standard/gate/README.md
 ### Add a design system
 
 Follow [standard/SPEC.md §14](standard/SPEC.md). In short: pick two templates from
-[standard/templates](standard/templates/README.md), create `systems/<name>/`, implement the contract,
-document it, build the templates (fixing gaps in the system), and run the gate until it passes.
+[standard/templates](standard/templates/README.md), create `systems/<name>/`, add the system's components
+**exactly as they are** (never change their UI; flag differences in REPORT.md), document it, build the
+templates (adding missing components as new ones), and run the gate.
 
 ### Release
 

@@ -1,6 +1,6 @@
 import { describe, expect, it, vi } from 'vitest';
 import { ColorGrid, ColorMenuList, ColorSwatch } from '@system';
-import { renderUI, screen } from '../../../../standard/gate/tests/utils';
+import { renderUI, screen } from './utils';
 
 describe('ColorMenuList', () => {
   it('is one labelled listbox of text then background colors', () => {

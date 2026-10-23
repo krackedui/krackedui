@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { describe, expect, it } from 'vitest';
 import { SettingsModal, SettingsNav, SettingsNavGroup, SettingsNavItem, SettingsPage, SettingsRow, SettingsSection, SettingsSwitch } from '@system';
-import { renderUI, screen, waitFor } from '../../../../standard/gate/tests/utils';
+import { renderUI, screen, waitFor } from './utils';
 
 function Demo() {
   const [open, setOpen] = useState(false);

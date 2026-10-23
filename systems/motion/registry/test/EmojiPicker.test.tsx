@@ -1,6 +1,6 @@
 import { describe, expect, it, vi } from 'vitest';
 import { EmojiPicker, emojiCategories } from '@system';
-import { renderUI, screen, within } from '../../../../standard/gate/tests/utils';
+import { renderUI, screen, within } from './utils';
 
 describe('EmojiPicker', () => {
   it('shows emoji grouped by category; clicking one selects it', async () => {

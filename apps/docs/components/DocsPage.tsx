@@ -147,10 +147,6 @@ export function DocsPage({ system, slug }: { system: string; slug: string }) {
   useEffect(() => setNavOpen(false), [slug]);
 
   useEffect(() => {
-    document.title = `${page.title} | ${registry.name} · Motion Docs`;
-  }, [page.title, registry.name]);
-
-  useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       const t = e.target as HTMLElement;
       const typing = t.isContentEditable || ['INPUT', 'TEXTAREA', 'SELECT'].includes(t.tagName);
